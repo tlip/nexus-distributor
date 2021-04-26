@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Icon component should render without crashing 1`] = `
+<div>
+  <span
+    class="css-1us58tu-Box e1gx7u5e0"
+  >
+    <svg
+      role="presentation"
+      style="width: 1.5rem; height: 1.5rem;"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"
+        style="fill: text.primary;"
+      />
+    </svg>
+  </span>
+</div>
+`;

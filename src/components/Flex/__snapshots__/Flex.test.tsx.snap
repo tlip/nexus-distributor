@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Flex component should render without crashing 1`] = `
+<div>
+  <div
+    class="css-1ftevgd-Flex e11m02v90"
+  >
+    I'm a box
+  </div>
+</div>
+`;

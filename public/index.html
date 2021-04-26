@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <!---->
+    <!-- FAVICON STUFF -->
+    <link rel="icon" href="%PUBLIC_URL%/favicons/favicon.ico" />
+    <!-- generics -->
+    <link rel="icon" href="%PUBLIC_URL%/favicons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" href="%PUBLIC_URL%/favicons/favicon-57x57.png" sizes="57x57" />
+    <link rel="icon" href="%PUBLIC_URL%/favicons/favicon-76x76.png" sizes="76x76" />
+    <link rel="icon" href="%PUBLIC_URL%/favicons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" href="%PUBLIC_URL%/favicons/favicon-128x128.png" sizes="128x128" />
+    <link rel="icon" href="%PUBLIC_URL%/favicons/favicon-144x144.png" sizes="144x144" />
+    <link rel="icon" href="%PUBLIC_URL%/favicons/favicon-192x192.png" sizes="192x192" />
+    <link rel="icon" href="%PUBLIC_URL%/favicons/favicon-228x228.png" sizes="228x228" />
+    <!-- Android -->
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicons/favicon-196x196.png" sizes="196x196" />
+    <!-- iOS -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicons/favicon-120x120.png" sizes="120x120" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicons/favicon-152x152.png" sizes="152x152" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicons/favicon-180x180.png" sizes="180x180" />
+    <!-- Windows 8 IE 10-->
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="%PUBLIC_URL%/favicons/favicon-144x144.png" />
+    <!-- Windows 8.1 + IE11 and above -->
+    <meta name="msapplication-config" content="%PUBLIC_URL%/favicons/browserconfig.xml" />
+    <!-- END FAVICON STUFF -->
+    <!---->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+      html, body { background-color: #fff; }
+      body:not(.user-is-tabbing) *:focus { outline: none; }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fff" />
+    <meta
+      name="description"
+      content="Get covered against smart contract failure."
+    />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Nexus Mutual</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+  <script>
+    function handleFirstTab(e) {
+      if (e.keyCode === 9) {
+        document.body.classList.add('user-is-tabbing');
+        window.removeEventListener('keydown', handleFirstTab);
+        window.addEventListener('mousemove', removeIsTabbing);
+      }
+    }
+    function removeIsTabbing(e) {
+      document.body.classList.remove('user-is-tabbing');
+      window.removeEventListener('mousemove', removeIsTabbing);
+      window.addEventListener('keydown', handleFirstTab);
+    }
+    window.addEventListener('keydown', handleFirstTab);
+  </script>
+
+</html>

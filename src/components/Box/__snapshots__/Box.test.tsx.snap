@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Box component should render without crashing 1`] = `
+<div>
+  <div
+    class="css-1us58tu-Box e1gx7u5e0"
+  >
+    I'm a box
+  </div>
+</div>
+`;

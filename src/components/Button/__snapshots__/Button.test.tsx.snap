@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button component should render without crashing 1`] = `
+<div>
+  <button
+    class="css-157d4we"
+  >
+    <span
+      class="e7emh9v1 css-cj61wh-ButtonText"
+    >
+      Search
+    </span>
+  </button>
+</div>
+`;

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text component should render without crashing 1`] = `
+<div>
+  <span
+    class="css-bb1wdn"
+  >
+    I'm sample text
+  </span>
+</div>
+`;
