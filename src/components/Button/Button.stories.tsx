@@ -22,31 +22,14 @@ const Template: Story<ButtonProps> = ({ variant, icon, children }) => (
   <Button {...{ variant, icon, children }} />
 );
 
-export const PrimaryButton = Template.bind({});
+export const Default = Template.bind({});
 
-export const SecondaryButton = Template.bind({});
-SecondaryButton.args = {
-  variant: 'secondary',
-};
-
-export const OutlineButton = Template.bind({});
-OutlineButton.args = {
+export const Outline = Template.bind({});
+Outline.args = {
   variant: 'outline',
 };
 
-export const PrimaryButtonWithIcon = Template.bind({});
-PrimaryButtonWithIcon.args = {
+export const WithIcon = Template.bind({});
+WithIcon.args = {
   icon: mdiMagnify,
-};
-
-export const SecondaryButtonWithIcon = Template.bind({});
-SecondaryButtonWithIcon.args = {
-  ...PrimaryButtonWithIcon.args,
-  ...SecondaryButton.args,
-};
-
-export const OutlineButtonWithIcon = Template.bind({});
-OutlineButtonWithIcon.args = {
-  ...PrimaryButtonWithIcon.args,
-  ...OutlineButton.args,
 };

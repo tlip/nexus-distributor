@@ -24,7 +24,7 @@ exports[`App component should render without crashing 1`] = `
         Test my buttons!
       </div>
       <button
-        class="css-1ivwkj0"
+        class="css-jd3thg"
       >
         <span
           class="e7emh9v1 css-cj61wh-ButtonText"
@@ -33,7 +33,7 @@ exports[`App component should render without crashing 1`] = `
         </span>
       </button>
       <button
-        class="css-1v411tv"
+        class="css-rxyzrb"
       >
         <span
           class="e7emh9v1 css-cj61wh-ButtonText"

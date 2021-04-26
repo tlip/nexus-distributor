@@ -4,6 +4,7 @@ interface IColorsType {
 
 export const colors: IColorsType = {
   primary: '#54aa8b',
+  primaryDark: '#499579',
   secondary: '#f8fafd',
   tertiary: '#f0f3f6',
   black: '#3a3d42',

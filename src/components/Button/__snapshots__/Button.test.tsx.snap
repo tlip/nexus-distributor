@@ -3,7 +3,7 @@
 exports[`Button component should render without crashing 1`] = `
 <div>
   <button
-    class="css-157d4we"
+    class="css-qme8zs"
   >
     <span
       class="e7emh9v1 css-cj61wh-ButtonText"

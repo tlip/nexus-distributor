@@ -12,14 +12,8 @@ export default {
 
 const Template: Story<CardProps> = (props) => <Card {...props} />;
 
-export const PrimaryCard = Template.bind({});
-PrimaryCard.args = {
+export const Default = Template.bind({});
+Default.args = {
   variant: 'primary',
   children: "I'm a Primary Card",
-};
-
-export const OutlineCard = Template.bind({});
-OutlineCard.args = {
-  variant: 'outline',
-  children: "I'm an Outline Card",
 };

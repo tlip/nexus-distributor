@@ -92,9 +92,3 @@ Caption2.args = {
   variant: 'caption2',
   children: "I'm Caption2 text",
 };
-
-export const Mono = Template.bind({});
-Mono.args = {
-  variant: 'mono',
-  children: "I'm Mono text",
-};

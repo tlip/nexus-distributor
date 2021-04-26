@@ -12,8 +12,9 @@ export interface ButtonProps extends Omit<ReButtonProps, BrokenRebassProps> {
 
 const ButtonIcon = styled(Icon)`
   position: absolute;
-  height: 21px;
+  height: 18px;
   left: -31px;
+  transition: 200ms linear;
 `;
 
 const ButtonText = styled(Text)`
@@ -46,7 +47,7 @@ export const Button: React.FC<ButtonProps> = ({
         children
       ) : (
         <ButtonText>
-          {!!icon && <ButtonIcon path={icon} size={0.875} {...{ color }} />}
+          {!!icon && <ButtonIcon path={icon} size={0.75} {...{ color }} />}
           {children}
         </ButtonText>
       )}

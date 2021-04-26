@@ -12,7 +12,7 @@ export default {
 
 const Template: Story<BoxProps> = (props) => <Box {...props} />;
 
-export const BaseBox = Template.bind({});
-BaseBox.args = {
+export const Default = Template.bind({});
+Default.args = {
   children: "I'm a Box",
 };
