@@ -32,7 +32,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "predeploy-dev": "REACT_APP_GITHUB_PAGES=true yarn run build",
+    "predeploy-dev": "PUBLIC_URL=/nexus-distributor REACT_APP_GITHUB_PAGES=true yarn run build",
     "predeploy-prod": "yarn run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
