@@ -8,6 +8,7 @@ const variantTagName = (
   as: React.ElementType<any>
 ): React.ElementType<any> => {
   if (/h\d/i.test(variant)) return variant.toLowerCase();
+  if (variant === 'bigTitle') return 'h1';
   return as || 'span';
 };
 
