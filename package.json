@@ -40,6 +40,7 @@
     "fix:all": "yarn lint:fix && yarn prettier:fix",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:fix": "yarn lint --fix src",
+    "postinstall": "husky install",
     "prettier": "prettier --check src",
     "prettier:fix": "prettier --write src",
     "test": "react-scripts test",
