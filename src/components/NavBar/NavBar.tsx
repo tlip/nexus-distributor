@@ -16,18 +16,19 @@ const StyledNavBar = styled(Flex)((props: any) => ({
   background: props.theme.colors.black,
   transform: props.sx.transform,
   transition: '200ms ease-in-out',
+  zIndex: 1000,
 }));
 
 export const NavBar: React.FC<NavBarProps> = (props) => {
-  const [y, setY] = React.useState<string>('0%');
+  const [y, setY] = React.useState<number>(0);
   const [lastScrollTop, setlastScrollTop] = React.useState<number>(
     document.documentElement.scrollTop
   );
 
   const hideNavBar = () => {
     const documentScrolled = document.documentElement.scrollTop;
-    if (documentScrolled - lastScrollTop < 0) setY('0%');
-    else if (documentScrolled > 150) setY('-100%');
+    if (documentScrolled - lastScrollTop < 0) setY(0);
+    else if (documentScrolled > 150) setY(-100);
     setlastScrollTop(documentScrolled);
   };
 
@@ -37,7 +38,7 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
   }, [hideNavBar]);
 
   return (
-    <StyledNavBar as="nav" sx={{ transform: `translateY(${y})` }} {...props}>
+    <StyledNavBar as="nav" sx={{ transform: `translateY(${y}%)` }} {...props}>
       <PageContentWrapper>
         <img src={NexusLogo} alt="Nexus Mutual" />
       </PageContentWrapper>
