@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavBar component should render without crashing 1`] = `
+<div>
+  <nav
+    class="css-oylxnf-Flex-StyledNavBar e791bbv0"
+  >
+    <div
+      class="css-zzvsmz-Box-PageContentWrapper eq3nwli0"
+    >
+      <img
+        alt="Nexus Mutual"
+        src="nexus-mutual-logo.svg"
+      />
+    </div>
+  </nav>
+</div>
+`;
