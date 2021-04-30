@@ -4,14 +4,17 @@ import { Flex } from 'components/Flex';
 import { Card } from 'components/Card';
 import { Text } from 'components/Text';
 import { Button } from 'components/Button';
+import { NavBar } from 'components/NavBar';
 import { theme } from 'theme';
 
 export const App: React.FC = () => (
   <ThemeProvider theme={theme}>
+    <NavBar />
     <Flex
       justifyContent="center"
       alignItems="center"
       width="100vw"
+      minHeight="100vh"
       height="100vh"
       bg="background"
     >
