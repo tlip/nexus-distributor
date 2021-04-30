@@ -13,6 +13,7 @@ export const App: React.FC = () => (
       alignItems="center"
       width="100vw"
       height="100vh"
+      bg="background"
     >
       <Card width="100%" maxWidth="20em">
         <Text variant="h4">Hello, welcome to Nexus Mutual</Text>
