@@ -28,7 +28,7 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
     const documentScrolled = document.documentElement.scrollTop;
     if (documentScrolled - lastScrollTop < 0) setTranslateY('translateY(0%)');
     else if (documentScrolled > 50) setTranslateY('translateY(-100%)');
-    else setTranslateY('0%');
+    else setTranslateY('transform(0%)');
     setlastScrollTop(documentScrolled);
   };
 
