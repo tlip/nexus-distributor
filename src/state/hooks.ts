@@ -6,7 +6,7 @@ import { fetchRates as fetchRatesAction } from './reducer';
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-const useAsyncLevel = () => {
+const useAsyncRates = () => {
   const dispatch = useAppDispatch();
   const rates = useAppSelector((state) => state.application.rates);
   const fetchRates = () => dispatch(fetchRatesAction());
