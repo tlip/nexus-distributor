@@ -42,6 +42,8 @@ const compoundQuery = gql`
   }
 `;
 
+// Fetch functions need to return Opportunity Skeleton
+// That will be filled in via web3
 export const fetchCompoundRates = async (): Promise<any[]> => {
   const { markets } = await request(
     `${GRAPH_BASE_URL}/graphprotocol/compound-v2`,
@@ -68,6 +70,32 @@ export const fetchAaveRates = async (): Promise<any[]> => {
   return rates;
 };
 
-export const fetchYearnRates = async (): Promise<any[]> => {};
-export const fetchBancorRates = async (): Promise<any[]> => {};
-export const fetchCurveRates = async (): Promise<any[]> => {};
+export const fetchYearnRates = async (): Promise<any> => {
+  const response = await axios.get(`${YEARN_BASE_URL}/vaults`, {
+    params: {
+      apy: true,
+    },
+  });
+  return response;
+};
+
+export const fetchBancorRates = async (): Promise<any[]> => {
+  const { data } = await axios.get(`${BANCOR_BASE_URL}/pools`);
+  return data;
+};
+
+export const fetchCurveRates = async (): Promise<any> => {
+  const response = await axios.get(`${CURVE_BASE_URL}`);
+  return response;
+};
+
+export const fetchAllRates = async (): Promise<any> => {
+  const allRates = await Promise.all([
+    fetchCompoundRates(),
+    fetchAaveRates(),
+    fetchBancorRates(),
+    fetchYearnRates(),
+    fetchCurveRates(),
+  ]);
+  return allRates;
+};
