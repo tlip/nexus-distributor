@@ -15,7 +15,7 @@ const StyledNavBar = styled(Flex)((props: any) => ({
   width: 'clamp(100vw, 100vw, 100vw)',
   background: props.theme.colors.black,
   transform: props.sx.transform,
-  transition: '200ms ease-in-out',
+  transition: 'transform 200ms ease-in-out',
   zIndex: 1000,
 }));
 
