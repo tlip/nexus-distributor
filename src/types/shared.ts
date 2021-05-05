@@ -25,7 +25,6 @@ import { BigNumber } from 'ethers';
 export interface Protocol {
   name: string;
   executionUrl: string;
-  supportedAddresses?: string[];
 }
 
 export interface Token {
@@ -33,6 +32,7 @@ export interface Token {
   symbol: string;
   decimals: number;
   address: string;
+  imageUrl?: string;
 }
 
 export interface Opportunity {
@@ -48,7 +48,13 @@ export interface Opportunity {
   fixed: boolean;
 }
 
-type OpportunitySkeleton = Pick<
+export type OpportunityShell = Pick<
   Opportunity,
-  'displayName' | 'fixed' | 'protocol' | 'active'
+  | 'displayName'
+  | 'symbol'
+  | 'fixed'
+  | 'protocol'
+  | 'opportunityAsset'
+  | 'underlyingAssets'
+  | 'rawApr'
 >;
