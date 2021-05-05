@@ -1,23 +1,24 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchAllRates } from '../client';
 
-export const fetchRates = createAsyncThunk('user/fetchSecret', async () =>
-  fetchAllRates()
-);
+export const fetchRates = createAsyncThunk('user/fetchSecret', async () => {
+  const rates = await fetchAllRates();
+  return rates;
+});
 
 // @ts-ignore
-export const app = createSlice({
-  name: 'app',
+export const application = createSlice({
+  name: 'application',
   initialState: {
     rates: {} as any,
   },
   reducers: {},
   extraReducers: {
     // @ts-ignore
-    [fetchSecret.fulfilled]: (state, action) => {
+    [fetchRates.fulfilled]: (state, action) => {
       state.rates = action.payload;
     },
   },
 });
 
-export default app.reducer;
+export default application.reducer;

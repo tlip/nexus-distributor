@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { ethers, Contract } from 'ethers';
 
-const library = new ethers.providers.Web3Provider(
+const library = new ethers.providers.JsonRpcProvider(
   'https://mainnet.infura.io/v3/c3db76b9d752406094ae1501ad143f4d'
 );
 
@@ -60,7 +60,7 @@ export function useContract(
       return getContract(
         address,
         ABI,
-        library,
+        library as ethers.providers.Web3Provider,
         // withSignerIfPossible && account ? account : undefined
         undefined
       );

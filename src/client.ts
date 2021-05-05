@@ -115,29 +115,30 @@ export const fetchYearnRates = async (): Promise<OpportunityShell> => {
       apy: true,
     },
   });
-  const opportunities: OpportunityShell[] = data.map((market: any) => {
-    return {
-      protocol: protocols['yearn'],
-      displayName: market.name,
-      symbol: market.symbol,
-      fixed: false,
-      opportunityAsset: {
-        name: 'Aave Dai',
-        symbol: 'aDai',
-        address: market.id,
-        decimals: 18,
-      },
-      underlyingAssets: [
-        {
-          name: 'test Dai',
-          symbol: 'dai',
-          address: market.aToken.id,
-          decimals: 18,
-        },
-      ],
-      rawApr: market.liquidityRate,
-    };
-  });
+  // const opportunities: OpportunityShell[] = data.map((market: any) => {
+  //   return {
+  //     protocol: protocols['yearn'],
+  //     displayName: market.name,
+  //     symbol: market.symbol,
+  //     fixed: false,
+  //     opportunityAsset: {
+  //       name: 'Aave Dai',
+  //       symbol: 'aDai',
+  //       address: market.id,
+  //       decimals: 18,
+  //     },
+  //     underlyingAssets: [
+  //       {
+  //         name: 'test Dai',
+  //         symbol: 'dai',
+  //         address: market.aToken.id,
+  //         decimals: 18,
+  //       },
+  //     ],
+  //     rawApr: market.liquidityRate,
+  //   };
+  // });
+  // return opportunities;
   return data;
 };
 
@@ -152,12 +153,6 @@ export const fetchCurveRates = async (): Promise<OpportunityShell> => {
 };
 
 export const fetchAllRates = async (): Promise<any> => {
-  const allRates = await Promise.all([
-    fetchCompoundRates(),
-    fetchAaveRates(),
-    fetchBancorRates(),
-    fetchYearnRates(),
-    fetchCurveRates(),
-  ]);
+  const allRates = await Promise.all([fetchCompoundRates(), fetchAaveRates()]);
   return allRates;
 };
