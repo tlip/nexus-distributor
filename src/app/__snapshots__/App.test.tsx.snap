@@ -42,6 +42,9 @@ exports[`App component should render without crashing 1`] = `
         </span>
       </button>
     </div>
+    <h1>
+      rates
+    </h1>
   </div>
 </div>
 `;

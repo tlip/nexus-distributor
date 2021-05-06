@@ -20,6 +20,7 @@ const aaveQuery = gql`
       id
       name
       liquidityRate
+      liquidityIndex
       symbol
       isActive
       aToken {
@@ -71,7 +72,8 @@ export const fetchCompoundRates = async (): Promise<OpportunityShell[]> => {
           decimals: 18,
         },
       ],
-      rawApr: market.supplyRate,
+      // Approximation for how much the compound supply rate undershoots the actual # of blocks per year
+      rawApr: market.supplyRate * 1.15,
     };
   });
   return rates;
@@ -79,9 +81,10 @@ export const fetchCompoundRates = async (): Promise<OpportunityShell[]> => {
 
 export const fetchAaveRates = async (): Promise<OpportunityShell[]> => {
   const { reserves } = await request(
-    `${GRAPH_BASE_URL}/aave/protocol`,
+    `${GRAPH_BASE_URL}/aave/protocol-v2`,
     aaveQuery
   );
+  console.log({ reserves });
   const rates: OpportunityShell[] = reserves.map((market: any) => {
     return {
       protocol: protocols['aave'],
@@ -89,16 +92,16 @@ export const fetchAaveRates = async (): Promise<OpportunityShell[]> => {
       symbol: market.symbol,
       fixed: false,
       opportunityAsset: {
+        address: market.aToken.id,
         name: 'Aave Dai',
         symbol: 'aDai',
-        address: market.id,
         decimals: 18,
       },
       underlyingAssets: [
         {
           name: 'test Dai',
           symbol: 'dai',
-          address: market.aToken.id,
+          address: market.id,
           decimals: 18,
         },
       ],
@@ -152,6 +155,9 @@ export const fetchCurveRates = async (): Promise<OpportunityShell> => {
 };
 
 export const fetchAllRates = async (): Promise<any> => {
-  const allRates = await Promise.all([fetchCompoundRates(), fetchAaveRates()]);
-  return allRates;
+  const [compoundRates, aaveRates] = await Promise.all([
+    fetchCompoundRates(),
+    fetchAaveRates(),
+  ]);
+  return [...compoundRates, ...aaveRates];
 };
