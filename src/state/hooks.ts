@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from './store';
 import { fetchRates as fetchRatesAction } from './reducer';
@@ -8,7 +9,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const useAsyncRates = () => {
   const dispatch = useAppDispatch();
-  const rates = useAppSelector((state) => (state as any).application.rates);
+  const rates = useAppSelector((state) => state.application.rates);
   const fetchRates = () => dispatch(fetchRatesAction());
   return [rates, fetchRates] as const;
 };
