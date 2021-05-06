@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { request, gql } from 'graphql-request';
-import { OpportunityShell, Protocol } from './types/shared';
+import { OpportunityShell } from './types/shared';
 import { protocols } from './constants/data';
-import { symbol } from 'd3-shape';
 
 const GRAPH_BASE_URL = 'https://api.thegraph.com/subgraphs/name';
 const BANCOR_BASE_URL = 'https://api-v2.bancor.network';

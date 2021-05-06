@@ -3,10 +3,10 @@
 exports[`App component should render without crashing 1`] = `
 <div>
   <div
-    class="css-b3psm6-Flex e11m02v90"
+    class="css-1q7qvrn-Flex e11m02v90"
   >
     <div
-      class="css-cu2094-Box e1gx7u5e0"
+      class="css-1hwwt31-Box e1gx7u5e0"
     >
       <h4
         class="css-1cfxgj"
