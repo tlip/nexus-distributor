@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { ethers, Contract, AbiItem } from 'ethers';
+import { ethers, Contract } from 'ethers';
 
 const library = new ethers.providers.JsonRpcProvider(
   'https://mainnet.infura.io/v3/c3db76b9d752406094ae1501ad143f4d'
