@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { ethers, Contract } from 'ethers';
+import { ethers, Contract, AbiItem } from 'ethers';
 
 const library = new ethers.providers.JsonRpcProvider(
   'https://mainnet.infura.io/v3/c3db76b9d752406094ae1501ad143f4d'
@@ -22,7 +22,7 @@ export function getProviderOrSigner(
 }
 
 // returns the checksummed address if the address is valid, otherwise returns false
-export function isAddress(value: any): string | false {
+export function isAddress(value: string): string | false {
   try {
     return ethers.utils.getAddress(value);
   } catch {
@@ -33,7 +33,7 @@ export function isAddress(value: any): string | false {
 // account is optional
 export function getContract(
   address: string,
-  ABI: any,
+  ABI: ethers.ContractInterface,
   library: ethers.providers.Web3Provider,
   account?: string
 ): Contract {
@@ -51,7 +51,7 @@ export function getContract(
 // returns null on errors
 export function useContract(
   address: string | undefined,
-  ABI: any,
+  ABI: ethers.ContractInterface,
   withSignerIfPossible = true
 ): Contract | null {
   return useMemo(() => {

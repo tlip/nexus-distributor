@@ -48,13 +48,4 @@ export interface Opportunity {
   fixed: boolean;
 }
 
-export type OpportunityShell = Pick<
-  Opportunity,
-  | 'displayName'
-  | 'symbol'
-  | 'fixed'
-  | 'protocol'
-  | 'opportunityAsset'
-  | 'underlyingAssets'
-  | 'rawApr'
->;
+export type OpportunityShell = Omit<Opportunity, 'capactity' | 'coverCost'>;
