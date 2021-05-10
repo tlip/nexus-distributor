@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled/macro';
 
 import { Box } from 'components/Box';
 import { Flex } from 'components/Flex';
 import { Card } from 'components/Card';
 import { Text } from 'components/Text';
-import { AccordionCard } from 'components/AccordionCard/AccordionCard';
+import { OpportunityCard } from './scene/OpportunityCard';
+
+import { useAsyncRates } from 'state/hooks';
 
 const OpportunityListViewContainer = styled(Box)({
   width: 'clamp(100%, 100%, 100%)',
 });
 
 export const OpportunityListView: React.FC = () => {
+  const [rates, fetchRates] = useAsyncRates();
+
+  useEffect(() => {
+    fetchRates();
+  }, []);
+
   return (
     <OpportunityListViewContainer>
       <Text as="h1" variant="subhead">
@@ -41,9 +49,8 @@ export const OpportunityListView: React.FC = () => {
           width={['100%', '100%', '100%', 'calc(50% - 0.75em)']}
         ></Card>
       </Flex>
-      <AccordionCard>
-        <Text>sup dog</Text>
-      </AccordionCard>
+      {rates.length &&
+        rates.map((opportunity) => <OpportunityCard {...{ opportunity }} />)}
     </OpportunityListViewContainer>
   );
 };
