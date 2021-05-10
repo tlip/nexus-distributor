@@ -8,7 +8,6 @@ import { Slider } from 'components/Slider';
 
 interface OpportunityCardProps {
   opportunity: OpportunityShell;
-  // protocol: string;
 }
 
 export const OpportunityCard: React.FC<OpportunityCardProps> = ({
@@ -17,6 +16,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   const [coverDuration, setCoverDuration] = React.useState<number>(182);
   return (
     <AccordionCard
+      mb="2em"
       accordionChildren={
         <Flex width="100%" justifyContent="flex-between">
           <Box width="50%">
