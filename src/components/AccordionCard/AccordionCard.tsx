@@ -10,6 +10,13 @@ import { Text } from 'components/Text';
 
 export interface AccordionCardProps extends CardProps {
   isExpanded?: boolean;
+  accordionChildren:
+    | boolean
+    | React.ReactChild
+    | React.ReactFragment
+    | React.ReactPortal
+    | null
+    | undefined;
 }
 
 // Styled components
@@ -31,13 +38,14 @@ const AccordionSection = styled(Box)((props: any) => ({
 export const AccordionCard: React.FC<AccordionCardProps> = ({
   isExpanded,
   children,
+  accordionChildren,
   ...props
 }) => {
   const [expanded, setExpanded] = React.useState<boolean>(!!isExpanded);
   return (
     <Card px="0px" pb="0px" width="100%" {...props}>
-      <Box mx="1.25em">Sup</Box>
-      <AccordionSection {...{ expanded }}>{children}</AccordionSection>
+      <Box mx="1.25em">{children}</Box>
+      <AccordionSection {...{ expanded }}>{accordionChildren}</AccordionSection>
       <Flex
         width="100%"
         alignItems="center"

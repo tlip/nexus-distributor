@@ -8,7 +8,9 @@ describe('AccordionCard component', () => {
   it('should render without crashing', async () => {
     const { container } = render(
       <ThemeProvider {...{ theme }}>
-        <AccordionCard>I'm an AccordionCard</AccordionCard>
+        <AccordionCard accordionChildren={<>Sup</>}>
+          I'm an AccordionCard
+        </AccordionCard>
       </ThemeProvider>
     );
 
