@@ -2,6 +2,8 @@ import React from 'react';
 import styled from '@emotion/styled/macro';
 import { HashRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'theme-ui';
+import { store } from '../state/store';
+import { Provider } from 'react-redux';
 
 import { Flex } from 'components/Flex';
 import { NavBar } from 'components/NavBar';
@@ -10,6 +12,12 @@ import { OpportunityListView } from 'views/OpportunityListView';
 
 import { theme } from 'theme';
 import { env } from 'config/env';
+import { Contexts } from 'contexts';
+
+// React Router only works with a HashRouter on GitHub Pages...
+const Router = env.GITHUB_PAGES
+  ? (props: any) => <HashRouter {...props} />
+  : (props: any) => <BrowserRouter {...props} />;
 
 const AppContainer = styled(Flex)((props: any) => ({
   justifyContent: 'center',
@@ -20,21 +28,21 @@ const AppContainer = styled(Flex)((props: any) => ({
   padding: '2.75em 0',
 }));
 
-const Router = env.GITHUB_PAGES
-  ? (props: any) => <HashRouter {...props} />
-  : (props: any) => <BrowserRouter {...props} />;
-
 export const App: React.FC = () => (
   <ThemeProvider theme={theme}>
-    <Router>
-      <NavBar />
-      <AppContainer>
-        <PageContentWrapper>
-          <Switch>
-            <Route path="/" component={OpportunityListView} />
-          </Switch>
-        </PageContentWrapper>
-      </AppContainer>
-    </Router>
+    <Provider store={store}>
+      <Contexts>
+        <Router>
+          <NavBar />
+          <AppContainer id="page-content">
+            <PageContentWrapper>
+              <Switch>
+                <Route path="/" component={OpportunityListView} />
+              </Switch>
+            </PageContentWrapper>
+          </AppContainer>
+        </Router>
+      </Contexts>
+    </Provider>
   </ThemeProvider>
 );
