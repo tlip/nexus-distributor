@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccordionCard component should render without crashing 1`] = `
+<div>
+  <div
+    class="css-2gp3t7-Box e1gx7u5e0"
+  >
+    <div
+      class="css-1xisv2l-Box e1gx7u5e0"
+    >
+      I'm an AccordionCard
+    </div>
+    <div
+      class="css-126n5v0-Box-AccordionSection ensqiqr0"
+    >
+      Sup
+    </div>
+    <div
+      class="css-v678fk-Flex e11m02v90"
+      style="user-select: none; cursor: pointer;"
+    >
+      <span
+        class="css-kze39p"
+        style="text-decoration: underline;"
+      >
+        DETAILS
+      </span>
+    </div>
+  </div>
+</div>
+`;

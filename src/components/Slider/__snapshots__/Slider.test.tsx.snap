@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slider component should render without crashing 1`] = `
+<div>
+  <div
+    class="css-g35oeh-Box e1gx7u5e0"
+  >
+    <div
+      style="transform: translateY(2em);"
+    >
+      <div
+        class="css-8nr4eu-Box-SliderTrack e191zsha0"
+      />
+      <div
+        class="css-181if3r-Box-SliderTrack e191zsha0"
+      />
+      <div
+        class="css-1yuoh2n-SliderThumbContainer e191zsha1"
+        style="left: -9px;"
+      >
+        <div
+          class="css-8i9v14"
+        >
+          <div
+            aria-valuemax="156"
+            aria-valuemin="25"
+            aria-valuenow="5"
+            class=" css-ew9rjb-Box-SliderThumb e191zsha2"
+            max="156"
+            min="25"
+            role="slider"
+            step="5"
+            tabindex="1"
+            value="5"
+          />
+          <div
+            class="css-1co4v1-Box e1gx7u5e0"
+            style="position: absolute; top: -35px;"
+          >
+            <span
+              class="css-1yucxgw"
+              style="letter-spacing: 2px; white-space: nowrap;"
+            >
+              5
+              
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { OpportunityShell } from 'types/shared';
 import { fetchAllRates } from '../client';
 
 export const fetchRates = createAsyncThunk('user/fetchSecret', async () => {
@@ -10,7 +11,7 @@ export const fetchRates = createAsyncThunk('user/fetchSecret', async () => {
 export const application = createSlice({
   name: 'application',
   initialState: {
-    rates: {} as any,
+    rates: [] as OpportunityShell[],
   },
   reducers: {},
   extraReducers: {

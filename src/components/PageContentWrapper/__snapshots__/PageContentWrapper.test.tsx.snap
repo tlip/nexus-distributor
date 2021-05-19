@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageContentWrapper component should render without crashing 1`] = `
+<div>
+  <div
+    class="css-zzvsmz-Box-PageContentWrapper eq3nwli0"
+  >
+    I'm a test.
+  </div>
+</div>
+`;

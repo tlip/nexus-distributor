@@ -25,7 +25,7 @@ export function getProviderOrSigner(
 // account is optional
 export function getContract(
   address: string,
-  ABI: any,
+  ABI: ethers.ContractInterface,
   library: ethers.providers.Web3Provider,
   account?: string
 ): Contract {
