@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/nexus-distributor/static/css/main.73b51e02.chunk.css",
-    "main.js": "/nexus-distributor/static/js/main.b7515ac3.chunk.js",
-    "main.js.map": "/nexus-distributor/static/js/main.b7515ac3.chunk.js.map",
-    "runtime-main.js": "/nexus-distributor/static/js/runtime-main.a76a7502.js",
-    "runtime-main.js.map": "/nexus-distributor/static/js/runtime-main.a76a7502.js.map",
-    "static/js/2.ccc13b3d.chunk.js": "/nexus-distributor/static/js/2.ccc13b3d.chunk.js",
-    "static/js/2.ccc13b3d.chunk.js.map": "/nexus-distributor/static/js/2.ccc13b3d.chunk.js.map",
-    "static/js/3.c6fae7eb.chunk.js": "/nexus-distributor/static/js/3.c6fae7eb.chunk.js",
-    "static/js/3.c6fae7eb.chunk.js.map": "/nexus-distributor/static/js/3.c6fae7eb.chunk.js.map",
+    "main.css": "/nexus-distributor/static/css/main.ddcbfabd.chunk.css",
+    "main.js": "/nexus-distributor/static/js/main.5e6d28d1.chunk.js",
+    "main.js.map": "/nexus-distributor/static/js/main.5e6d28d1.chunk.js.map",
+    "runtime-main.js": "/nexus-distributor/static/js/runtime-main.eda311ae.js",
+    "runtime-main.js.map": "/nexus-distributor/static/js/runtime-main.eda311ae.js.map",
+    "static/js/2.a4186943.chunk.js": "/nexus-distributor/static/js/2.a4186943.chunk.js",
+    "static/js/2.a4186943.chunk.js.map": "/nexus-distributor/static/js/2.a4186943.chunk.js.map",
+    "static/js/3.a72809b0.chunk.js": "/nexus-distributor/static/js/3.a72809b0.chunk.js",
+    "static/js/3.a72809b0.chunk.js.map": "/nexus-distributor/static/js/3.a72809b0.chunk.js.map",
     "index.html": "/nexus-distributor/index.html",
-    "static/css/main.73b51e02.chunk.css.map": "/nexus-distributor/static/css/main.73b51e02.chunk.css.map",
-    "static/js/2.ccc13b3d.chunk.js.LICENSE.txt": "/nexus-distributor/static/js/2.ccc13b3d.chunk.js.LICENSE.txt"
+    "static/css/main.ddcbfabd.chunk.css.map": "/nexus-distributor/static/css/main.ddcbfabd.chunk.css.map",
+    "static/js/2.a4186943.chunk.js.LICENSE.txt": "/nexus-distributor/static/js/2.a4186943.chunk.js.LICENSE.txt",
+    "static/media/nexus-mutual-logo.d3ee1f0e.svg": "/nexus-distributor/static/media/nexus-mutual-logo.d3ee1f0e.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.a76a7502.js",
-    "static/js/2.ccc13b3d.chunk.js",
-    "static/css/main.73b51e02.chunk.css",
-    "static/js/main.b7515ac3.chunk.js"
+    "static/js/runtime-main.eda311ae.js",
+    "static/js/2.a4186943.chunk.js",
+    "static/css/main.ddcbfabd.chunk.css",
+    "static/js/main.5e6d28d1.chunk.js"
   ]
 }
