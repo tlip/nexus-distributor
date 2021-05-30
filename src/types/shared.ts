@@ -37,14 +37,19 @@ export interface Token {
 
 export interface Opportunity {
   displayName: string;
-  symbol?: string;
+  symbol: string;
   protocol: Protocol;
   opportunityAsset: Token;
-  underlyingAssets: Token[];
+  underlyingAssets?: string[];
   rawApr: BigNumber;
   active: boolean;
-  capactity?: BigNumber;
-  coverCost?: BigNumber;
+  capactity?: {
+    capcityETH: BigNumber;
+    capacityDAI: BigNumber;
+  };
+  nexusAddress: string;
+  coverCost?: number;
+  imageUrl?: string;
   fixed: boolean;
 }
 

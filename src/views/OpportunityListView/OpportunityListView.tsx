@@ -7,7 +7,14 @@ import { Card } from 'components/Card';
 import { Text } from 'components/Text';
 import { OpportunityCard } from './scene/OpportunityCard';
 
-import { useAsyncRates } from 'state/hooks';
+import {
+  useAsyncRates,
+  useAsyncCapacities,
+  useAsyncSignedQuote,
+} from 'state/hooks';
+import { Opportunity, OpportunityShell } from 'types/shared';
+import { BigNumber } from '@ethersproject/bignumber';
+import { fetchSignedQuote } from 'state/reducer';
 
 const OpportunityListViewContainer = styled(Box)({
   width: 'clamp(100%, 100%, 100%)',
@@ -15,10 +22,33 @@ const OpportunityListViewContainer = styled(Box)({
 
 export const OpportunityListView: React.FC = () => {
   const [rates, fetchRates] = useAsyncRates();
+  const [capacities, fetchCapacities] = useAsyncCapacities();
+  const [siqnedQuote, fetchSignedQuote] = useAsyncSignedQuote();
 
   useEffect(() => {
     fetchRates();
+    fetchCapacities();
+    fetchSignedQuote('0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b');
   }, []);
+
+  console.log(siqnedQuote, 'SIGNED QUOTE');
+
+  const ratesWithCosts = rates.map((rate) => {
+    // find capacity data for contract
+    const associatedCoverageData = capacities.find(
+      (capacity) => capacity.contractAddress === rate.nexusAddress
+    );
+    return {
+      ...(rate as OpportunityShell),
+      coverCost: associatedCoverageData?.coverCost,
+      capacity: {
+        capacityETH: BigNumber.from(associatedCoverageData?.capacityETH || 0),
+        capacityDAI: BigNumber.from(associatedCoverageData?.capacityDAI || 0),
+      },
+    };
+  });
+
+  console.log(ratesWithCosts);
 
   return (
     <OpportunityListViewContainer>
@@ -50,7 +80,12 @@ export const OpportunityListView: React.FC = () => {
         ></Card>
       </Flex>
       {rates.length &&
-        rates.map((opportunity) => <OpportunityCard {...{ opportunity }} />)}
+        ratesWithCosts.map((opportunity: OpportunityShell) => (
+          <OpportunityCard
+            key={`${opportunity.displayName}-${opportunity.rawApr}`}
+            {...{ opportunity }}
+          />
+        ))}
     </OpportunityListViewContainer>
   );
 };

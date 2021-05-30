@@ -5,6 +5,7 @@ import { Box } from 'components/Box';
 import { Text } from 'components/Text';
 import { OpportunityShell } from 'types/shared';
 import { Slider } from 'components/Slider';
+import { theme } from 'theme';
 
 interface OpportunityCardProps {
   opportunity: OpportunityShell;
@@ -14,13 +15,24 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   opportunity,
 }) => {
   const [coverDuration, setCoverDuration] = React.useState<number>(182);
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const image = require(`../../../assets/logos/${opportunity.protocol.name}-logo.svg`)
+    .default;
+
   return (
     <AccordionCard
       mb="2em"
       accordionChildren={
         <Flex width="100%" justifyContent="flex-between">
           <Box width="50%">
-            <Text>Sections</Text>
+            <Box width="50%">
+              <Text>What's covered:</Text>
+              <ul>
+                <li>Contract bugs</li>
+                <li>Economic attacks, including oracle failures</li>
+                <li>Governance attacks</li>
+              </ul>
+            </Box>
           </Box>
           <Box
             width="50%"
@@ -42,7 +54,9 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
       }
     >
       <Box width="50%">
+        <img src={image} width="20px" />
         <Text>{opportunity.displayName}</Text>
+        <Text>{opportunity.rawApr}</Text>
       </Box>
     </AccordionCard>
   );
