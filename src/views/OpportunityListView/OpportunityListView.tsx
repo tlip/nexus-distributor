@@ -31,7 +31,7 @@ export const OpportunityListView: React.FC = () => {
     fetchSignedQuote('0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b');
   }, []);
 
-  // console.log(siqnedQuote, 'SIGNED QUOTE');
+  console.log(rates, 'SIGNED QUOTE');
 
   const ratesWithCosts = rates.map((rate) => {
     // find capacity data for contract

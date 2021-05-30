@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
 import { AccordionCard } from 'components/AccordionCard';
 import { Flex } from 'components/Flex';
@@ -8,6 +9,7 @@ import { Slider } from 'components/Slider';
 import { theme } from 'theme';
 import { Button } from 'components/Button';
 import { useDistributor } from 'hooks/useDistributor';
+import { OppoortunityImage } from 'components/OpportunityImage';
 
 interface OpportunityCardProps {
   opportunity: OpportunityShell;
@@ -18,9 +20,6 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
 }) => {
   const [coverDuration, setCoverDuration] = React.useState<number>(365);
   const { buyCover } = useDistributor();
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const image = require(`../../../assets/logos/${opportunity.protocol.name}-logo.svg`)
-    .default;
 
   return (
     <AccordionCard
@@ -57,7 +56,11 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
       }
     >
       <Box width="50%">
-        <img src={image} width="20px" />
+        {/* <img src={image} width="20px" /> */}
+        <OppoortunityImage
+          asset={opportunity?.underlyingAssets?.[0]}
+          protocol={opportunity.protocol.name}
+        />
         <Text>{opportunity.displayName}</Text>
         <Text>{opportunity.rawApr}</Text>
         <Button onClick={buyCover}>Buy Cover</Button>
