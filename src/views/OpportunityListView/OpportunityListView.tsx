@@ -31,7 +31,7 @@ export const OpportunityListView: React.FC = () => {
     fetchSignedQuote('0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b');
   }, []);
 
-  console.log(siqnedQuote, 'SIGNED QUOTE');
+  // console.log(siqnedQuote, 'SIGNED QUOTE');
 
   const ratesWithCosts = rates.map((rate) => {
     // find capacity data for contract
@@ -40,15 +40,13 @@ export const OpportunityListView: React.FC = () => {
     );
     return {
       ...(rate as OpportunityShell),
-      coverCost: associatedCoverageData?.coverCost,
-      capacity: {
-        capacityETH: BigNumber.from(associatedCoverageData?.capacityETH || 0),
-        capacityDAI: BigNumber.from(associatedCoverageData?.capacityDAI || 0),
-      },
+      // coverCost: associatedCoverageData?.coverCost,
+      // capacity: {
+      //   capacityETH: BigNumber.from(associatedCoverageData?.capacityETH || 0),
+      //   capacityDAI: BigNumber.from(associatedCoverageData?.capacityDAI || 0),
+      // },
     };
   });
-
-  console.log(ratesWithCosts);
 
   return (
     <OpportunityListViewContainer>

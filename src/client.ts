@@ -76,6 +76,34 @@ export const fetchCompoundRates = async (): Promise<OpportunityShell[]> => {
   return opportunites;
 };
 
+export const fetchCreamRates = async (): Promise<OpportunityShell[]> => {
+  const { markets } = await request(
+    `${GRAPH_BASE_URL}/creamfinancedev/cream-lending`,
+    compoundQuery
+  );
+  const opportunites: OpportunityShell[] = markets
+    .map((market: any) => {
+      return {
+        protocol: protocols['cream'],
+        displayName: `Cream ${market.symbol}`,
+        symbol: market.symbol,
+        fixed: false,
+        opportunityAsset: {
+          name: 'test',
+          symbol: market.underlyingSymbol,
+          address: market.underlyingAddress,
+          decimals: 18,
+        },
+        underlyingAssets: [market.underlyingAddress],
+        nexusAddress: '0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b',
+        // Approximation for how much the compound supply rate undershoots the actual # of blocks per year
+        rawApr: +(market.supplyRate * 1.15 * 100).toFixed(2),
+      };
+    })
+    .filter((m: any) => m.rawApr > 0);
+  return opportunites;
+};
+
 export const fetchAaveRates = async (): Promise<OpportunityShell[]> => {
   const { reserves } = await request(
     `${GRAPH_BASE_URL}/aave/protocol-v2`,
@@ -165,12 +193,14 @@ export const fetchSignedQuote = async (
 };
 
 export const fetchAllRates = async (): Promise<OpportunityShell[]> => {
-  const [compoundRates, aaveRates, yearnRates] = await Promise.all([
+  const [compoundRates, aaveRates, yearnRates, creamRates] = await Promise.all([
     fetchCompoundRates(),
     fetchAaveRates(),
     fetchYearnRates(),
+    fetchCreamRates(),
+    fetchCreamRates(),
   ]);
-  return [...compoundRates, ...aaveRates, ...yearnRates].sort(
+  return [...compoundRates, ...aaveRates, ...yearnRates, ...creamRates].sort(
     (a, b) => +b.rawApr - +a.rawApr
   );
 };

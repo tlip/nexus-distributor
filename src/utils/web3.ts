@@ -1,10 +1,4 @@
 import { ethers, Contract } from 'ethers';
-import { Token } from 'types/shared';
-import ERC20_ABI from 'constants/abi/ERC20.json';
-
-const provider = new ethers.providers.JsonRpcProvider(
-  'https://mainnet.infura.io/v3/c3db76b9d752406094ae1501ad143f4d'
-);
 
 // account is not optional
 export function getSigner(
@@ -48,30 +42,3 @@ export function getContract(
     getProviderOrSigner(library, account) as any
   );
 }
-
-// @ts-ignore
-export const getTokenData: Promise<Token> = async (
-  address: string,
-  imageUrl?: string
-) => {
-  // Instantiate web3 and return token info from enndpoint
-  const contract = getContract(
-    address,
-    ERC20_ABI,
-    provider as ethers.providers.Web3Provider,
-    undefined
-  );
-
-  const [decimals, symbol, name] = await Promise.all([
-    contract.functions.decimals(),
-    contract.functions.symbol(),
-    contract.functions.name(),
-  ]);
-
-  return {
-    name,
-    decimals,
-    symbol,
-    ...(!!imageUrl && { imageUrl }),
-  };
-};

@@ -1,77 +1,63 @@
-import { ethers } from 'ethers';
+import { ChainId } from '@uniswap/sdk';
+import { BigNumber, Contract, ethers } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
-// import Fraction from '../entities/Fraction'
-// import { useActiveWeb3React } from './useActiveWeb3React'
-// import { useTransactionAdder } from '../state/transactions/hooks'
+import { useAsyncSignedQuote } from 'state/hooks';
+import { useDistributorContract } from './useContract';
+import useActiveWeb3React from './web3';
 
-// const { BigNumber } = ethers
+export const useDistributor = () => {
+  const { account, chainId } = useActiveWeb3React();
+  const [allowance, setAllowance] = useState('0');
+  const distributorContract = useDistributorContract(true); //withSigner
+  const [signedQuote, fetchSignedQuote] = useAsyncSignedQuote();
 
-// const useSushiBar = () => {
-//     const { account } = useActiveWeb3React()
-//     const addTransaction = useTransactionAdder()
-//     const sushiContract = useSushiContract(true) // withSigner
-//     const barContract = useSushiBarContract(true) // withSigner
+  const buyCover = useCallback(async () =>
+    //   contractAddress: string,
+    //   coverData: any,
+    //   currency: string,
+    //   maxPriceWithFee,
+    //   amount: string
+    {
+      let networkBasedAddress;
+      if (chainId === ChainId.KOVAN) {
+        networkBasedAddress = '0xc57d000000000000000000000000000000000002';
+        fetchSignedQuote(networkBasedAddress);
+      }
+      //   } else {
+      //     networkBasedAddress = contractAddress;
+      //     fetchSignedQuote(networkBasedAddress);
+      //   }
+      if (signedQuote && networkBasedAddress) {
+        const encodedSignedQuote = ethers.utils.defaultAbiCoder.encode(
+          ['uint', 'uint', 'uint', 'uint', 'uint8', 'bytes32', 'bytes32'],
+          [
+            signedQuote.price,
+            signedQuote.priceInNXM,
+            signedQuote.expiresAt,
+            signedQuote.generatedAt,
+            signedQuote.v,
+            signedQuote.r,
+            signedQuote.s,
+          ]
+        );
 
-//     const [allowance, setAllowance] = useState('0')
+        const tx = distributorContract?.buyCover(
+          networkBasedAddress,
+          '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+          ethers.utils.parseEther('1.0'),
+          100,
+          0, // cover type
+          7118412046543463,
+          encodedSignedQuote.toString(),
+          {
+            value: 7118412046543463,
+          }
+        );
+      }
+    }, [distributorContract, signedQuote]);
 
-//     const fetchAllowance = useCallback(async () => {
-//         if (account) {
-//             try {
-//                 const allowance = await sushiContract?.allowance(account, barContract?.address)
-//                 const formatted = Fraction.from(BigNumber.from(allowance), BigNumber.from(10).pow(18)).toString()
-//                 setAllowance(formatted)
-//             } catch (error) {
-//                 setAllowance('0')
-//                 throw error
-//             }
-//         }
-//     }, [account, barContract, sushiContract])
-
-//     useEffect(() => {
-//         if (account && barContract && sushiContract) {
-//             fetchAllowance()
-//         }
-//         const refreshInterval = setInterval(fetchAllowance, 10000)
-//         return () => clearInterval(refreshInterval)
-//     }, [account, barContract, fetchAllowance, sushiContract])
-
-//     const approve = useCallback(async () => {
-//         try {
-//             const tx = await sushiContract?.approve(barContract?.address, ethers.constants.MaxUint256.toString())
-//             return addTransaction(tx, { summary: 'Approve' })
-//         } catch (e) {
-//             return e
-//         }
-//     }, [addTransaction, barContract, sushiContract])
-
-//     const enter = useCallback(
-//         // todo: this should be updated with BigNumber as opposed to string
-//         async (amount: string) => {
-//             try {
-//                 const tx = await barContract?.enter(ethers.utils.parseUnits(amount))
-//                 return addTransaction(tx, { summary: 'Enter SushiBar' })
-//             } catch (e) {
-//                 return e
-//             }
-//         },
-//         [addTransaction, barContract]
-//     )
-
-//     const leave = useCallback(
-//         // todo: this should be updated with BigNumber as opposed to string
-//         async (amount: string) => {
-//             try {
-//                 const tx = await barContract?.leave(ethers.utils.parseUnits(amount))
-//                 return addTransaction(tx, { summary: 'Leave SushiBar' })
-//             } catch (e) {
-//                 console.log('leave_error:', e)
-//                 return e
-//             }
-//         },
-//         [addTransaction, barContract]
-//     )
-
-//     return { allowance, approve, enter, leave }
-// }
-
-// export default useSushiBar
+  return {
+    allowance,
+    buyCover,
+  };
+};

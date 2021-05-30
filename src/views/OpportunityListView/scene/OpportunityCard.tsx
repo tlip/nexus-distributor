@@ -6,6 +6,8 @@ import { Text } from 'components/Text';
 import { OpportunityShell } from 'types/shared';
 import { Slider } from 'components/Slider';
 import { theme } from 'theme';
+import { Button } from 'components/Button';
+import { useDistributor } from 'hooks/useDistributor';
 
 interface OpportunityCardProps {
   opportunity: OpportunityShell;
@@ -14,7 +16,8 @@ interface OpportunityCardProps {
 export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   opportunity,
 }) => {
-  const [coverDuration, setCoverDuration] = React.useState<number>(182);
+  const [coverDuration, setCoverDuration] = React.useState<number>(365);
+  const { buyCover } = useDistributor();
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const image = require(`../../../assets/logos/${opportunity.protocol.name}-logo.svg`)
     .default;
@@ -57,6 +60,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
         <img src={image} width="20px" />
         <Text>{opportunity.displayName}</Text>
         <Text>{opportunity.rawApr}</Text>
+        <Button onClick={buyCover}>Buy Cover</Button>
       </Box>
     </AccordionCard>
   );

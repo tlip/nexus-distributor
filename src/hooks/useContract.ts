@@ -1,52 +1,13 @@
 import { useMemo } from 'react';
 import { ethers, Contract } from 'ethers';
+import { ChainId } from '@uniswap/sdk';
+import { useActiveWeb3React } from './web3';
+import { getContract } from '../utils/web3';
+import DISTRIBUTOR_ABI from '../constants/abi/Distributor.json';
 
 const library = new ethers.providers.JsonRpcProvider(
   'https://mainnet.infura.io/v3/c3db76b9d752406094ae1501ad143f4d'
 );
-
-// account is not optional
-export function getSigner(
-  library: ethers.providers.Web3Provider,
-  account: string
-): ethers.providers.JsonRpcSigner {
-  return library.getSigner(account).connectUnchecked();
-}
-
-// account is optional
-export function getProviderOrSigner(
-  library: ethers.providers.Web3Provider,
-  account?: string
-): ethers.providers.Web3Provider | ethers.providers.JsonRpcSigner {
-  return account ? getSigner(library, account) : library;
-}
-
-// returns the checksummed address if the address is valid, otherwise returns false
-export function isAddress(value: string): string | false {
-  try {
-    return ethers.utils.getAddress(value);
-  } catch {
-    return false;
-  }
-}
-
-// account is optional
-export function getContract(
-  address: string,
-  ABI: ethers.ContractInterface,
-  library: ethers.providers.Web3Provider,
-  account?: string
-): Contract {
-  if (!isAddress(address) || address === ethers.constants.AddressZero) {
-    throw Error(`Invalid 'address' parameter '${address}'.`);
-  }
-
-  return new Contract(
-    address,
-    ABI,
-    getProviderOrSigner(library, account) as any
-  );
-}
 
 // returns null on errors
 export function useContract(
@@ -54,19 +15,38 @@ export function useContract(
   ABI: ethers.ContractInterface,
   withSignerIfPossible = true
 ): Contract | null {
+  const { library, account } = useActiveWeb3React();
+
   return useMemo(() => {
     if (!address || !ABI || !library) return null;
     try {
       return getContract(
         address,
         ABI,
-        library as ethers.providers.Web3Provider,
-        // withSignerIfPossible && account ? account : undefined
-        undefined
+        library,
+        withSignerIfPossible && account ? account : undefined
       );
     } catch (error) {
       console.error('Failed to get contract', error);
       return null;
     }
-  }, [address, ABI, library, withSignerIfPossible]);
+  }, [address, ABI, library, withSignerIfPossible, account]);
+}
+
+export function useDistributorContract(
+  withSignerIfPossible?: boolean
+): Contract | null {
+  const { chainId } = useActiveWeb3React();
+  let address: string | undefined;
+  if (chainId) {
+    switch (chainId) {
+      case ChainId.MAINNET:
+        address = '';
+        break;
+      case ChainId.KOVAN:
+        address = '0x501cc38ae11ba264e04480c202e9c17f8947441a';
+        break;
+    }
+  }
+  return useContract(address, DISTRIBUTOR_ABI, withSignerIfPossible);
 }

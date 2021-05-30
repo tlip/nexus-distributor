@@ -4,6 +4,8 @@ import { HashRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'theme-ui';
 import { store } from '../state/store';
 import { Provider } from 'react-redux';
+import { Web3ReactProvider, createWeb3ReactRoot } from '@web3-react/core';
+import { ethers } from 'ethers';
 
 import { Flex } from 'components/Flex';
 import { NavBar } from 'components/NavBar';
@@ -13,6 +15,17 @@ import { OpportunityListView } from 'views/OpportunityListView';
 import { theme } from 'theme';
 import { env } from 'config/env';
 import { Contexts } from 'contexts';
+import { NetworkContextName } from '../constants';
+
+const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
+
+function getLibrary(
+  provider:
+    | ethers.providers.ExternalProvider
+    | ethers.providers.JsonRpcFetchFunc
+) {
+  return new ethers.providers.Web3Provider(provider);
+}
 
 // React Router only works with a HashRouter on GitHub Pages...
 const Router = env.GITHUB_PAGES
@@ -31,18 +44,22 @@ const AppContainer = styled(Flex)((props: any) => ({
 export const App: React.FC = () => (
   <ThemeProvider theme={theme}>
     <Provider store={store}>
-      <Contexts>
-        <Router>
-          <NavBar />
-          <AppContainer id="page-content">
-            <PageContentWrapper>
-              <Switch>
-                <Route path="/" component={OpportunityListView} />
-              </Switch>
-            </PageContentWrapper>
-          </AppContainer>
-        </Router>
-      </Contexts>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <Web3ProviderNetwork getLibrary={getLibrary}>
+          <Contexts>
+            <Router>
+              <NavBar />
+              <AppContainer id="page-content">
+                <PageContentWrapper>
+                  <Switch>
+                    <Route path="/" component={OpportunityListView} />
+                  </Switch>
+                </PageContentWrapper>
+              </AppContainer>
+            </Router>
+          </Contexts>
+        </Web3ProviderNetwork>
+      </Web3ReactProvider>
     </Provider>
   </ThemeProvider>
 );
