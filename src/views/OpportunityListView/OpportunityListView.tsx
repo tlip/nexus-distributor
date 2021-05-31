@@ -40,11 +40,11 @@ export const OpportunityListView: React.FC = () => {
     );
     return {
       ...(rate as OpportunityShell),
-      // coverCost: associatedCoverageData?.coverCost,
-      // capacity: {
-      //   capacityETH: BigNumber.from(associatedCoverageData?.capacityETH || 0),
-      //   capacityDAI: BigNumber.from(associatedCoverageData?.capacityDAI || 0),
-      // },
+      coverCost: associatedCoverageData?.coverCost,
+      capacity: {
+        capacityETH: BigNumber.from(associatedCoverageData?.capacityETH || 0),
+        capacityDAI: BigNumber.from(associatedCoverageData?.capacityDAI || 0),
+      },
     };
   });
 
@@ -78,10 +78,10 @@ export const OpportunityListView: React.FC = () => {
         ></Card>
       </Flex>
       {rates.length &&
-        ratesWithCosts.map((opportunity: OpportunityShell) => (
+        ratesWithCosts.map((opportunity: Opportunity) => (
           <OpportunityCard
             key={`${opportunity.displayName}-${opportunity.rawApr}`}
-            {...{ opportunity }}
+            opportunity={opportunity}
           />
         ))}
     </OpportunityListViewContainer>

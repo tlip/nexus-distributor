@@ -27,6 +27,7 @@ const aaveQuery = gql`
       aToken {
         # underlying token address
         id
+        underlyingAssetAddress
       }
     }
   }
@@ -95,7 +96,7 @@ export const fetchCreamRates = async (): Promise<OpportunityShell[]> => {
           decimals: 18,
         },
         underlyingAssets: [market.underlyingAddress],
-        nexusAddress: '0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b',
+        nexusAddress: '0x3d5BC3c8d13dcB8bF317092d84783c2697AE9258',
         // Approximation for how much the compound supply rate undershoots the actual # of blocks per year
         rawApr: +(market.supplyRate * 1.15 * 100).toFixed(2),
       };
@@ -124,7 +125,7 @@ export const fetchAaveRates = async (): Promise<OpportunityShell[]> => {
           decimals: 18,
         },
         nexusAddress: '0x7d2768de32b0b80b7a3454c06bdac94a69ddc7a9',
-        underlyingAssets: [market.id],
+        underlyingAssets: [market.aToken.underlyingAssetAddress],
         // liquidity rate is expressed in ray (10e27) instead of wei (10e18)
         rawApr: +(market.liquidityRate / 10 ** 25).toFixed(2),
       };
@@ -149,7 +150,7 @@ export const fetchYearnRates = async (): Promise<OpportunityShell[]> => {
         fixed: false,
         opportunityAsset: {},
         imageUrl: market?.vaultIcon,
-        underlyingAsset: [market?.tokenAddress],
+        underlyingAssets: [market?.tokenAddress],
         rawApr: +market?.apy?.apyOneMonthSample.toFixed(2),
       };
     })

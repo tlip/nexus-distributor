@@ -2,6 +2,7 @@
 import React from 'react';
 import { ethers } from 'ethers';
 import { Image } from 'rebass';
+import axios from 'axios';
 
 export const OppoortunityImage: React.FC<{
   protocol: string;
@@ -13,6 +14,11 @@ export const OppoortunityImage: React.FC<{
   } catch {
     protocolImage = require(`../assets/logos/cream-logo.svg`)?.default;
   }
+  const imageUrl = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${
+    ethers.utils.isAddress(asset || '')
+      ? ethers.utils.getAddress(asset || '0x0')
+      : '0x0'
+  }/logo.png`;
 
   return (
     <>
@@ -22,11 +28,12 @@ export const OppoortunityImage: React.FC<{
         sx={{
           borderRadius: 50,
         }}
-        src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${
-          ethers.utils.isAddress(asset || '')
-            ? ethers.utils.getAddress(asset || '0x0')
-            : '0x0'
-        }/logo.png`}
+        onError={(e) => {
+          //@ts-ignore
+          e.target.src =
+            'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
+        }}
+        src={imageUrl}
       />
       <Image
         width={20}
@@ -35,7 +42,7 @@ export const OppoortunityImage: React.FC<{
           borderRadius: 50,
         }}
         style={{
-          marginLeft: '-1rem',
+          marginLeft: '-0.5rem',
           marginTop: '0.5rem',
           background: 'white',
         }}
