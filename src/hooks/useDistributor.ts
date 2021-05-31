@@ -3,7 +3,7 @@ import { fetchSignedQuote } from 'client';
 import { ethers } from 'ethers';
 import { useCallback } from 'react';
 import { useDistributorContract } from './useContract';
-import useActiveWeb3React from './web3';
+import { useActiveWeb3React } from './web3';
 
 export const useDistributor = (): {
   buyCover: (
