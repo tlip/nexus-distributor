@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
-import { ethers } from 'ethers';
 import { AccordionCard } from 'components/AccordionCard';
 import { Flex } from 'components/Flex';
 import { Box } from 'components/Box';
 import { Text } from 'components/Text';
 import { Opportunity } from 'types/shared';
 import { Slider } from 'components/Slider';
-import { theme } from 'theme';
 import { Button } from 'components/Button';
 import { useDistributor } from 'hooks/useDistributor';
 import { OppoortunityImage } from 'components/OpportunityImage';
@@ -20,6 +18,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   opportunity,
 }) => {
   const [coverDuration, setCoverDuration] = React.useState<number>(365);
+  const [coverAmount, setCoverAmount] = React.useState('1');
   const { buyCover } = useDistributor();
 
   return (
@@ -41,7 +40,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               <ul>
                 {opportunity?.associtatedCoverable?.supportedChains?.map(
                   (chain) => (
-                    <li>{chain}</li>
+                    <li key={chain}>{chain}</li>
                   )
                 )}
               </ul>
@@ -54,6 +53,10 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             px="1.75em"
             sx={{ borderRadius: 'large' }}
           >
+            <input
+              onChange={(e) => setCoverAmount(e.target.value)}
+              value={coverAmount}
+            />
             <Slider
               min={30}
               max={365}
@@ -82,9 +85,9 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
           onClick={() =>
             buyCover(
               opportunity.nexusAddress,
-              { period: 111 },
+              { period: coverDuration },
               '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-              '1'
+              coverAmount
             )
           }
         >

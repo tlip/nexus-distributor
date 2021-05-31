@@ -149,6 +149,7 @@ export const fetchYearnRates = async (): Promise<OpportunityShell[]> => {
         symbol: market?.symbol,
         fixed: false,
         opportunityAsset: {},
+        nexusAddress: '0x9d25057e62939d3408406975ad75ffe834da4cdd',
         imageUrl: market?.vaultIcon,
         underlyingAssets: [market?.tokenAddress],
         rawApr: +market?.apy?.apyOneMonthSample.toFixed(2),

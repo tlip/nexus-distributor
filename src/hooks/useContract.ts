@@ -5,10 +5,6 @@ import { useActiveWeb3React } from './web3';
 import { getContract } from '../utils/web3';
 import DISTRIBUTOR_ABI from '../constants/abi/Distributor.json';
 
-const library = new ethers.providers.JsonRpcProvider(
-  'https://mainnet.infura.io/v3/c3db76b9d752406094ae1501ad143f4d'
-);
-
 // returns null on errors
 export function useContract(
   address: string | undefined,

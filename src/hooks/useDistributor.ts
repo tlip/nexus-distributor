@@ -1,16 +1,21 @@
 import { ChainId } from '@uniswap/sdk';
 import { fetchSignedQuote } from 'client';
-import { BigNumber, Contract, ethers } from 'ethers';
-import { useCallback, useEffect, useState } from 'react';
-import { useAsyncSignedQuote } from 'state/hooks';
+import { ethers } from 'ethers';
+import { useCallback } from 'react';
 import { useDistributorContract } from './useContract';
 import useActiveWeb3React from './web3';
 
-export const useDistributor = () => {
-  const { account, chainId } = useActiveWeb3React();
-  const [allowance, setAllowance] = useState('0');
+export const useDistributor = (): {
+  buyCover: (
+    contractAddress: string,
+    coverData: any,
+    currency: string,
+    amount: string
+  ) => Promise<ethers.Transaction>;
+} => {
+  const { chainId } = useActiveWeb3React();
+  // const [allowance, setAllowance] = useState('0');
   const distributorContract = useDistributorContract(true); //withSigner
-  //   const [signedQuote, fetchSignedQuote] = useAsyncSignedQuote();
 
   const buyCover = useCallback(
     async (
@@ -21,21 +26,29 @@ export const useDistributor = () => {
     ) => {
       let networkBasedAddress;
       let signedQuote;
+      let period;
       if (chainId === ChainId.KOVAN) {
+        // hardcode data on kovan for testing
+        console.log('calling kovan');
         networkBasedAddress = '0xc57d000000000000000000000000000000000002';
+        period = 111;
         signedQuote = await fetchSignedQuote(
           parseFloat(amount),
           'ETH',
-          coverData.period,
+          period,
           networkBasedAddress
         );
       } else {
+        console.log('calling mainnet');
         signedQuote = await fetchSignedQuote(
           parseFloat(amount),
-          'ETH',
+          currency === '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+            ? 'ETH'
+            : 'DAI',
           coverData.period,
           contractAddress
         );
+        period = coverData.period;
       }
 
       console.log(signedQuote);
@@ -56,8 +69,8 @@ export const useDistributor = () => {
 
         const tx = distributorContract?.buyCover(
           networkBasedAddress,
-          currency,
-          ethers.utils.parseEther('1'),
+          '0xc4375b7de8af5a38a93548eb8453a498222c4ff2',
+          ethers.utils.parseEther(amount),
           111,
           0, // cover type
           signedQuote.price,
@@ -66,13 +79,13 @@ export const useDistributor = () => {
             value: signedQuote.price,
           }
         );
+        return tx;
       }
     },
     [distributorContract]
   );
 
   return {
-    allowance,
     buyCover,
   };
 };

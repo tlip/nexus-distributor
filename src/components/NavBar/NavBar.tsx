@@ -46,7 +46,9 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
       <PageContentWrapper>
         <img src={NexusLogo} alt="Nexus Mutual" />
       </PageContentWrapper>
-      <Button onClick={() => activate(injected)} />
+      <Button onClick={() => activate(injected)}>
+        {active && account ? 'Connected' : 'Connect'}
+      </Button>
     </StyledNavBar>
   );
 };
