@@ -96,8 +96,8 @@ export const fetchCreamRates = async (): Promise<OpportunityShell[]> => {
           decimals: 18,
         },
         underlyingAssets: [market.underlyingAddress],
-        nexusAddress: '0x3d5BC3c8d13dcB8bF317092d84783c2697AE9258',
-        // Approximation for how much the compound supply rate undershoots the actual # of blocks per year
+        nexusAddress: '0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b',
+        // Approximation for how much the cream supply rate undershoots the actual # of blocks per year
         rawApr: +(market.supplyRate * 1.15 * 100).toFixed(2),
       };
     })
@@ -170,9 +170,20 @@ export const fetchCurveRates = async (): Promise<OpportunityShell> => {
 
 export const fetchCapacities = async (): Promise<any> => {
   const { data } = await axios.get('https://api.nexusmutual.io/v1/capacities');
+  const { data: coverables } = await axios.get(
+    'https://api.nexusmutual.io/coverables/contracts.json'
+  );
   const capacityWithCost = data.map((capacity: any) => {
+    const associatedCoverable =
+      coverables[
+        Object.keys(coverables).find(
+          (coverable) =>
+            coverable.toLowerCase() === capacity.contractAddress.toLowerCase()
+        ) || '0x0'
+      ];
     return {
       ...capacity,
+      associatedCoverable,
       coverCost: getYearlyCost(capacity.netStakedNXM),
     };
   });

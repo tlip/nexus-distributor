@@ -28,12 +28,22 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
       accordionChildren={
         <Flex width="100%" justifyContent="flex-between">
           <Box width="50%">
-            <Box width="50%">
+            <Box width="100%">
               <Text>What's covered:</Text>
               <ul>
                 <li>Contract bugs</li>
                 <li>Economic attacks, including oracle failures</li>
                 <li>Governance attacks</li>
+              </ul>
+            </Box>
+            <Box width="50%">
+              <Text>Supported chains:</Text>
+              <ul>
+                {opportunity?.associtatedCoverable?.supportedChains?.map(
+                  (chain) => (
+                    <li>{chain}</li>
+                  )
+                )}
               </ul>
             </Box>
           </Box>

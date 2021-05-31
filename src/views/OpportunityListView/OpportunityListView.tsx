@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import styled from '@emotion/styled/macro';
 
 import { Box } from 'components/Box';
@@ -31,22 +31,29 @@ export const OpportunityListView: React.FC = () => {
     fetchSignedQuote('0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b');
   }, []);
 
-  console.log(rates, 'SIGNED QUOTE');
-
-  const ratesWithCosts = rates.map((rate) => {
-    // find capacity data for contract
-    const associatedCoverageData = capacities.find(
-      (capacity) => capacity.contractAddress === rate.nexusAddress
-    );
-    return {
-      ...(rate as OpportunityShell),
-      coverCost: associatedCoverageData?.coverCost,
-      capacity: {
-        capacityETH: BigNumber.from(associatedCoverageData?.capacityETH || 0),
-        capacityDAI: BigNumber.from(associatedCoverageData?.capacityDAI || 0),
-      },
-    };
-  });
+  const ratesWithCosts = useMemo(
+    () =>
+      rates.map((rate) => {
+        // find capacity data for contract
+        const associatedCoverageData = capacities.find(
+          (capacity) => capacity.contractAddress === rate.nexusAddress
+        );
+        return {
+          ...(rate as OpportunityShell),
+          coverCost: associatedCoverageData?.coverCost,
+          capacity: {
+            capacityETH: BigNumber.from(
+              associatedCoverageData?.capacityETH || 0
+            ),
+            capacityDAI: BigNumber.from(
+              associatedCoverageData?.capacityDAI || 0
+            ),
+          },
+          associtatedCoverable: associatedCoverageData?.associatedCoverable,
+        };
+      }),
+    [rates, capacities]
+  );
 
   return (
     <OpportunityListViewContainer>

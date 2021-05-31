@@ -47,6 +47,11 @@ export interface Opportunity {
     capcityETH: BigNumber;
     capacityDAI: BigNumber;
   };
+  associtatedCoverable: {
+    dateAdded: Date;
+    name: string;
+    supportedChains: string[];
+  };
   nexusAddress: string;
   coverCost?: number;
   imageUrl?: string;

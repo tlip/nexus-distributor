@@ -2,17 +2,18 @@
 import React from 'react';
 import { ethers } from 'ethers';
 import { Image } from 'rebass';
-import axios from 'axios';
 
 export const OppoortunityImage: React.FC<{
   protocol: string;
   asset?: string;
 }> = ({ protocol, asset }) => {
   let protocolImage;
+
   try {
     protocolImage = require(`../assets/logos/${protocol}-logo.svg`)?.default;
   } catch {
-    protocolImage = require(`../assets/logos/cream-logo.svg`)?.default;
+    protocolImage =
+      'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
   }
   const imageUrl = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${
     ethers.utils.isAddress(asset || '')
@@ -29,6 +30,8 @@ export const OppoortunityImage: React.FC<{
           borderRadius: 50,
         }}
         onError={(e) => {
+          // Uses a fallback image when token image unavailable
+          // TO DO: Move this to a local image
           //@ts-ignore
           e.target.src =
             'https://icons.getbootstrap.com/assets/icons/question-circle.svg';

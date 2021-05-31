@@ -29,7 +29,6 @@ export const useDistributor = () => {
           coverData.period,
           networkBasedAddress
         );
-        // fetchSignedQuote(networkBasedAddress);
       } else {
         signedQuote = await fetchSignedQuote(
           parseFloat(amount),
@@ -40,10 +39,6 @@ export const useDistributor = () => {
       }
 
       console.log(signedQuote);
-      //   } else {
-      //     networkBasedAddress = contractAddress;
-      //     fetchSignedQuote(networkBasedAddress);
-      //   }
 
       if (signedQuote && networkBasedAddress) {
         const encodedSignedQuote = ethers.utils.defaultAbiCoder.encode(
