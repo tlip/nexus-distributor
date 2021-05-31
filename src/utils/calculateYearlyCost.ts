@@ -1,5 +1,6 @@
 import Decimal from 'decimal.js-light';
-import { parseUnits } from '@ethersproject/units';
+import { ethers, BigNumber } from 'ethers';
+// import { parseUnits, BigNumber } from '@ethersproject/units';
 
 const max = (a: Decimal, b: Decimal) => (a.gt(b) ? a : b);
 
@@ -7,7 +8,7 @@ const DAYS_PER_YEAR = new Decimal('365.25');
 const SURPLUS = 0.3; // 30%
 const COVER_PRICE_SURPLUS_MARGIN = new Decimal(SURPLUS);
 
-export const calculateRisk = (netStakedNxm: any) => {
+export const calculateRisk = (netStakedNxm: Decimal): Decimal => {
   const STAKED_HIGH_RISK_COST = new Decimal(100);
   const LOW_RISK_COST_LIMIT_NXM = new Decimal(50000).mul('1e18');
   const PRICING_EXPONENT = new Decimal(7);
@@ -22,10 +23,10 @@ export const calculateRisk = (netStakedNxm: any) => {
 };
 
 export const calculatePrice = (
-  coverAmount: any,
-  netStakedNxm: any,
-  coverPeriod: any
-) => {
+  coverAmount: string,
+  netStakedNxm: string,
+  coverPeriod: number
+): BigNumber => {
   const coverAmountDecimal = new Decimal(coverAmount || '0');
   const netStakedNxmDecimal = new Decimal(netStakedNxm);
   const coverPeriodDecimal = new Decimal(coverPeriod || '0');
@@ -37,10 +38,13 @@ export const calculatePrice = (
     .mul(surplusMultiplier)
     .div(DAYS_PER_YEAR);
 
-  return parseUnits(pricePerDay.mul(coverPeriodDecimal).toFixed(18), 18);
+  return ethers.utils.parseUnits(
+    pricePerDay.mul(coverPeriodDecimal).toFixed(18),
+    18
+  );
 };
 
-export const getYearlyCost = (netStaked: any) => {
+export const getYearlyCost = (netStaked: string): number => {
   return (
     calculateRisk(
       // If netStaked starts with - it's a quote-api calcualtion error.
