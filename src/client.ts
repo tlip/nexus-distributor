@@ -6,7 +6,7 @@ import { getYearlyCost } from './utils/calculateYearlyCost';
 
 const GRAPH_BASE_URL = 'https://api.thegraph.com/subgraphs/name';
 const BANCOR_BASE_URL = 'https://api-v2.bancor.network';
-const YEARN_BASE_URL = 'https://dev-api.yearn.tools';
+const YEARN_BASE_URL = 'https://api.yearn.tools';
 // ASK IN CURVE DISCORD FOR REAL API ENDPOINT
 const CURVE_BASE_URL = 'https://curvemarketcap.com/datatable.json';
 
@@ -20,6 +20,7 @@ const aaveQuery = gql`
       # id is atoken address
       id
       name
+      decimals
       liquidityRate
       liquidityIndex
       symbol
@@ -41,6 +42,8 @@ const compoundQuery = gql`
       name
       supplyRate
       symbol
+      underlyingName
+      underlyingDecimals
       underlyingSymbol
       underlyingAddress
     }
@@ -58,22 +61,28 @@ export const fetchCompoundRates = async (): Promise<OpportunityShell[]> => {
     .map((market: any) => {
       return {
         protocol: protocols['compound'],
-        displayName: `Compound ${market.symbol}`,
-        symbol: market.symbol,
+        displayName: `Compound ${market?.symbol}`,
+        symbol: market?.symbol,
         fixed: false,
         opportunityAsset: {
-          name: 'test',
-          symbol: market.underlyingSymbol,
-          address: market.underlyingAddress,
+          symbol: market?.symbol,
+          address: market?.id,
+          // all ctokens have 18 decimals
           decimals: 18,
         },
-        underlyingAssets: [market.underlyingAddress],
+        underlyingAssets: [
+          {
+            symbol: market?.underlyingSymbol,
+            address: market?.underlyingAddress,
+            decimals: market?.underlyingDecimals,
+          },
+        ],
         nexusAddress: '0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b',
         // Approximation for how much the compound supply rate undershoots the actual # of blocks per year
-        rawApr: +(market.supplyRate * 1.15 * 100).toFixed(2),
+        rawApr: +(market?.supplyRate * 1.15 * 100).toFixed(2),
       };
     })
-    .filter((m: any) => m.rawApr > 0);
+    .filter((m: any) => m?.rawApr > 0);
   return opportunites;
 };
 
@@ -90,12 +99,18 @@ export const fetchCreamRates = async (): Promise<OpportunityShell[]> => {
         symbol: market.symbol,
         fixed: false,
         opportunityAsset: {
-          name: 'test',
-          symbol: market.underlyingSymbol,
-          address: market.underlyingAddress,
+          symbol: market?.symbol,
+          address: market?.id,
+          // all crtokens have 18 decimals
           decimals: 18,
         },
-        underlyingAssets: [market.underlyingAddress],
+        underlyingAssets: [
+          {
+            symbol: market?.underlyingSymbol,
+            address: market?.underlyingAddress,
+            decimals: market?.underlyingDecimals,
+          },
+        ],
         nexusAddress: '0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b',
         // Approximation for how much the cream supply rate undershoots the actual # of blocks per year
         rawApr: +(market.supplyRate * 1.15 * 100).toFixed(2),
@@ -119,13 +134,20 @@ export const fetchAaveRates = async (): Promise<OpportunityShell[]> => {
         symbol: market.symbol,
         fixed: false,
         opportunityAsset: {
-          address: market.aToken.id,
-          name: 'Aave Dai',
-          symbol: 'aDai',
-          decimals: 18,
+          address: market?.aToken?.id,
+          name: `Aave ${market?.symbol}`,
+          symbol: `a${market?.symbol}`,
+          decimals: market?.decimals,
         },
         nexusAddress: '0x7d2768de32b0b80b7a3454c06bdac94a69ddc7a9',
-        underlyingAssets: [market.aToken.underlyingAssetAddress],
+        underlyingAssets: [
+          {
+            address: market?.aToken.underlyingAssetAddress,
+            symbol: market?.symbol,
+            name: market?.name,
+            decimals: market?.decimals,
+          },
+        ],
         // liquidity rate is expressed in ray (10e27) instead of wei (10e18)
         rawApr: +(market.liquidityRate / 10 ** 25).toFixed(2),
       };
@@ -148,10 +170,21 @@ export const fetchYearnRates = async (): Promise<OpportunityShell[]> => {
         displayName: `${market?.name} Vault`,
         symbol: market?.symbol,
         fixed: false,
-        opportunityAsset: {},
+        opportunityAsset: {
+          address: market?.address,
+          symbol: market?.symbolAlias,
+          decimals: market?.decimals,
+          imageUrl: market?.vaultIcon,
+        },
+        underlyingAssets: [
+          {
+            address: market?.tokenAddress,
+            name: market?.tokenName,
+            Symbol: market?.tokenSYmbol,
+          },
+        ],
         nexusAddress: '0x9d25057e62939d3408406975ad75ffe834da4cdd',
         imageUrl: market?.vaultIcon,
-        underlyingAssets: [market?.tokenAddress],
         rawApr: +market?.apy?.apyOneMonthSample.toFixed(2),
       };
     })

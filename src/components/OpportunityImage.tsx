@@ -6,7 +6,8 @@ import { Image } from 'rebass';
 export const OppoortunityImage: React.FC<{
   protocol: string;
   asset?: string;
-}> = ({ protocol, asset }) => {
+  staticImageUrl?: string;
+}> = ({ protocol, asset, staticImageUrl }) => {
   let protocolImage;
 
   try {
@@ -15,11 +16,13 @@ export const OppoortunityImage: React.FC<{
     protocolImage =
       'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
   }
-  const imageUrl = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${
-    ethers.utils.isAddress(asset || '')
-      ? ethers.utils.getAddress(asset || '0x0')
-      : '0x0'
-  }/logo.png`;
+  const imageUrl = staticImageUrl
+    ? staticImageUrl
+    : `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${
+        ethers.utils.isAddress(asset || '')
+          ? ethers.utils.getAddress(asset || '0x0')
+          : '0x0'
+      }/logo.png`;
 
   return (
     <>

@@ -7,6 +7,7 @@ import { Text } from 'components/Text';
 import { Opportunity } from 'types/shared';
 import { Slider } from 'components/Slider';
 import { Button } from 'components/Button';
+import spinner from '../../../assets/images/spinner.svg';
 import { useDistributor } from 'hooks/useDistributor';
 import { OppoortunityImage } from 'components/OpportunityImage';
 
@@ -19,7 +20,10 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
 }) => {
   const [coverDuration, setCoverDuration] = React.useState<number>(365);
   const [coverAmount, setCoverAmount] = React.useState('1');
+  const [loadingTx, setLoadingTx] = React.useState(false);
   const { buyCover } = useDistributor();
+  const coverAvailable =
+    +coverAmount < +(opportunity?.capacity?.capacityETH?.toString() || '0');
 
   return (
     <AccordionCard
@@ -66,16 +70,29 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               onChange={setCoverDuration}
             />
             <Button
-              onClick={() =>
-                buyCover(
-                  opportunity.nexusAddress,
-                  { period: coverDuration },
-                  '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-                  coverAmount
-                )
-              }
+              disabled={!coverAvailable}
+              width="120px"
+              onClick={async () => {
+                setLoadingTx(true);
+                try {
+                  await buyCover(
+                    opportunity.nexusAddress,
+                    { period: coverDuration },
+                    '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+                    coverAmount
+                  );
+                } finally {
+                  setLoadingTx(false);
+                }
+              }}
             >
-              Buy Cover
+              {coverAvailable && !loadingTx ? (
+                'Buy Cover'
+              ) : loadingTx ? (
+                <img src={spinner} width="20" height="20" />
+              ) : (
+                'Cover Unavailable'
+              )}
             </Button>
           </Box>
         </Flex>
@@ -83,8 +100,9 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
     >
       <Box width="50%">
         <OppoortunityImage
-          asset={opportunity?.underlyingAssets?.[0]}
+          asset={opportunity?.underlyingAssets?.[0].address}
           protocol={opportunity.protocol.name}
+          staticImageUrl={opportunity.opportunityAsset.imageUrl}
         />
         <Text>{opportunity.displayName}</Text>
         <Text>{opportunity.rawApr}</Text>

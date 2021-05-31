@@ -28,9 +28,9 @@ export interface Protocol {
 }
 
 export interface Token {
-  name: string;
+  name?: string;
   symbol: string;
-  decimals: number;
+  decimals?: number;
   address: string;
   imageUrl?: string;
 }
@@ -40,11 +40,11 @@ export interface Opportunity {
   symbol: string;
   protocol: Protocol;
   opportunityAsset: Token;
-  underlyingAssets?: string[];
+  underlyingAssets?: Token[];
   rawApr: BigNumber;
   active: boolean;
-  capactity?: {
-    capcityETH: BigNumber;
+  capacity?: {
+    capacityETH: BigNumber;
     capacityDAI: BigNumber;
   };
   associtatedCoverable: {
@@ -58,4 +58,4 @@ export interface Opportunity {
   fixed: boolean;
 }
 
-export type OpportunityShell = Omit<Opportunity, 'capactity' | 'coverCost'>;
+export type OpportunityShell = Omit<Opportunity, 'capacity' | 'coverCost'>;
