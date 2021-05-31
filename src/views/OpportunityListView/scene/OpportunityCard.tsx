@@ -65,6 +65,18 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               step={1}
               onChange={setCoverDuration}
             />
+            <Button
+              onClick={() =>
+                buyCover(
+                  opportunity.nexusAddress,
+                  { period: coverDuration },
+                  '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+                  coverAmount
+                )
+              }
+            >
+              Buy Cover
+            </Button>
           </Box>
         </Flex>
       }
@@ -81,18 +93,6 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
         {opportunity?.coverCost && (
           <Text>{+opportunity.rawApr - +opportunity?.coverCost}</Text>
         )}
-        <Button
-          onClick={() =>
-            buyCover(
-              opportunity.nexusAddress,
-              { period: coverDuration },
-              '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-              coverAmount
-            )
-          }
-        >
-          Buy Cover
-        </Button>
       </Box>
     </AccordionCard>
   );

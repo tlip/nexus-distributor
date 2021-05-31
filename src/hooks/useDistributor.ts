@@ -69,7 +69,7 @@ export const useDistributor = (): {
 
         const tx = distributorContract?.buyCover(
           networkBasedAddress,
-          '0xc4375b7de8af5a38a93548eb8453a498222c4ff2',
+          currency,
           ethers.utils.parseEther(amount),
           111,
           0, // cover type
