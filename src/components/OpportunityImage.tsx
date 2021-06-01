@@ -11,7 +11,7 @@ export const OppoortunityImage: React.FC<{
   let protocolImage;
 
   try {
-    protocolImage = require(`../assets/logos/${protocol}-logo.svg`)?.default;
+    protocolImage = require(`../assets/images/${protocol}-logo.svg`)?.default;
   } catch {
     protocolImage =
       'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
