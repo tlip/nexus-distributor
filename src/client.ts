@@ -61,7 +61,7 @@ export const fetchCompoundRates = async (): Promise<OpportunityShell[]> => {
     .map((market: any) => {
       return {
         protocol: protocols['compound'],
-        displayName: `Compound ${market?.symbol}`,
+        displayName: `Compound ${market?.underlyingSymbol}`,
         symbol: market?.symbol,
         fixed: false,
         opportunityAsset: {
@@ -95,7 +95,7 @@ export const fetchCreamRates = async (): Promise<OpportunityShell[]> => {
     .map((market: any) => {
       return {
         protocol: protocols['cream'],
-        displayName: `Cream ${market.symbol}`,
+        displayName: `Cream ${market.underlyingSymbol}`,
         symbol: market.symbol,
         fixed: false,
         opportunityAsset: {
