@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled/macro';
+import { Button } from 'rebass';
 import { Flex, FlexProps } from 'components/Flex/Flex';
 import { PageContentWrapper } from 'components/PageContentWrapper';
-import NexusLogo from 'assets/logos/nexus-mutual-logo.svg';
+import NexusLogo from 'assets/images/nexus-mutual-logo.svg';
+import { injected } from '../../connectors';
+import { useWeb3React } from '@web3-react/core';
 
 export interface NavBarProps extends FlexProps {}
 
@@ -24,6 +27,7 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
   const [lastScrollTop, setlastScrollTop] = React.useState<number>(
     document.documentElement.scrollTop
   );
+  const { activate, active, account } = useWeb3React();
 
   const hideNavBar = () => {
     const documentScrolled = document.documentElement.scrollTop;
@@ -42,6 +46,9 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
       <PageContentWrapper>
         <img src={NexusLogo} alt="Nexus Mutual" />
       </PageContentWrapper>
+      <Button onClick={() => activate(injected)}>
+        {active && account ? 'Connected' : 'Connect'}
+      </Button>
     </StyledNavBar>
   );
 };

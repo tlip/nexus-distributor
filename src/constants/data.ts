@@ -13,4 +13,8 @@ export const protocols: { [key: string]: Protocol } = {
     name: 'yearn',
     executionUrl: 'https://yearn.finance/vaults',
   },
+  cream: {
+    name: 'cream',
+    executionUrl: 'https://app.cream.finance',
+  },
 };

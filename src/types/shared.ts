@@ -28,24 +28,34 @@ export interface Protocol {
 }
 
 export interface Token {
-  name: string;
+  name?: string;
   symbol: string;
-  decimals: number;
+  decimals?: number;
   address: string;
   imageUrl?: string;
 }
 
 export interface Opportunity {
   displayName: string;
-  symbol?: string;
+  symbol: string;
   protocol: Protocol;
   opportunityAsset: Token;
-  underlyingAssets: Token[];
+  underlyingAssets?: Token[];
   rawApr: BigNumber;
   active: boolean;
-  capactity?: BigNumber;
-  coverCost?: BigNumber;
+  capacity?: {
+    capacityETH: BigNumber;
+    capacityDAI: BigNumber;
+  };
+  associtatedCoverable: {
+    dateAdded: Date;
+    name: string;
+    supportedChains: string[];
+  };
+  nexusAddress: string;
+  coverCost?: number;
+  imageUrl?: string;
   fixed: boolean;
 }
 
-export type OpportunityShell = Omit<Opportunity, 'capactity' | 'coverCost'>;
+export type OpportunityShell = Omit<Opportunity, 'capacity' | 'coverCost'>;
