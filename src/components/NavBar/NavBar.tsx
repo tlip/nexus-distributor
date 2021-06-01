@@ -3,7 +3,7 @@ import styled from '@emotion/styled/macro';
 import { Button } from 'rebass';
 import { Flex, FlexProps } from 'components/Flex/Flex';
 import { PageContentWrapper } from 'components/PageContentWrapper';
-import NexusLogo from 'assets/logos/nexus-mutual-logo.svg';
+import NexusLogo from 'assets/images/nexus-mutual-logo.svg';
 import { injected } from '../../connectors';
 import { useWeb3React } from '@web3-react/core';
 
