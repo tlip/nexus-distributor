@@ -32,8 +32,10 @@ export const application = createSlice({
   name: 'application',
   initialState: {
     rates: [] as OpportunityShell[],
-    capaicites: [] as any[],
+    capacities: [] as any[],
     signedQuote: undefined,
+    loadingRates: false,
+    loadingCapacities: false,
   },
   reducers: {},
   extraReducers: {
@@ -42,8 +44,16 @@ export const application = createSlice({
       state.rates = action.payload;
     },
     // @ts-ignore
+    [fetchCapacities.pending]: (state) => {
+      state.loadingCapacities = true;
+    },
+    // @ts-ignore
+    [fetchRates.pending]: (state) => {
+      state.loadingRates = true;
+    },
+    // @ts-ignore
     [fetchCapacities.fulfilled]: (state, action) => {
-      state.capaicites = action.payload;
+      state.capacities = action.payload;
     },
     // @ts-ignore
     [fetchSignedQuote.fulfilled]: (state, action) => {

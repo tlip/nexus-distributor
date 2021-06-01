@@ -12,6 +12,7 @@ import { useAsyncRates, useAsyncCapacities } from 'state/hooks';
 import { Opportunity, OpportunityShell } from 'types/shared';
 import { protocols } from 'constants/data';
 import { BigNumber } from '@ethersproject/bignumber';
+import Skeleton from 'react-loading-skeleton';
 
 const OpportunityListViewContainer = styled(Box)({
   width: 'clamp(100%, 100%, 100%)',
@@ -64,8 +65,6 @@ export const OpportunityListView: React.FC = () => {
           : true
       );
   }, [rates, capacities, filterCriteria]);
-
-  console.log(ratesWithCosts);
 
   const availableTokens = useMemo(() => {
     return [
@@ -138,13 +137,21 @@ export const OpportunityListView: React.FC = () => {
           width={['100%', '100%', '100%', 'calc(50% - 0.75em)']}
         ></Card>
       </Flex>
-      {rates.length &&
+      {ratesWithCosts.length ? (
         ratesWithCosts.map((opportunity: Opportunity) => (
           <OpportunityCard
             key={`${opportunity.displayName}-${opportunity.rawApr}`}
             opportunity={opportunity}
           />
-        ))}
+        ))
+      ) : (
+        <Skeleton
+          width="100%"
+          height="109px"
+          style={{ borderRadius: '20px', margin: '20px 0' }}
+          count={10}
+        />
+      )}
     </OpportunityListViewContainer>
   );
 };

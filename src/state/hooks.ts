@@ -17,17 +17,23 @@ export const useAsyncRates = () => {
   const rates: OpportunityShell[] = useAppSelector(
     (state) => state.application.rates
   );
+  const loadingRates = useAppSelector(
+    (state) => state.application.loadingRates
+  );
   const fetchRates = () => dispatch(fetchRatesAction());
-  return [rates, fetchRates] as const;
+  return [rates, fetchRates, loadingRates] as const;
 };
 
 export const useAsyncCapacities = () => {
   const dispatch = useAppDispatch();
   const capacities: any[] = useAppSelector(
-    (state) => state.application.capaicites
+    (state) => state.application.capacities
   );
   const fetchCapacities = () => dispatch(fetchCapacitiesAction());
-  return [capacities, fetchCapacities] as const;
+  const loadingCapacities = useAppSelector(
+    (state) => state.application.loadingCapacities
+  );
+  return [capacities, fetchCapacities, loadingCapacities] as const;
 };
 
 export const useAsyncSignedQuote = () => {
