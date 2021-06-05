@@ -244,7 +244,6 @@ export const fetchAllRates = async (): Promise<OpportunityShell[]> => {
     fetchAaveRates(),
     fetchYearnRates(),
     fetchCreamRates(),
-    fetchCreamRates(),
   ]);
   return [...compoundRates, ...aaveRates, ...yearnRates, ...creamRates].sort(
     (a, b) => +b.rawApr - +a.rawApr

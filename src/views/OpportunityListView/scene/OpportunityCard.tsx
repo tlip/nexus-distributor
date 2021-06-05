@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
+import styled from '@emotion/styled/macro';
+import { Link, Image } from 'rebass';
+import { useThemeUI } from 'theme-ui';
 import { AccordionCard } from 'components/AccordionCard';
 import { Flex } from 'components/Flex';
 import { Box } from 'components/Box';
@@ -14,6 +17,47 @@ import { OppoortunityImage } from 'components/OpportunityImage';
 interface OpportunityCardProps {
   opportunity: Opportunity;
 }
+
+const ProtocolBadgeContainer = styled(Box)`
+  display: inline-flex;
+  justify-content: space-around;
+  align-items: center;
+  text-transform: capitalize;
+  border-radius: 4px;
+`;
+
+const ProtocolBadge: React.FC<{ name: string }> = ({ name }) => {
+  let protocolImage;
+
+  try {
+    protocolImage = require(`../../../assets/images/${name}.png`)?.default;
+  } catch {
+    protocolImage =
+      'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
+  }
+
+  return (
+    <ProtocolBadgeContainer
+      width="160px"
+      backgroundColor="#dbdbdb"
+      margin="10px"
+      padding="10px"
+    >
+      <Image
+        height={24}
+        onError={(e) => {
+          // Uses a fallback image when token image unavailable
+          // TO DO: Move this to a local image
+          //@ts-ignore
+          e.target.src =
+            'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
+        }}
+        src={protocolImage}
+      />
+      <Text>{name}</Text>
+    </ProtocolBadgeContainer>
+  );
+};
 
 export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   opportunity,
@@ -31,23 +75,42 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
       accordionChildren={
         <Flex width="100%" justifyContent="flex-between">
           <Box width="50%">
-            <Box width="100%">
+            <Box width="90%">
               <Text>What's covered:</Text>
               <ul>
                 <li>Contract bugs</li>
                 <li>Economic attacks, including oracle failures</li>
                 <li>Governance attacks</li>
               </ul>
-            </Box>
-            <Box width="50%">
-              <Text>Supported chains:</Text>
-              <ul>
+              <Text sx={{ display: 'block' }}>Supported chains:</Text>
+              <div>
                 {opportunity?.associtatedCoverable?.supportedChains?.map(
                   (chain) => (
-                    <li key={chain}>{chain}</li>
+                    <ProtocolBadge key={chain} name={chain} />
                   )
                 )}
+              </div>
+              <Text>Claiming:</Text>
+              <ul>
+                <li>
+                  You must provide proof of the incurred loss at claim time.
+                </li>
+                <li>
+                  You should wait 72 hours after the event, so assessors have
+                  all details to make a decision.
+                </li>
+                <li>
+                  You can claim up to 35 days after the cover period expires,
+                  given your cover was active when the incident happened.
+                </li>
               </ul>
+              <Link
+                href="https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Read full details here
+              </Link>
             </Box>
           </Box>
           <Box
