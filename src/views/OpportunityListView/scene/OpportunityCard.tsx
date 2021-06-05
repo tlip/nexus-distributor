@@ -13,6 +13,7 @@ import { Button } from 'components/Button';
 import spinner from '../../../assets/images/spinner.svg';
 import { useDistributor } from 'hooks/useDistributor';
 import { OppoortunityImage } from 'components/OpportunityImage';
+import { ethers } from 'ethers';
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
@@ -24,6 +25,10 @@ const ProtocolBadgeContainer = styled(Box)`
   align-items: center;
   text-transform: capitalize;
   border-radius: 4px;
+`;
+
+const List = styled.ul`
+  margin: 0;
 `;
 
 const ProtocolBadge: React.FC<{ name: string }> = ({ name }) => {
@@ -66,8 +71,13 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   const [coverAmount, setCoverAmount] = React.useState('1');
   const [loadingTx, setLoadingTx] = React.useState(false);
   const { buyCover } = useDistributor();
-  const coverAvailable =
-    +coverAmount < +(opportunity?.capacity?.capacityETH?.toString() || '0');
+  const capacityEthDisplay = (+ethers.utils.formatEther(
+    opportunity?.capacity?.capacityETH?.toString() || '0'
+  )).toFixed(2);
+  const capacityDaiDisplay = (+ethers.utils.formatEther(
+    opportunity?.capacity?.capacityDAI?.toString() || '0'
+  )).toFixed(2);
+  const coverAvailable = +coverAmount < +capacityEthDisplay;
 
   return (
     <AccordionCard
@@ -76,13 +86,24 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
         <Flex width="100%" justifyContent="flex-between">
           <Box width="50%">
             <Box width="90%">
-              <Text>What's covered:</Text>
-              <ul>
-                <li>Contract bugs</li>
-                <li>Economic attacks, including oracle failures</li>
-                <li>Governance attacks</li>
-              </ul>
-              <Text sx={{ display: 'block' }}>Supported chains:</Text>
+              <Text fontSize="14px">What's covered:</Text>
+              <List>
+                <li>
+                  <Text fontSize="14px">Contract bug</Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">
+                    Economic attacks, including oracle failures
+                  </Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">Governance attacks</Text>
+                </li>
+              </List>
+              <br />
+              <Text fontSize="14px" sx={{ display: 'block' }}>
+                Supported chains:
+              </Text>
               <div>
                 {opportunity?.associtatedCoverable?.supportedChains?.map(
                   (chain) => (
@@ -90,20 +111,27 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                   )
                 )}
               </div>
-              <Text>Claiming:</Text>
-              <ul>
+              <br />
+              <Text fontSize="14px">Claiming:</Text>
+              <List>
                 <li>
-                  You must provide proof of the incurred loss at claim time.
+                  <Text fontSize="14px">
+                    You must provide proof of the incurred loss at claim time.
+                  </Text>
                 </li>
                 <li>
-                  You should wait 72 hours after the event, so assessors have
-                  all details to make a decision.
+                  <Text fontSize="14px">
+                    You should wait 72 hours after the event, so assessors have
+                    all details to make a decision.
+                  </Text>
                 </li>
                 <li>
-                  You can claim up to 35 days after the cover period expires,
-                  given your cover was active when the incident happened.
+                  <Text fontSize="14px">
+                    You can claim up to 35 days after the cover period expires,
+                    given your cover was active when the incident happened.
+                  </Text>
                 </li>
-              </ul>
+              </List>
               <Link
                 href="https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf"
                 target="_blank"
@@ -120,6 +148,12 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             px="1.75em"
             sx={{ borderRadius: 'large' }}
           >
+            <Text>
+              Capacity{' '}
+              <strong>
+                {capacityEthDisplay} ETH / DAI {capacityDaiDisplay}
+              </strong>
+            </Text>
             <input
               onChange={(e) => setCoverAmount(e.target.value)}
               value={coverAmount}
@@ -134,7 +168,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             />
             <Button
               disabled={!coverAvailable}
-              width="120px"
+              width="180px"
               onClick={async () => {
                 setLoadingTx(true);
                 try {

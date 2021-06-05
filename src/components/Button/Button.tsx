@@ -32,6 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
   sx = {},
   icon,
   children,
+  disabled,
   ...props
 }) => {
   const { theme } = useThemeUI();
@@ -41,7 +42,13 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <ReButton
       {...{ as, variant, ...props }}
-      sx={{ ...sx, ...(icon ? { pl: '45px', pr: '40px' } : {}) }}
+      sx={{
+        ...sx,
+        ...(icon ? { pl: '45px', pr: '40px' } : {}),
+        ...(disabled
+          ? { background: theme.colors?.textGray, cursor: 'not-allowed' }
+          : {}),
+      }}
     >
       {typeof children !== 'string' ? (
         children
