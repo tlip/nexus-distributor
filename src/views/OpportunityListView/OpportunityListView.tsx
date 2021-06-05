@@ -1,18 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled/macro';
 import { Label, Select } from '@rebass/forms';
+import { BigNumber } from '@ethersproject/bignumber';
+import Skeleton from 'react-loading-skeleton';
 
 import { Box } from 'components/Box';
 import { Flex } from 'components/Flex';
 import { Card } from 'components/Card';
 import { Text } from 'components/Text';
 import { OpportunityCard } from './scene/OpportunityCard';
-
 import { useAsyncRates, useAsyncCapacities } from 'state/hooks';
 import { Opportunity, OpportunityShell } from 'types/shared';
 import { protocols } from 'constants/data';
-import { BigNumber } from '@ethersproject/bignumber';
-import Skeleton from 'react-loading-skeleton';
 
 const OpportunityListViewContainer = styled(Box)({
   width: 'clamp(100%, 100%, 100%)',
@@ -51,7 +50,7 @@ export const OpportunityListView: React.FC = () => {
               associatedCoverageData?.capacityDAI || 0
             ),
           },
-          associtatedCoverable: associatedCoverageData?.associatedCoverable,
+          associatedCoverable: associatedCoverageData?.associatedCoverable,
         };
       })
       .filter((rate) =>
@@ -140,7 +139,7 @@ export const OpportunityListView: React.FC = () => {
       {ratesWithCosts.length ? (
         ratesWithCosts.map((opportunity: Opportunity) => (
           <OpportunityCard
-            key={`${opportunity.displayName}-${opportunity.rawApr}`}
+            key={`${opportunity.displayName}-${opportunity.rawApr}-${opportunity.opportunityAsset}`}
             opportunity={opportunity}
           />
         ))

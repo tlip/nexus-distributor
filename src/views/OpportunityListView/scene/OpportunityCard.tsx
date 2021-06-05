@@ -112,7 +112,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                 Supported chains:
               </Text>
               <div>
-                {opportunity?.associtatedCoverable?.supportedChains?.map(
+                {opportunity?.associatedCoverable?.supportedChains?.map(
                   (chain) => (
                     <ProtocolBadge key={chain} name={chain} />
                   )

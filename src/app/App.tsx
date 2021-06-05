@@ -11,6 +11,7 @@ import { Flex } from 'components/Flex';
 import { NavBar } from 'components/NavBar';
 import { PageContentWrapper } from 'components/PageContentWrapper';
 import { OpportunityListView } from 'views/OpportunityListView';
+import { CoverListView } from 'views/CoverListView';
 
 import { theme } from 'theme';
 import { env } from 'config/env';
@@ -52,7 +53,8 @@ export const App: React.FC = () => (
               <AppContainer id="page-content">
                 <PageContentWrapper>
                   <Switch>
-                    <Route path="/" component={OpportunityListView} />
+                    <Route path="/" exact component={OpportunityListView} />
+                    <Route path="/cover" exact component={CoverListView} />
                   </Switch>
                 </PageContentWrapper>
               </AppContainer>
