@@ -2,7 +2,6 @@
 import React from 'react';
 import styled from '@emotion/styled/macro';
 import { Link, Image } from 'rebass';
-import { useThemeUI } from 'theme-ui';
 import { AccordionCard } from 'components/AccordionCard';
 import { Flex } from 'components/Flex';
 import { Box } from 'components/Box';
