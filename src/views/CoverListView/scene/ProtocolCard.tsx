@@ -1,24 +1,19 @@
 import React from 'react';
 import styled from '@emotion/styled/macro';
-import { Link, Image } from 'rebass';
+import { Link } from 'rebass';
 import { AccordionCard } from 'components/AccordionCard';
 import { Flex } from 'components/Flex';
 import { Box } from 'components/Box';
 import { Text } from 'components/Text';
-import { Opportunity, ProtocolOption } from 'types/shared';
-import { Slider } from 'components/Slider';
-import { Button } from 'components/Button';
+import { ProtocolOption } from 'types/shared';
+// import { Slider } from 'components/Slider';
+// import { Button } from 'components/Button';
 import { ProtocolBadge } from 'components/ProtocolBadge';
-import spinner from '../../../assets/images/spinner.svg';
-import { useDistributor } from 'hooks/useDistributor';
-import { OppoortunityImage } from 'components/OpportunityImage';
-import { ethers } from 'ethers';
-import { calculatePrice } from 'utils/calculateYearlyCost';
-
-interface OpportunityCardProps {
-  opportunity: Opportunity;
-}
-
+// import spinner from '../../../assets/images/spinner.svg';
+// import { useDistributor } from 'hooks/useDistributor';
+// import { OppoortunityImage } from 'components/OpportunityImage';
+// import { ethers } from 'ethers';
+// import { calculatePrice } from 'utils/calculateYearlyCost';
 const List = styled.ul`
   margin: 0;
 `;
