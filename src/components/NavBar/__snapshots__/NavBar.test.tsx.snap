@@ -3,7 +3,7 @@
 exports[`NavBar component should render without crashing 1`] = `
 <div>
   <nav
-    class="css-1d17zal-Flex-StyledNavBar e791bbv0"
+    class="css-jionz6-Flex-StyledNavBar e791bbv0"
   >
     <div
       class="css-zzvsmz-Box-PageContentWrapper eq3nwli0"
@@ -12,6 +12,16 @@ exports[`NavBar component should render without crashing 1`] = `
         alt="Nexus Mutual"
         src="nexus-mutual-logo.svg"
       />
+      <a
+        href="/"
+      >
+        Protected Yields
+      </a>
+      <a
+        href="/cover"
+      >
+        All Protocols
+      </a>
     </div>
     <button
       class="css-qme8zs"

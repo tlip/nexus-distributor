@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
+import styled from '@emotion/styled/macro';
+import { Link, Image } from 'rebass';
 import { AccordionCard } from 'components/AccordionCard';
 import { Flex } from 'components/Flex';
 import { Box } from 'components/Box';
@@ -10,10 +12,57 @@ import { Button } from 'components/Button';
 import spinner from '../../../assets/images/spinner.svg';
 import { useDistributor } from 'hooks/useDistributor';
 import { OppoortunityImage } from 'components/OpportunityImage';
+import { ethers } from 'ethers';
+import { calculatePrice } from 'utils/calculateYearlyCost';
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
 }
+
+const ProtocolBadgeContainer = styled(Box)`
+  display: inline-flex;
+  justify-content: space-around;
+  align-items: center;
+  text-transform: capitalize;
+  border-radius: 4px;
+`;
+
+const List = styled.ul`
+  margin: 0;
+`;
+
+const ProtocolBadge: React.FC<{ name: string }> = ({ name }) => {
+  let protocolImage;
+
+  try {
+    protocolImage = require(`../../../assets/images/${name}.png`)?.default;
+  } catch {
+    protocolImage =
+      'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
+  }
+
+  return (
+    <ProtocolBadgeContainer
+      width="160px"
+      backgroundColor="#dbdbdb"
+      margin="10px"
+      padding="10px"
+    >
+      <Image
+        height={24}
+        onError={(e) => {
+          // Uses a fallback image when token image unavailable
+          // TO DO: Move this to a local image
+          //@ts-ignore
+          e.target.src =
+            'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
+        }}
+        src={protocolImage}
+      />
+      <Text>{name}</Text>
+    </ProtocolBadgeContainer>
+  );
+};
 
 export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   opportunity,
@@ -22,8 +71,20 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   const [coverAmount, setCoverAmount] = React.useState('1');
   const [loadingTx, setLoadingTx] = React.useState(false);
   const { buyCover } = useDistributor();
-  const coverAvailable =
-    +coverAmount < +(opportunity?.capacity?.capacityETH?.toString() || '0');
+  const capacityEthDisplay = (+ethers.utils.formatEther(
+    opportunity?.capacity?.capacityETH?.toString() || '0'
+  )).toFixed(2);
+  const capacityDaiDisplay = (+ethers.utils.formatEther(
+    opportunity?.capacity?.capacityDAI?.toString() || '0'
+  )).toFixed(2);
+  const coverAvailable = +coverAmount < +capacityEthDisplay;
+  const coverCost = (+ethers.utils.formatEther(
+    calculatePrice(
+      coverAmount,
+      opportunity?.capacity?.capacityETH?.toString() || '0',
+      coverDuration
+    )
+  )).toFixed(2);
 
   return (
     <AccordionCard
@@ -31,23 +92,60 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
       accordionChildren={
         <Flex width="100%" justifyContent="flex-between">
           <Box width="50%">
-            <Box width="100%">
-              <Text>What's covered:</Text>
-              <ul>
-                <li>Contract bugs</li>
-                <li>Economic attacks, including oracle failures</li>
-                <li>Governance attacks</li>
-              </ul>
-            </Box>
-            <Box width="50%">
-              <Text>Supported chains:</Text>
-              <ul>
-                {opportunity?.associtatedCoverable?.supportedChains?.map(
+            <Box width="90%">
+              <Text fontSize="14px">What's covered:</Text>
+              <List>
+                <li>
+                  <Text fontSize="14px">Contract bug</Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">
+                    Economic attacks, including oracle failures
+                  </Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">Governance attacks</Text>
+                </li>
+              </List>
+              <br />
+              <Text fontSize="14px" sx={{ display: 'block' }}>
+                Supported chains:
+              </Text>
+              <div>
+                {opportunity?.associatedCoverable?.supportedChains?.map(
                   (chain) => (
-                    <li key={chain}>{chain}</li>
+                    <ProtocolBadge key={chain} name={chain} />
                   )
                 )}
-              </ul>
+              </div>
+              <br />
+              <Text fontSize="14px">Claiming:</Text>
+              <List>
+                <li>
+                  <Text fontSize="14px">
+                    You must provide proof of the incurred loss at claim time.
+                  </Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">
+                    You should wait 72 hours after the event, so assessors have
+                    all details to make a decision.
+                  </Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">
+                    You can claim up to 35 days after the cover period expires,
+                    given your cover was active when the incident happened.
+                  </Text>
+                </li>
+              </List>
+              <Link
+                href="https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Read full details here
+              </Link>
             </Box>
           </Box>
           <Box
@@ -57,6 +155,12 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             px="1.75em"
             sx={{ borderRadius: 'large' }}
           >
+            <Text>
+              Capacity{' '}
+              <strong>
+                {capacityEthDisplay} ETH / DAI {capacityDaiDisplay}
+              </strong>
+            </Text>
             <input
               onChange={(e) => setCoverAmount(e.target.value)}
               value={coverAmount}
@@ -69,9 +173,16 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               step={1}
               onChange={setCoverDuration}
             />
+            <Text>
+              Cost to Cover{' '}
+              <strong>
+                {coverAmount} ETH for {coverDuration} days
+              </strong>
+              <em>{coverCost} ETH</em>
+            </Text>
             <Button
               disabled={!coverAvailable}
-              width="120px"
+              width="180px"
               onClick={async () => {
                 setLoadingTx(true);
                 try {
@@ -104,7 +215,9 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
           protocol={opportunity.protocol.name}
           staticImageUrl={opportunity.opportunityAsset.imageUrl}
         />
-        <Text>{opportunity.displayName}</Text>
+        <Text style={{ marginLeft: '1rem', textTransform: 'capitalize' }}>
+          {opportunity.displayName}
+        </Text>
         <Text>{opportunity.rawApr}</Text>
         <Text>{opportunity.coverCost}</Text>
         <br />

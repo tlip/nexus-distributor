@@ -1,0 +1,1 @@
+export { CoverListView } from './CoverListView';

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled/macro';
 import { Button } from 'rebass';
 import { Flex, FlexProps } from 'components/Flex/Flex';
@@ -45,6 +46,8 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
     <StyledNavBar as="nav" sx={{ transform: `translateY(${y}%)` }} {...props}>
       <PageContentWrapper>
         <img src={NexusLogo} alt="Nexus Mutual" />
+        <Link to="/">Protected Yields</Link>
+        <Link to="/cover">All Protocols</Link>
       </PageContentWrapper>
       <Button onClick={() => activate(injected)}>
         {active && account ? 'Connected' : 'Connect'}

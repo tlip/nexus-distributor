@@ -1,0 +1,189 @@
+import React from 'react';
+import styled from '@emotion/styled/macro';
+import { Link } from 'rebass';
+import { AccordionCard } from 'components/AccordionCard';
+import { Flex } from 'components/Flex';
+import { Box } from 'components/Box';
+import { Text } from 'components/Text';
+import { ProtocolOption } from 'types/shared';
+// import { Slider } from 'components/Slider';
+// import { Button } from 'components/Button';
+import { ProtocolBadge } from 'components/ProtocolBadge';
+// import spinner from '../../../assets/images/spinner.svg';
+// import { useDistributor } from 'hooks/useDistributor';
+// import { OppoortunityImage } from 'components/OpportunityImage';
+// import { ethers } from 'ethers';
+// import { calculatePrice } from 'utils/calculateYearlyCost';
+const List = styled.ul`
+  margin: 0;
+`;
+
+export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
+  protocol,
+}) => {
+  // const [coverDuration, setCoverDuration] = React.useState<number>(365);
+  // const [coverAmount, setCoverAmount] = React.useState('1');
+  // const [loadingTx, setLoadingTx] = React.useState(false);
+  // const { buyCover } = useDistributor();
+  // const capacityEthDisplay = (+ethers.utils.formatEther(
+  //   opportunity?.capacity?.capacityETH?.toString() || '0'
+  // )).toFixed(2);
+  // const capacityDaiDisplay = (+ethers.utils.formatEther(
+  //   opportunity?.capacity?.capacityDAI?.toString() || '0'
+  // )).toFixed(2);
+  // const coverAvailable = +coverAmount < +capacityEthDisplay;
+  // const coverCost = (+ethers.utils.formatEther(
+  //   calculatePrice(
+  //     coverAmount,
+  //     opportunity?.capacity?.capacityETH?.toString() || '0',
+  //     coverDuration
+  //   )
+  // )).toFixed(2);
+
+  return (
+    <AccordionCard
+      mb="2em"
+      accordionChildren={
+        <Flex width="100%" justifyContent="flex-between">
+          <Box width="50%">
+            <Box width="90%">
+              <Text fontSize="14px">What's covered:</Text>
+              <List>
+                <li>
+                  <Text fontSize="14px">Contract bug</Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">
+                    Economic attacks, including oracle failures
+                  </Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">Governance attacks</Text>
+                </li>
+              </List>
+              <br />
+              {protocol?.associatedCoverable?.supportedChains?.length && (
+                <>
+                  <Text fontSize="14px" sx={{ display: 'block' }}>
+                    Supported chains:
+                  </Text>
+                  <div>
+                    {protocol?.associatedCoverable?.supportedChains?.map(
+                      (chain) => (
+                        <ProtocolBadge key={chain} name={chain} />
+                      )
+                    )}
+                  </div>
+                </>
+              )}
+              <br />
+              <Text fontSize="14px">Claiming:</Text>
+              <List>
+                <li>
+                  <Text fontSize="14px">
+                    You must provide proof of the incurred loss at claim time.
+                  </Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">
+                    You should wait 72 hours after the event, so assessors have
+                    all details to make a decision.
+                  </Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">
+                    You can claim up to 35 days after the cover period expires,
+                    given your cover was active when the incident happened.
+                  </Text>
+                </li>
+              </List>
+              <Link
+                href="https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Read full details here
+              </Link>
+            </Box>
+            {/* <Box
+          width="50%"
+          bg="tertiary"
+          py="1.5em"
+          px="1.75em"
+          sx={{ borderRadius: 'large' }}
+        >
+          <Text>
+            Capacity{' '}
+            <strong>
+              {capacityEthDisplay} ETH / DAI {capacityDaiDisplay}
+            </strong>
+          </Text>
+          <input
+            onChange={(e) => setCoverAmount(e.target.value)}
+            value={coverAmount}
+          />
+          <Slider
+            min={30}
+            max={365}
+            value={coverDuration}
+            valueSuffix="DAYS"
+            step={1}
+            onChange={setCoverDuration}
+          />
+          <Text>
+            Cost to Cover{' '}
+            <strong>
+              {coverAmount} ETH for {coverDuration} days
+            </strong>
+            <em>{coverCost} ETH</em>
+          </Text>
+          <Button
+            disabled={!coverAvailable}
+            width="180px"
+            onClick={async () => {
+              setLoadingTx(true);
+              try {
+                await buyCover(
+                  opportunity.nexusAddress,
+                  { period: coverDuration },
+                  '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+                  coverAmount
+                );
+              } finally {
+                setLoadingTx(false);
+              }
+            }}
+          >
+            {coverAvailable && !loadingTx ? (
+              'Buy Cover'
+            ) : loadingTx ? (
+              <img src={spinner} width="20" height="20" />
+            ) : (
+              'Cover Unavailable'
+            )}
+          </Button>*/}
+          </Box>
+        </Flex>
+      }
+    >
+      <Box width="50%">
+        {protocol?.associatedCoverable?.name}
+        {protocol?.associatedCoverable?.type}
+        {/* <OppoortunityImage
+          asset={opportunity?.underlyingAssets?.[0].address}
+          protocol={opportunity.protocol.name}
+          staticImageUrl={opportunity.opportunityAsset.imageUrl}
+        />
+        <Text style={{ marginLeft: '1rem', textTransform: 'capitalize' }}>
+          {opportunity.displayName}
+        </Text>
+        <Text>{opportunity.rawApr}</Text>
+        <Text>{opportunity.coverCost}</Text>
+        <br />
+        {opportunity?.coverCost && (
+          <Text>{+opportunity.rawApr - +opportunity?.coverCost}</Text>
+        )} */}
+      </Box>
+    </AccordionCard>
+  );
+};

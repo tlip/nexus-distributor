@@ -2,26 +2,14 @@ import { BigNumber } from 'ethers';
 
 //  github.com/NexusMutual/static-data/blob/master/contracts-metadata/contracts.json
 
-// ~Asset~
-// id: string (address)
-// symbol: string
-//
+type CoverageType = 'protocol' | 'token';
 
-// ~Opportunity~
-// Protocol: string
-// Name: string
-// Underlying assets: [Assets]
-// Yield Data
-// Cover Data
-
-// ~Yield Data~
-// apr
-// fixed/variable
-
-// Cover Data
-// Cost of Coverage
-// Cover Capacity
-
+interface Coverable {
+  dateAdded: Date;
+  name: string;
+  type: CoverageType;
+  supportedChains: string[];
+}
 export interface Protocol {
   name: string;
   executionUrl: string;
@@ -33,6 +21,15 @@ export interface Token {
   decimals?: number;
   address: string;
   imageUrl?: string;
+}
+
+export interface ProtocolOption {
+  associatedCoverable: Coverable;
+  capacityDAI: BigNumber;
+  capacityETH: BigNumber;
+  contractAddress: string;
+  coverCost: number;
+  netStakedNxm: BigNumber;
 }
 
 export interface Opportunity {
@@ -47,11 +44,7 @@ export interface Opportunity {
     capacityETH: BigNumber;
     capacityDAI: BigNumber;
   };
-  associtatedCoverable: {
-    dateAdded: Date;
-    name: string;
-    supportedChains: string[];
-  };
+  associatedCoverable: Coverable;
   nexusAddress: string;
   coverCost?: number;
   imageUrl?: string;

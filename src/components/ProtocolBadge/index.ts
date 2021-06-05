@@ -1,0 +1,1 @@
+export { ProtocolBadge } from './ProtocolBadge';
