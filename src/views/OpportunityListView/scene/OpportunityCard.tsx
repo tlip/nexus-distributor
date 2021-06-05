@@ -14,6 +14,7 @@ import spinner from '../../../assets/images/spinner.svg';
 import { useDistributor } from 'hooks/useDistributor';
 import { OppoortunityImage } from 'components/OpportunityImage';
 import { ethers } from 'ethers';
+import { calculatePrice } from 'utils/calculateYearlyCost';
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
@@ -78,6 +79,13 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
     opportunity?.capacity?.capacityDAI?.toString() || '0'
   )).toFixed(2);
   const coverAvailable = +coverAmount < +capacityEthDisplay;
+  const coverCost = (+ethers.utils.formatEther(
+    calculatePrice(
+      coverAmount,
+      opportunity?.capacity?.capacityETH?.toString() || '0',
+      coverDuration
+    )
+  )).toFixed(2);
 
   return (
     <AccordionCard
@@ -166,6 +174,13 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               step={1}
               onChange={setCoverDuration}
             />
+            <Text>
+              Cost to Cover{' '}
+              <strong>
+                {coverAmount} ETH for {coverDuration} days
+              </strong>
+              <em>{coverCost} ETH</em>
+            </Text>
             <Button
               disabled={!coverAvailable}
               width="180px"
@@ -201,7 +216,9 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
           protocol={opportunity.protocol.name}
           staticImageUrl={opportunity.opportunityAsset.imageUrl}
         />
-        <Text>{opportunity.displayName}</Text>
+        <Text style={{ marginLeft: '1rem', textTransform: 'capitalize' }}>
+          {opportunity.displayName}
+        </Text>
         <Text>{opportunity.rawApr}</Text>
         <Text>{opportunity.coverCost}</Text>
         <br />
