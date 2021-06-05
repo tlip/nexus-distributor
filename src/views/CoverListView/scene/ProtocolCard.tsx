@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
 import styled from '@emotion/styled/macro';
 import { Link, Image } from 'rebass';
@@ -9,6 +8,7 @@ import { Text } from 'components/Text';
 import { Opportunity, ProtocolOption } from 'types/shared';
 import { Slider } from 'components/Slider';
 import { Button } from 'components/Button';
+import { ProtocolBadge } from 'components/ProtocolBadge';
 import spinner from '../../../assets/images/spinner.svg';
 import { useDistributor } from 'hooks/useDistributor';
 import { OppoortunityImage } from 'components/OpportunityImage';
@@ -19,50 +19,9 @@ interface OpportunityCardProps {
   opportunity: Opportunity;
 }
 
-const ProtocolBadgeContainer = styled(Box)`
-  display: inline-flex;
-  justify-content: space-around;
-  align-items: center;
-  text-transform: capitalize;
-  border-radius: 4px;
-`;
-
 const List = styled.ul`
   margin: 0;
 `;
-
-const ProtocolBadge: React.FC<{ name: string }> = ({ name }) => {
-  let protocolImage;
-
-  try {
-    protocolImage = require(`../../../assets/images/${name}.png`)?.default;
-  } catch {
-    protocolImage =
-      'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
-  }
-
-  return (
-    <ProtocolBadgeContainer
-      width="160px"
-      backgroundColor="#dbdbdb"
-      margin="10px"
-      padding="10px"
-    >
-      <Image
-        height={24}
-        onError={(e) => {
-          // Uses a fallback image when token image unavailable
-          // TO DO: Move this to a local image
-          //@ts-ignore
-          e.target.src =
-            'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
-        }}
-        src={protocolImage}
-      />
-      <Text>{name}</Text>
-    </ProtocolBadgeContainer>
-  );
-};
 
 export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
   protocol,
@@ -91,64 +50,67 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
       mb="2em"
       accordionChildren={
         <Flex width="100%" justifyContent="flex-between">
-          {/* <Box width="50%">
-          <Box width="90%">
-            <Text fontSize="14px">What's covered:</Text>
-            <List>
-              <li>
-                <Text fontSize="14px">Contract bug</Text>
-              </li>
-              <li>
-                <Text fontSize="14px">
-                  Economic attacks, including oracle failures
-                </Text>
-              </li>
-              <li>
-                <Text fontSize="14px">Governance attacks</Text>
-              </li>
-            </List>
-            <br />
-            <Text fontSize="14px" sx={{ display: 'block' }}>
-              Supported chains:
-            </Text>
-            <div>
-              {opportunity?.associtatedCoverable?.supportedChains?.map(
-                (chain) => (
-                  <ProtocolBadge key={chain} name={chain} />
-                )
+          <Box width="50%">
+            <Box width="90%">
+              <Text fontSize="14px">What's covered:</Text>
+              <List>
+                <li>
+                  <Text fontSize="14px">Contract bug</Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">
+                    Economic attacks, including oracle failures
+                  </Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">Governance attacks</Text>
+                </li>
+              </List>
+              <br />
+              {protocol?.associatedCoverable?.supportedChains?.length && (
+                <>
+                  <Text fontSize="14px" sx={{ display: 'block' }}>
+                    Supported chains:
+                  </Text>
+                  <div>
+                    {protocol?.associatedCoverable?.supportedChains?.map(
+                      (chain) => (
+                        <ProtocolBadge key={chain} name={chain} />
+                      )
+                    )}
+                  </div>
+                </>
               )}
-            </div>
-            <br />
-            <Text fontSize="14px">Claiming:</Text>
-            <List>
-              <li>
-                <Text fontSize="14px">
-                  You must provide proof of the incurred loss at claim time.
-                </Text>
-              </li>
-              <li>
-                <Text fontSize="14px">
-                  You should wait 72 hours after the event, so assessors have
-                  all details to make a decision.
-                </Text>
-              </li>
-              <li>
-                <Text fontSize="14px">
-                  You can claim up to 35 days after the cover period expires,
-                  given your cover was active when the incident happened.
-                </Text>
-              </li>
-            </List>
-            <Link
-              href="https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Read full details here
-            </Link>
-          </Box>
-        </Box>
-        <Box
+              <br />
+              <Text fontSize="14px">Claiming:</Text>
+              <List>
+                <li>
+                  <Text fontSize="14px">
+                    You must provide proof of the incurred loss at claim time.
+                  </Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">
+                    You should wait 72 hours after the event, so assessors have
+                    all details to make a decision.
+                  </Text>
+                </li>
+                <li>
+                  <Text fontSize="14px">
+                    You can claim up to 35 days after the cover period expires,
+                    given your cover was active when the incident happened.
+                  </Text>
+                </li>
+              </List>
+              <Link
+                href="https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Read full details here
+              </Link>
+            </Box>
+            {/* <Box
           width="50%"
           bg="tertiary"
           py="1.5em"
@@ -204,13 +166,14 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
             ) : (
               'Cover Unavailable'
             )}
-          </Button>
-        </Box> */}
+          </Button>*/}
+          </Box>
         </Flex>
       }
     >
       <Box width="50%">
         {protocol?.associatedCoverable?.name}
+        {protocol?.associatedCoverable?.type}
         {/* <OppoortunityImage
           asset={opportunity?.underlyingAssets?.[0].address}
           protocol={opportunity.protocol.name}
