@@ -89,14 +89,23 @@ export const OpportunityListView: React.FC = () => {
           'space-between',
         ]}
       >
-        <Card
+        <Flex
+          as={Card}
           height={['unset', 'unset', 'unset', '4em']}
           width={['100%', '100%', '100%', 'calc(50% - 0.75em)']}
           mb={['1.675em', '1.675em', '1.675em', 0]}
         >
           <Box width="150px">
-            <Label>Protocol</Label>
+            <Label
+              htmlFor="filter-protocols"
+              height="0"
+              width="0"
+              sx={{ display: 'block', overflow: 'hidden' }}
+            >
+              Protocol
+            </Label>
             <Select
+              id="filter-protocols"
               defaultValue="All Protocols"
               onChange={(e) =>
                 setFilterCriteria(
@@ -106,15 +115,25 @@ export const OpportunityListView: React.FC = () => {
                 )
               }
             >
-              <option>All Protocols</option>
+              <option value="All Protocols">All Protocols</option>
               {Object.keys(protocols).map((key) => (
-                <option key={key}>{key}</option>
+                <option key={key} value={key}>
+                  {key}
+                </option>
               ))}
             </Select>
           </Box>
           <Box width="150px">
-            <Label>Token</Label>
+            <Label
+              htmlFor="filter-tokens"
+              height="0"
+              width="0"
+              sx={{ display: 'block', overflow: 'hidden' }}
+            >
+              Token
+            </Label>
             <Select
+              id="filter-tokens"
               defaultValue="All Tokens"
               onChange={(e) =>
                 setFilterCriteria(
@@ -124,13 +143,15 @@ export const OpportunityListView: React.FC = () => {
                 )
               }
             >
-              <option>All Tokens</option>
+              <option value="All Tokens">All Tokens</option>
               {availableTokens.map((key) => (
-                <option key={key}>{key}</option>
+                <option key={key} value={key}>
+                  {key}
+                </option>
               ))}
             </Select>
           </Box>
-        </Card>
+        </Flex>
         <Card
           height={['unset', 'unset', 'unset', '4em']}
           width={['100%', '100%', '100%', 'calc(50% - 0.75em)']}
