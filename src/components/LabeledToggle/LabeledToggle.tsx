@@ -50,10 +50,14 @@ export const LabeledToggle: React.FC<LabeledToggleProps> = ({
 
   return (
     <Box {...props} sx={{ display: 'inline-block' }}>
-      <Flex bg="border" sx={{ position: 'relative', borderRadius: 30 }}>
+      <Flex
+        height={25}
+        bg="border"
+        sx={{ position: 'relative', borderRadius: 30 }}
+      >
         <Box
           width={1 / options.length}
-          height={22}
+          height={25}
           sx={{
             zIndex: 0,
             borderRadius: 30,
