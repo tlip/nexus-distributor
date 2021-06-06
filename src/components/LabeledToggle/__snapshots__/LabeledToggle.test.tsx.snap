@@ -6,10 +6,10 @@ exports[`LabeledToggle component should render without crashing 1`] = `
     class="css-kfjvd0-Box e1gx7u5e0"
   >
     <div
-      class="css-13cwxhp-Flex e11m02v90"
+      class="css-1jgxuxm-Flex e11m02v90"
     >
       <div
-        class="css-dud788-Box e1gx7u5e0"
+        class="css-1nn3lhg-Box e1gx7u5e0"
       />
       <label
         class="css-1sqqpw8"

@@ -11,7 +11,7 @@ exports[`AccordionCard component should render without crashing 1`] = `
       I'm an AccordionCard
     </div>
     <div
-      class="css-13c21tb-Box-AccordionSection ensqiqr0"
+      class="css-1nym9fy-Box-AccordionSection ensqiqr0"
     >
       Sup
     </div>
