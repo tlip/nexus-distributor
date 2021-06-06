@@ -275,7 +275,7 @@ export const Slider: React.FC<SliderProps> = ({
         />
         <SliderTrack
           sx={{
-            bg: disabled ? 'text.secondary' : 'primary.main',
+            bg: disabled ? 'textGray' : 'primary',
             width: position,
           }}
         />
