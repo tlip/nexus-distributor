@@ -172,8 +172,13 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
     <AccordionCard
       mb="2em"
       accordionChildren={
-        <Flex width="100%" justifyContent="flex-between">
-          <Box width="50%">
+        <Flex
+          width="100%"
+          justifyContent={['flex-start', 'flex-start', 'flex-between']}
+          flexDirection={['column-reverse', 'column-reverse', 'row']}
+          alignItems="center"
+        >
+          <Box width={['100%', '100%', '50%']}>
             <Box width="90%">
               <Text fontSize="14px">What's covered:</Text>
               <List>
@@ -231,10 +236,11 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             </Box>
           </Box>
           <Box
-            width="50%"
+            width={['100%', '100%', '50%']}
             bg="tertiary"
             py="1.5em"
             px="1.75em"
+            mb={['1.25em', '1.25em', 0]}
             sx={{
               border: '1px solid',
               borderColor: 'border',
@@ -258,11 +264,16 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             <Flex
               mt="1.25em"
               mb="0.5em"
-              justifyContent="space-between"
               width="100%"
-              alignItems="center"
+              justifyContent={['flex-start', 'flex-start', 'space-between']}
+              alignItems={['flex-start', 'flex-start', 'center']}
+              flexDirection={['column', 'column', 'row']}
             >
-              <Flex alignItems="center" width="calc(70% - 0.75em)">
+              <Flex
+                alignItems="center"
+                width={['100%', '100%', 'calc(70% - 0.75em)']}
+                mb={['1.25em', '1.25em', 0]}
+              >
                 <Box>
                   <Text
                     variant="caption1"
@@ -297,7 +308,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                   </Input>
                 </Flex>
               </Flex>
-              <Flex>
+              <Flex mb={['0.5em', '0.5em', 0]}>
                 <Box>
                   <Text
                     variant="caption1"
@@ -329,9 +340,10 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             />
             <Flex
               width="100%"
-              justifyContent="space-between"
-              alignItems="center"
               mt="1.25em"
+              justifyContent={['flex-start', 'flex-start', 'space-between']}
+              alignItems={['flex-start', 'flex-start', 'center']}
+              flexDirection={['column', 'column', 'row']}
             >
               <Text
                 variant="caption1"

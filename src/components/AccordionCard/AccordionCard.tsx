@@ -27,7 +27,6 @@ export interface AccordionCardProps extends CardProps {
 const AccordionSection = styled(Box)((props: any) => ({
   background: props.theme.colors.secondary,
   width: '100%',
-  padding: `${+!!props.expanded * 1.5}em 2.625em`,
   margin: '1.25em 0 0',
   overflow: 'hidden',
   maxHeight: props.expanded ? '1000px' : '0px',
@@ -52,7 +51,13 @@ export const AccordionCard: React.FC<AccordionCardProps> = ({
         {render ? render({ expanded, setExpanded }) : null}
         {children}
       </Box>
-      <AccordionSection {...{ expanded }}>{accordionChildren}</AccordionSection>
+      <AccordionSection
+        {...{ expanded }}
+        py={`${+!!expanded * 1.5}em`}
+        px={['1.25em', '1.25em', '2.625em']}
+      >
+        {accordionChildren}
+      </AccordionSection>
       <Flex
         width="100%"
         alignItems="center"
