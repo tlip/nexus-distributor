@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Image component should render without crashing 1`] = `
+<div>
+  <img
+    class="eksinds0 css-c9t40k-Image"
+    src="https://icons.getbootstrap.com/assets/icons/question-circle.svg"
+  />
+</div>
+`;

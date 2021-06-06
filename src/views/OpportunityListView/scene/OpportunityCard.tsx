@@ -10,10 +10,13 @@ import { Opportunity } from 'types/shared';
 import { Slider } from 'components/Slider';
 import { Button } from 'components/Button';
 import spinner from '../../../assets/images/spinner.svg';
+import ShareSVG from 'assets/icons/share-icon.svg';
 import { useDistributor } from 'hooks/useDistributor';
 import { OppoortunityImage } from 'components/OpportunityImage';
 import { ethers } from 'ethers';
 import { calculatePrice } from 'utils/calculateYearlyCost';
+import { ProtocolImage } from 'components/ProtocolImage';
+import { BoxProps } from 'components/Box/Box';
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
@@ -63,6 +66,78 @@ const ProtocolBadge: React.FC<{ name: string }> = ({ name }) => {
     </ProtocolBadgeContainer>
   );
 };
+
+const ProtocolHeader: React.FC<{ protocol: string }> = ({ protocol }) => (
+  <Flex alignItems="center">
+    <ProtocolImage protocol={protocol} mr="0.6em" />
+    <Text variant="caption1">
+      {protocol[0].toUpperCase() + protocol.substr(1)}
+    </Text>
+    <Box bg="blue" px="0.6em" py="0.4em" ml="0.6em" sx={{ borderRadius: 20 }}>
+      <Text
+        variant="caption1"
+        color="white"
+        fontSize="0.5em"
+        lineHeight="0.5em"
+        fontWeight="bold"
+        sx={{ display: 'block' }}
+      >
+        PROTOCOL COVER
+      </Text>
+    </Box>
+    <Box bg="border" px="0.6em" py="0.4em" ml="0.6em" sx={{ borderRadius: 20 }}>
+      <Text
+        variant="caption1"
+        color="text"
+        fontSize="0.5em"
+        lineHeight="0.5em"
+        fontWeight="bold"
+        sx={{ display: 'block' }}
+      >
+        VARIABLE YIELD RATE
+      </Text>
+    </Box>
+  </Flex>
+);
+
+const OpportunityStat: React.FC<
+  BoxProps & {
+    title: string;
+    bold?: boolean;
+  }
+> = ({ title, bold, color, children, ...props }) => (
+  <Flex
+    flexDirection="column"
+    justifyContent="space-around"
+    alignItems="flex-start"
+    {...props}
+  >
+    <Text variant="caption1" color="textLight" fontWeight="semibold">
+      {title}
+    </Text>
+    <Text
+      variant="h3"
+      fontWeight={bold ? 'bold' : 'semibold'}
+      color={color || 'text'}
+    >
+      {children}
+    </Text>
+  </Flex>
+);
+
+const OpportunityTitle: React.FC<{ opportunity: Opportunity }> = ({
+  opportunity,
+}) => (
+  <Flex alignItems="center" mt="1em">
+    <OppoortunityImage
+      asset={opportunity?.underlyingAssets?.[0].address}
+      staticImageUrl={opportunity.opportunityAsset.imageUrl}
+    />
+    <OpportunityStat title={opportunity.displayName} ml="1em">
+      {opportunity.opportunityAsset.symbol}
+    </OpportunityStat>
+  </Flex>
+);
 
 export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   opportunity,
@@ -208,23 +283,71 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
           </Box>
         </Flex>
       }
-    >
-      <Box width="50%">
-        <OppoortunityImage
-          asset={opportunity?.underlyingAssets?.[0].address}
-          protocol={opportunity.protocol.name}
-          staticImageUrl={opportunity.opportunityAsset.imageUrl}
-        />
-        <Text style={{ marginLeft: '1rem', textTransform: 'capitalize' }}>
-          {opportunity.displayName}
-        </Text>
-        <Text>{opportunity.rawApr}</Text>
-        <Text>{opportunity.coverCost}</Text>
-        <br />
-        {opportunity?.coverCost && (
-          <Text>{+opportunity.rawApr - +opportunity?.coverCost}</Text>
-        )}
-      </Box>
-    </AccordionCard>
+      render={({
+        setExpanded,
+      }: {
+        setExpanded: (expanded: boolean) => void;
+      }) => (
+        <Flex
+          justifyContent="space-between"
+          alignItems="center"
+          width="100%"
+          flexWrap="wrap"
+        >
+          <Flex
+            flexDirection="column"
+            justifyContent="space-around"
+            alignItems="flex-start"
+            width="100%"
+            maxWidth={['100%', '100%', 'calc(100% - 300px)']}
+            flexWrap="wrap"
+          >
+            <ProtocolHeader protocol={opportunity.protocol.name} />
+            <Flex flexWrap="wrap" justifyContent="space-between" width="100%">
+              <OpportunityTitle {...{ opportunity }} />
+              <Flex
+                mt="1em"
+                minWidth="375px"
+                maxWidth={['100%', '100%', 'calc(100% - 300px)']}
+              >
+                <OpportunityStat title="Base yield" bold>
+                  {(+opportunity?.rawApr || 0)?.toFixed(2)}%
+                </OpportunityStat>
+                <OpportunityStat
+                  mx={['1.5em', '1.5em', '3em']}
+                  title="Yearly cover cost"
+                  bold
+                >
+                  {(opportunity?.coverCost || 0).toFixed(2)}%
+                </OpportunityStat>
+                <OpportunityStat title="Protected yield" bold color="primary">
+                  {(
+                    (+opportunity?.rawApr || 0) - (opportunity?.coverCost || 0)
+                  ).toFixed(2)}
+                  %
+                </OpportunityStat>
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex
+            flexDirection="column"
+            justifyContent="space-around"
+            alignItems="flex-start"
+            height="5.125em"
+            mt={['1em', '1em', 0]}
+            width={['100%', '100%', '200px']}
+            sx={{ transform: 'translateY(0.5em)' }}
+          >
+            <Button variant="outline" mb="0.4em" width="100%">
+              <Image src={ShareSVG} mr="0.4em" />
+              View Opportunity
+            </Button>
+            <Button onClick={() => setExpanded(true)} mb="0.4em" width="100%">
+              Cover Details
+            </Button>
+          </Flex>
+        </Flex>
+      )}
+    />
   );
 };
