@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LabeledToggle component should render without crashing 1`] = `
+<div>
+  <div
+    class="css-kfjvd0-Box e1gx7u5e0"
+  >
+    <div
+      class="css-13cwxhp-Flex e11m02v90"
+    >
+      <div
+        class="css-dud788-Box e1gx7u5e0"
+      />
+      <label
+        class="css-1sqqpw8"
+      >
+        <div
+          class="css-1vapldj-Box e1gx7u5e0"
+        >
+          <div
+            class="css-vurnku"
+          >
+            <input
+              checked=""
+              class="css-p19g2b"
+              name="test-toggle"
+              type="radio"
+              value="ETH"
+            />
+            <svg
+              aria-hidden="true"
+              class="e1kq5vwd0 css-6fixlf-HiddenRadio"
+              fill="currentcolor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+              />
+            </svg>
+            <svg
+              aria-hidden="true"
+              class="e1kq5vwd0 css-3t972h-HiddenRadio"
+              fill="currentcolor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+              />
+            </svg>
+          </div>
+        </div>
+        <span
+          class="css-10vxvfz"
+        >
+          ETH
+        </span>
+      </label>
+      <label
+        class="css-13ikzin"
+      >
+        <div
+          class="css-1vapldj-Box e1gx7u5e0"
+        >
+          <div
+            class="css-vurnku"
+          >
+            <input
+              class="css-p19g2b"
+              name="test-toggle"
+              type="radio"
+              value="NXM"
+            />
+            <svg
+              aria-hidden="true"
+              class="e1kq5vwd0 css-6fixlf-HiddenRadio"
+              fill="currentcolor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+              />
+            </svg>
+            <svg
+              aria-hidden="true"
+              class="e1kq5vwd0 css-3t972h-HiddenRadio"
+              fill="currentcolor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+              />
+            </svg>
+          </div>
+        </div>
+        <span
+          class="css-1sbz297"
+        >
+          NXM
+        </span>
+      </label>
+    </div>
+  </div>
+</div>
+`;
