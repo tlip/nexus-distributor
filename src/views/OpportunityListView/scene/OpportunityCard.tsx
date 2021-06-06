@@ -284,9 +284,11 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
         </Flex>
       }
       render={({
+        expanded,
         setExpanded,
       }: {
-        setExpanded: (expanded: boolean) => void;
+        setExpanded?: (expanded: boolean) => void;
+        expanded?: boolean;
       }) => (
         <Flex
           justifyContent="space-between"
@@ -342,8 +344,12 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               <Image src={ShareSVG} mr="0.4em" />
               View Opportunity
             </Button>
-            <Button onClick={() => setExpanded(true)} mb="0.4em" width="100%">
-              Cover Details
+            <Button
+              onClick={() => setExpanded?.(!expanded)}
+              mb="0.4em"
+              width="100%"
+            >
+              {expanded ? 'Hide' : 'Show'} Cover Details
             </Button>
           </Flex>
         </Flex>

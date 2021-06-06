@@ -9,7 +9,10 @@ import { Text } from 'components/Text';
 // Type definitions
 export interface AccordionCardProps extends CardProps {
   isExpanded?: boolean;
-  render?: React.FC<{ setExpanded: (expanded: boolean) => void }>;
+  render?: React.FC<{
+    expanded?: boolean;
+    setExpanded?: (expanded: boolean) => void;
+  }>;
   accordionChildren:
     | boolean
     | React.ReactChild
@@ -46,7 +49,7 @@ export const AccordionCard: React.FC<AccordionCardProps> = ({
   return (
     <Card px="0px" pb="0px" width="100%" {...props}>
       <Box mx="1.25em">
-        {render ? render({ setExpanded }) : null}
+        {render ? render({ expanded, setExpanded }) : null}
         {children}
       </Box>
       <AccordionSection {...{ expanded }}>{accordionChildren}</AccordionSection>
