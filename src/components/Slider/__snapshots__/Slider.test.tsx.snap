@@ -9,10 +9,10 @@ exports[`Slider component should render without crashing 1`] = `
       style="transform: translateY(2em);"
     >
       <div
-        class="css-8nr4eu-Box-SliderTrack e191zsha0"
+        class="css-1v48ok8-Box-SliderTrack e191zsha0"
       />
       <div
-        class="css-181if3r-Box-SliderTrack e191zsha0"
+        class="css-1is0662-Box-SliderTrack e191zsha0"
       />
       <div
         class="css-1yuoh2n-SliderThumbContainer e191zsha1"
@@ -25,7 +25,7 @@ exports[`Slider component should render without crashing 1`] = `
             aria-valuemax="156"
             aria-valuemin="25"
             aria-valuenow="5"
-            class=" css-ew9rjb-Box-SliderThumb e191zsha2"
+            class=" css-14sv8fa-Box-SliderThumb e191zsha2"
             max="156"
             min="25"
             role="slider"

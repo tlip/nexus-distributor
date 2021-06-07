@@ -9,7 +9,10 @@ import { Text } from 'components/Text';
 // Type definitions
 export interface AccordionCardProps extends CardProps {
   isExpanded?: boolean;
-  render?: React.FC<{ setExpanded: (expanded: boolean) => void }>;
+  render?: React.FC<{
+    expanded?: boolean;
+    setExpanded?: (expanded: boolean) => void;
+  }>;
   accordionChildren:
     | boolean
     | React.ReactChild
@@ -24,7 +27,6 @@ export interface AccordionCardProps extends CardProps {
 const AccordionSection = styled(Box)((props: any) => ({
   background: props.theme.colors.secondary,
   width: '100%',
-  padding: `${+!!props.expanded * 1.5}em 2.625em`,
   margin: '1.25em 0 0',
   overflow: 'hidden',
   maxHeight: props.expanded ? '1000px' : '0px',
@@ -46,10 +48,16 @@ export const AccordionCard: React.FC<AccordionCardProps> = ({
   return (
     <Card px="0px" pb="0px" width="100%" {...props}>
       <Box mx="1.25em">
-        {render ? render({ setExpanded }) : null}
+        {render ? render({ expanded, setExpanded }) : null}
         {children}
       </Box>
-      <AccordionSection {...{ expanded }}>{accordionChildren}</AccordionSection>
+      <AccordionSection
+        {...{ expanded }}
+        py={`${+!!expanded * 1.5}em`}
+        px={['1.25em', '1.25em', '2.625em']}
+      >
+        {accordionChildren}
+      </AccordionSection>
       <Flex
         width="100%"
         alignItems="center"

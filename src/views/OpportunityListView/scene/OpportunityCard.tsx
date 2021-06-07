@@ -17,6 +17,9 @@ import { ethers } from 'ethers';
 import { calculatePrice } from 'utils/calculateYearlyCost';
 import { ProtocolImage } from 'components/ProtocolImage';
 import { BoxProps } from 'components/Box/Box';
+import { abbreviateNumber } from 'utils/abbreviateNumber';
+import { Input } from 'components/Input';
+import { LabeledToggle } from 'components/LabeledToggle';
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
@@ -142,16 +145,20 @@ const OpportunityTitle: React.FC<{ opportunity: Opportunity }> = ({
 export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   opportunity,
 }) => {
-  const [coverDuration, setCoverDuration] = React.useState<number>(365);
+  const [coverDuration, setCoverDuration] = React.useState<number>(199);
   const [coverAmount, setCoverAmount] = React.useState('1');
   const [loadingTx, setLoadingTx] = React.useState(false);
   const { buyCover } = useDistributor();
-  const capacityEthDisplay = (+ethers.utils.formatEther(
-    opportunity?.capacity?.capacityETH?.toString() || '0'
-  )).toFixed(2);
-  const capacityDaiDisplay = (+ethers.utils.formatEther(
-    opportunity?.capacity?.capacityDAI?.toString() || '0'
-  )).toFixed(2);
+  const capacityEthDisplay = abbreviateNumber(
+    +ethers.utils.formatEther(
+      opportunity?.capacity?.capacityETH?.toString() || '0'
+    )
+  );
+  const capacityDaiDisplay = abbreviateNumber(
+    +ethers.utils.formatEther(
+      opportunity?.capacity?.capacityDAI?.toString() || '0'
+    )
+  );
   const coverAvailable = +coverAmount < +capacityEthDisplay;
   const coverCost = (+ethers.utils.formatEther(
     calculatePrice(
@@ -165,8 +172,13 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
     <AccordionCard
       mb="2em"
       accordionChildren={
-        <Flex width="100%" justifyContent="flex-between">
-          <Box width="50%">
+        <Flex
+          width="100%"
+          justifyContent={['flex-start', 'flex-start', 'flex-between']}
+          flexDirection={['column-reverse', 'column-reverse', 'row']}
+          alignItems="center"
+        >
+          <Box width={['100%', '100%', '50%']}>
             <Box width="90%">
               <Text fontSize="14px">What's covered:</Text>
               <List>
@@ -224,22 +236,99 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             </Box>
           </Box>
           <Box
-            width="50%"
+            width={['100%', '100%', '50%']}
             bg="tertiary"
             py="1.5em"
             px="1.75em"
-            sx={{ borderRadius: 'large' }}
+            mb={['1.25em', '1.25em', 0]}
+            sx={{
+              border: '1px solid',
+              borderColor: 'border',
+              borderRadius: 'large',
+            }}
           >
-            <Text>
+            <Text variant="h6" color="textGray" pb="1.25em">
+              Cost to Cover{' '}
+            </Text>
+            <Text
+              variant="caption1"
+              fontWeight="semibold"
+              sx={{ letterSpacing: '0%' }}
+            >
               Capacity{' '}
               <strong>
-                {capacityEthDisplay} ETH / DAI {capacityDaiDisplay}
+                {abbreviateNumber(+capacityEthDisplay)} ETH /{' '}
+                {capacityDaiDisplay} DAI
               </strong>
             </Text>
-            <input
-              onChange={(e) => setCoverAmount(e.target.value)}
-              value={coverAmount}
-            />
+            <Flex
+              mt="1.25em"
+              mb="0.5em"
+              width="100%"
+              justifyContent={['flex-start', 'flex-start', 'space-between']}
+              alignItems={['flex-start', 'flex-start', 'center']}
+              flexDirection={['column', 'column', 'row']}
+            >
+              <Flex
+                alignItems="center"
+                width={['100%', '100%', 'calc(70% - 0.75em)']}
+                mb={['1.25em', '1.25em', 0]}
+              >
+                <Box>
+                  <Text
+                    variant="caption1"
+                    fontWeight="semibold"
+                    mr="1em"
+                    sx={{ letterSpacing: '0%', whiteSpace: 'nowrap' }}
+                  >
+                    Amount covered
+                  </Text>
+                </Box>
+                <Flex>
+                  <Input
+                    onChange={(e: any) => setCoverAmount(e.target.value)}
+                    value={coverAmount}
+                    width="calc(100% - 60px)"
+                    maxWidth="68px"
+                    style={{
+                      borderRadius: '0.5em 0 0 0.5em',
+                      transform: 'translateX(1px)',
+                    }}
+                  />
+                  <Input
+                    type="select"
+                    defaultValue="ETH"
+                    width="60px"
+                    style={{
+                      borderRadius: '0 0.5em 0.5em 0',
+                    }}
+                  >
+                    <option value="ETH">ETH</option>
+                    <option value="NXM">NXM</option>
+                  </Input>
+                </Flex>
+              </Flex>
+              <Flex mb={['0.5em', '0.5em', 0]}>
+                <Box>
+                  <Text
+                    variant="caption1"
+                    fontWeight="semibold"
+                    mr="1em"
+                    sx={{ letterSpacing: '0%', whiteSpace: 'nowrap' }}
+                  >
+                    Buy with
+                  </Text>
+                </Box>
+                <LabeledToggle
+                  name={`buy-cover-${opportunity?.displayName}`}
+                  options={[
+                    { value: 'ETH', label: 'ETH' },
+                    { value: 'NXM', label: 'NXM' },
+                  ]}
+                  onChange={(e: any) => console.log(e.target?.value)}
+                />
+              </Flex>
+            </Flex>
             <Slider
               min={30}
               max={365}
@@ -247,46 +336,64 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               valueSuffix="DAYS"
               step={1}
               onChange={setCoverDuration}
+              mt="1.25em"
             />
-            <Text>
-              Cost to Cover{' '}
-              <strong>
-                {coverAmount} ETH for {coverDuration} days
-              </strong>
-              <em>{coverCost} ETH</em>
-            </Text>
-            <Button
-              disabled={!coverAvailable}
-              width="180px"
-              onClick={async () => {
-                setLoadingTx(true);
-                try {
-                  await buyCover(
-                    opportunity.nexusAddress,
-                    { period: coverDuration },
-                    '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-                    coverAmount
-                  );
-                } finally {
-                  setLoadingTx(false);
-                }
-              }}
+            <Flex
+              width="100%"
+              mt="1.25em"
+              justifyContent={['flex-start', 'flex-start', 'space-between']}
+              alignItems={['flex-start', 'flex-start', 'center']}
+              flexDirection={['column', 'column', 'row']}
             >
-              {coverAvailable && !loadingTx ? (
-                'Buy Cover'
-              ) : loadingTx ? (
-                <img src={spinner} width="20" height="20" />
-              ) : (
-                'Cover Unavailable'
-              )}
-            </Button>
+              <Text
+                variant="caption1"
+                fontWeight="semibold"
+                sx={{ letterSpacing: '0%' }}
+              >
+                Cost to cover <strong>{coverAmount} ETH</strong> for{' '}
+                <strong>{coverDuration} days</strong>
+              </Text>
+              <Text sx={{ color: 'primary', fontSize: 7, fontWeight: 'bold' }}>
+                {coverCost} ETH
+              </Text>
+            </Flex>
+            <Flex width="100%" justifyContent="center">
+              <Button
+                disabled={!coverAvailable}
+                width="180px"
+                mt="1.25em"
+                onClick={async () => {
+                  setLoadingTx(true);
+                  try {
+                    await buyCover(
+                      opportunity.nexusAddress,
+                      { period: coverDuration },
+                      '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+                      coverAmount
+                    );
+                  } finally {
+                    setLoadingTx(false);
+                  }
+                }}
+              >
+                {coverAvailable && !loadingTx ? (
+                  'Buy Cover'
+                ) : loadingTx ? (
+                  <img src={spinner} width="20" height="20" />
+                ) : (
+                  'Cover Unavailable'
+                )}
+              </Button>
+            </Flex>
           </Box>
         </Flex>
       }
       render={({
+        expanded,
         setExpanded,
       }: {
-        setExpanded: (expanded: boolean) => void;
+        setExpanded?: (expanded: boolean) => void;
+        expanded?: boolean;
       }) => (
         <Flex
           justifyContent="space-between"
@@ -342,8 +449,12 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               <Image src={ShareSVG} mr="0.4em" />
               View Opportunity
             </Button>
-            <Button onClick={() => setExpanded(true)} mb="0.4em" width="100%">
-              Cover Details
+            <Button
+              onClick={() => setExpanded?.(!expanded)}
+              mb="0.4em"
+              width="100%"
+            >
+              {expanded ? 'Hide' : 'Show'} Cover Details
             </Button>
           </Flex>
         </Flex>

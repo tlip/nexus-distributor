@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled/macro';
-import { Label, Select } from '@rebass/forms';
+import { Label } from '@rebass/forms';
 import { BigNumber } from '@ethersproject/bignumber';
 import Skeleton from 'react-loading-skeleton';
 
@@ -12,6 +12,7 @@ import { OpportunityCard } from './scene/OpportunityCard';
 import { useAsyncRates, useAsyncCapacities } from 'state/hooks';
 import { Opportunity, OpportunityShell } from 'types/shared';
 import { protocols } from 'constants/data';
+import { Input } from 'components/Input';
 
 const OpportunityListViewContainer = styled(Box)({
   width: 'clamp(100%, 100%, 100%)',
@@ -75,7 +76,7 @@ export const OpportunityListView: React.FC = () => {
 
   return (
     <OpportunityListViewContainer>
-      <Text as="h1" variant="subhead">
+      <Text as="h1" variant="subhead" pb="2em">
         Protected Yields
       </Text>
       <Flex
@@ -94,8 +95,10 @@ export const OpportunityListView: React.FC = () => {
           height={['unset', 'unset', 'unset', '4em']}
           width={['100%', '100%', '100%', 'calc(50% - 0.75em)']}
           mb={['1.675em', '1.675em', '1.675em', 0]}
+          alignItems="center"
+          justifyContent="space-between"
         >
-          <Box width="150px">
+          <Box width="calc(50% - 0.5em)">
             <Label
               htmlFor="filter-protocols"
               height="0"
@@ -104,10 +107,11 @@ export const OpportunityListView: React.FC = () => {
             >
               Protocol
             </Label>
-            <Select
+            <Input
+              type="select"
               id="filter-protocols"
               defaultValue="All Protocols"
-              onChange={(e) =>
+              onChange={(e: any) =>
                 setFilterCriteria(
                   e.target.value !== 'All Protocols'
                     ? { ...filterCriteria, protocol: e.target.value }
@@ -121,9 +125,9 @@ export const OpportunityListView: React.FC = () => {
                   {key}
                 </option>
               ))}
-            </Select>
+            </Input>
           </Box>
-          <Box width="150px">
+          <Box width="calc(50% - 0.5em)">
             <Label
               htmlFor="filter-tokens"
               height="0"
@@ -132,10 +136,11 @@ export const OpportunityListView: React.FC = () => {
             >
               Token
             </Label>
-            <Select
+            <Input
+              type="select"
               id="filter-tokens"
               defaultValue="All Tokens"
-              onChange={(e) =>
+              onChange={(e: any) =>
                 setFilterCriteria(
                   e.target.value !== 'All Tokens'
                     ? { ...filterCriteria, token: e.target.value }
@@ -149,13 +154,17 @@ export const OpportunityListView: React.FC = () => {
                   {key}
                 </option>
               ))}
-            </Select>
+            </Input>
           </Box>
         </Flex>
-        <Card
+        <Flex
+          as={Card}
           height={['unset', 'unset', 'unset', '4em']}
           width={['100%', '100%', '100%', 'calc(50% - 0.75em)']}
-        ></Card>
+          alignItems="center"
+        >
+          <Input placeholder="Search (E.g. 'Ethereum')" />
+        </Flex>
       </Flex>
       {ratesWithCosts.length ? (
         ratesWithCosts.map((opportunity: Opportunity) => (
