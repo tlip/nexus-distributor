@@ -14,10 +14,8 @@ import ShareSVG from 'assets/icons/share-icon.svg';
 import { useDistributor } from 'hooks/useDistributor';
 import { OppoortunityImage } from 'components/OpportunityImage';
 import { ethers } from 'ethers';
-import { calculatePrice } from 'utils/calculateYearlyCost';
 import { ProtocolImage } from 'components/ProtocolImage';
 import { BoxProps } from 'components/Box/Box';
-import { abbreviateNumber } from 'utils/abbreviateNumber';
 import { Input } from 'components/Input';
 import { LabeledToggle } from 'components/LabeledToggle';
 import { ProtocolBadge } from 'components/ProtocolBadge';
@@ -108,7 +106,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   const [coverDuration, setCoverDuration] = React.useState<number>(365);
   const [coverAmount, setCoverAmount] = React.useState('1');
   const [coverCurrency, setCoverCurrency] = React.useState('ETH');
-  const [paymentCurrency, setPaymentCurrency] = React.useState(coverCurrency);
+  const [, setPaymentCurrency] = React.useState(coverCurrency);
   const [loadingTx, setLoadingTx] = React.useState(false);
   const { buyCover } = useDistributor();
   const capacityEthDisplay = (+ethers.utils.formatEther(
@@ -372,6 +370,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
           </Box>
         </Flex>
       }
+      //@ts-ignore
       render={({
         expanded,
         setExpanded,

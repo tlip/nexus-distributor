@@ -15,8 +15,6 @@ import { ProtocolImage } from 'components/ProtocolImage';
 import spinner from '../../../assets/images/spinner.svg';
 import ShareSVG from 'assets/icons/share-icon.svg';
 import { useDistributor } from 'hooks/useDistributor';
-import { OppoortunityImage } from 'components/OpportunityImage';
-import { calculatePrice } from 'utils/calculateYearlyCost';
 import { LabeledToggle } from 'components/LabeledToggle';
 const List = styled.ul`
   margin: 0;
@@ -73,7 +71,7 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
   const [coverAmount, setCoverAmount] = React.useState('1');
   const [loadingTx, setLoadingTx] = React.useState(false);
   const [coverCurrency, setCoverCurrency] = React.useState('ETH');
-  const [paymentCurrency, setPaymentCurrency] = React.useState(coverCurrency);
+  const [, setPaymentCurrency] = React.useState(coverCurrency);
   const { buyCover } = useDistributor();
   const capacityEthDisplay = (+ethers.utils.formatEther(
     protocol?.capacityETH?.toString() || '0'
@@ -336,6 +334,7 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
           </Box>
         </Flex>
       }
+      //@ts-ignore
       render={({
         expanded,
         setExpanded,
