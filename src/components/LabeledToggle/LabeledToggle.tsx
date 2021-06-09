@@ -40,7 +40,7 @@ export const LabeledToggle: React.FC<LabeledToggleProps> = ({
     if (value) {
       setCurrent(value);
     }
-  }, [value]);
+  }, [value, options]);
 
   const handleChange = (e: any) => {
     const newValue = e.target?.value;
@@ -67,7 +67,7 @@ export const LabeledToggle: React.FC<LabeledToggleProps> = ({
             left: 0,
             transition: '300ms ease-in-out',
             transform: `translateX(${
-              100 * options.findIndex(({ value }) => value === current)
+              100 * (options.findIndex(({ value }) => value === current) || 0)
             }%)`,
           }}
         />
@@ -82,6 +82,7 @@ export const LabeledToggle: React.FC<LabeledToggleProps> = ({
               cursor: value !== current ? 'pointer' : 'default',
               flex: 1,
             }}
+            key={label}
           >
             <Box maxWidth={0} maxHeight={0} sx={{ overflow: 'hidden' }}>
               <HiddenRadio

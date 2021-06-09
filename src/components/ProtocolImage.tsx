@@ -4,10 +4,12 @@ import { Image, ImageProps } from 'components/Image/Image';
 
 export interface ProtocolImageProps extends ImageProps {
   protocol: string;
+  variant?: string;
 }
 
 export const ProtocolImage: React.FC<ProtocolImageProps> = ({
   protocol,
+  variant,
   sx,
   ...props
 }) => {
@@ -22,10 +24,10 @@ export const ProtocolImage: React.FC<ProtocolImageProps> = ({
 
   return (
     <Image
-      width={20}
-      height={20}
-      maxWidth={20}
-      maxHeight={20}
+      width={variant === 'large' ? 40 : 20}
+      height={variant === 'large' ? 40 : 20}
+      maxWidth={variant === 'large' ? 40 : 20}
+      maxHeight={variant === 'large' ? 40 : 20}
       bg="white"
       src={protocolImage}
       sx={{

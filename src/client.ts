@@ -111,7 +111,7 @@ export const fetchCreamRates = async (): Promise<OpportunityShell[]> => {
             decimals: market?.underlyingDecimals,
           },
         ],
-        nexusAddress: '0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b',
+        nexusAddress: '0x3d5bc3c8d13dcb8bf317092d84783c2697ae9258',
         // Approximation for how much the cream supply rate undershoots the actual # of blocks per year
         rawApr: +(market.supplyRate * 1.15 * 100).toFixed(2),
       };

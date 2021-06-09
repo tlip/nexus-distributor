@@ -119,9 +119,11 @@ export const OpportunityListView: React.FC = () => {
                 )
               }
             >
-              <option value="All Protocols">All Protocols</option>
-              {Object.keys(protocols).map((key) => (
-                <option key={key} value={key}>
+              <option value="All Protocols" key="All protocols">
+                All Protocols
+              </option>
+              {Object.keys(protocols).map((key, index) => (
+                <option key={key} value={index}>
                   {key}
                 </option>
               ))}
@@ -148,9 +150,11 @@ export const OpportunityListView: React.FC = () => {
                 )
               }
             >
-              <option value="All Tokens">All Tokens</option>
-              {availableTokens.map((key) => (
-                <option key={key} value={key}>
+              <option value="All Tokens" key="All tokens">
+                All Tokens
+              </option>
+              {availableTokens.map((key, index) => (
+                <option key={key} value={`${key}-${index}`}>
                   {key}
                 </option>
               ))}
@@ -167,9 +171,9 @@ export const OpportunityListView: React.FC = () => {
         </Flex>
       </Flex>
       {ratesWithCosts.length ? (
-        ratesWithCosts.map((opportunity: Opportunity) => (
+        ratesWithCosts.map((opportunity: Opportunity, index) => (
           <OpportunityCard
-            key={`${opportunity.displayName}-${opportunity.rawApr}-${opportunity.opportunityAsset}`}
+            key={`${opportunity.displayName}-${opportunity.rawApr}-${opportunity.opportunityAsset.address}-${index}`}
             opportunity={opportunity}
           />
         ))
@@ -179,6 +183,7 @@ export const OpportunityListView: React.FC = () => {
           height="109px"
           style={{ borderRadius: '20px', margin: '20px 0' }}
           count={10}
+          key="skeleton"
         />
       )}
     </OpportunityListViewContainer>

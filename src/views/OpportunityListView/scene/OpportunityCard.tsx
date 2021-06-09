@@ -20,55 +20,15 @@ import { BoxProps } from 'components/Box/Box';
 import { abbreviateNumber } from 'utils/abbreviateNumber';
 import { Input } from 'components/Input';
 import { LabeledToggle } from 'components/LabeledToggle';
+import { ProtocolBadge } from 'components/ProtocolBadge';
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
 }
 
-const ProtocolBadgeContainer = styled(Box)`
-  display: inline-flex;
-  justify-content: space-around;
-  align-items: center;
-  text-transform: capitalize;
-  border-radius: 4px;
-`;
-
 const List = styled.ul`
   margin: 0;
 `;
-
-const ProtocolBadge: React.FC<{ name: string }> = ({ name }) => {
-  let protocolImage;
-
-  try {
-    protocolImage = require(`../../../assets/images/${name}.png`)?.default;
-  } catch {
-    protocolImage =
-      'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
-  }
-
-  return (
-    <ProtocolBadgeContainer
-      width="160px"
-      backgroundColor="#dbdbdb"
-      margin="10px"
-      padding="10px"
-    >
-      <Image
-        height={24}
-        onError={(e) => {
-          // Uses a fallback image when token image unavailable
-          // TO DO: Move this to a local image
-          //@ts-ignore
-          e.target.src =
-            'https://icons.getbootstrap.com/assets/icons/question-circle.svg';
-        }}
-        src={protocolImage}
-      />
-      <Text>{name}</Text>
-    </ProtocolBadgeContainer>
-  );
-};
 
 const ProtocolHeader: React.FC<{ protocol: string }> = ({ protocol }) => (
   <Flex alignItems="center">
@@ -145,28 +105,24 @@ const OpportunityTitle: React.FC<{ opportunity: Opportunity }> = ({
 export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   opportunity,
 }) => {
-  const [coverDuration, setCoverDuration] = React.useState<number>(199);
+  const [coverDuration, setCoverDuration] = React.useState<number>(365);
   const [coverAmount, setCoverAmount] = React.useState('1');
+  const [coverCurrency, setCoverCurrency] = React.useState('ETH');
+  const [paymentCurrency, setPaymentCurrency] = React.useState(coverCurrency);
   const [loadingTx, setLoadingTx] = React.useState(false);
   const { buyCover } = useDistributor();
-  const capacityEthDisplay = abbreviateNumber(
-    +ethers.utils.formatEther(
-      opportunity?.capacity?.capacityETH?.toString() || '0'
-    )
-  );
-  const capacityDaiDisplay = abbreviateNumber(
-    +ethers.utils.formatEther(
-      opportunity?.capacity?.capacityDAI?.toString() || '0'
-    )
-  );
+  const capacityEthDisplay = (+ethers.utils.formatEther(
+    opportunity?.capacity?.capacityETH?.toString() || '0'
+  )).toFixed(0);
+  const capacityDaiDisplay = (+ethers.utils.formatEther(
+    opportunity?.capacity?.capacityDAI?.toString() || '0'
+  )).toFixed(0);
   const coverAvailable = +coverAmount < +capacityEthDisplay;
-  const coverCost = (+ethers.utils.formatEther(
-    calculatePrice(
-      coverAmount,
-      opportunity?.capacity?.capacityETH?.toString() || '0',
-      coverDuration
-    )
-  )).toFixed(2);
+  const coverCost = (
+    +coverAmount *
+    ((opportunity?.coverCost || 0) / 100) *
+    (coverDuration / 365)
+  ).toFixed(4);
 
   return (
     <AccordionCard
@@ -180,22 +136,33 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
         >
           <Box width={['100%', '100%', '50%']}>
             <Box width="90%">
-              <Text fontSize="14px">What's covered:</Text>
+              <Text variant="h6" color="textGray">
+                What's covered:
+              </Text>
               <List>
                 <li>
-                  <Text fontSize="14px">Contract bug</Text>
+                  <Text variant="caption" fontSize="14px">
+                    Contract bugs
+                  </Text>
                 </li>
                 <li>
-                  <Text fontSize="14px">
+                  <Text variant="caption" fontSize="14px">
                     Economic attacks, including oracle failures
                   </Text>
                 </li>
                 <li>
-                  <Text fontSize="14px">Governance attacks</Text>
+                  <Text variant="caption" fontSize="14px">
+                    Governance attacks
+                  </Text>
                 </li>
               </List>
               <br />
-              <Text fontSize="14px" sx={{ display: 'block' }}>
+              <Text
+                variant="h6"
+                color="textGray"
+                fontSize="14px"
+                sx={{ display: 'block' }}
+              >
                 Supported chains:
               </Text>
               <div>
@@ -206,21 +173,23 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                 )}
               </div>
               <br />
-              <Text fontSize="14px">Claiming:</Text>
+              <Text fontSize="14px" variant="h6" color="textGray">
+                Claiming:
+              </Text>
               <List>
                 <li>
-                  <Text fontSize="14px">
+                  <Text fontSize="14px" variant="caption">
                     You must provide proof of the incurred loss at claim time.
                   </Text>
                 </li>
                 <li>
-                  <Text fontSize="14px">
+                  <Text fontSize="14px" variant="caption">
                     You should wait 72 hours after the event, so assessors have
                     all details to make a decision.
                   </Text>
                 </li>
                 <li>
-                  <Text fontSize="14px">
+                  <Text fontSize="14px" variant="caption">
                     You can claim up to 35 days after the cover period expires,
                     given your cover was active when the incident happened.
                   </Text>
@@ -230,6 +199,12 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                 href="https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
+                sx={{
+                  paddingLeft: '20px',
+                  fontSize: '14px',
+                  marginTop: '12px',
+                  display: 'block',
+                }}
               >
                 Read full details here
               </Link>
@@ -257,8 +232,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             >
               Capacity{' '}
               <strong>
-                {abbreviateNumber(+capacityEthDisplay)} ETH /{' '}
-                {capacityDaiDisplay} DAI
+                {capacityEthDisplay} ETH / {capacityDaiDisplay} DAI
               </strong>
             </Text>
             <Flex
@@ -302,9 +276,14 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                     style={{
                       borderRadius: '0 0.5em 0.5em 0',
                     }}
+                    onChange={(e: any) => setCoverCurrency(e.target?.value)}
                   >
-                    <option value="ETH">ETH</option>
-                    <option value="NXM">NXM</option>
+                    <option value="ETH" key="ETH">
+                      ETH
+                    </option>
+                    <option value="DAI" key="DAI">
+                      DAI
+                    </option>
                   </Input>
                 </Flex>
               </Flex>
@@ -322,10 +301,12 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                 <LabeledToggle
                   name={`buy-cover-${opportunity?.displayName}`}
                   options={[
-                    { value: 'ETH', label: 'ETH' },
+                    { value: coverCurrency, label: coverCurrency },
                     { value: 'NXM', label: 'NXM' },
                   ]}
-                  onChange={(e: any) => console.log(e.target?.value)}
+                  defaultValue={coverCurrency}
+                  value={coverCurrency}
+                  onChange={(e: any) => setPaymentCurrency(e.target?.value)}
                 />
               </Flex>
             </Flex>
@@ -350,11 +331,14 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                 fontWeight="semibold"
                 sx={{ letterSpacing: '0%' }}
               >
-                Cost to cover <strong>{coverAmount} ETH</strong> for{' '}
-                <strong>{coverDuration} days</strong>
+                Cost to cover{' '}
+                <strong>
+                  {coverAmount} {coverCurrency}
+                </strong>{' '}
+                for <strong>{coverDuration} days</strong>
               </Text>
               <Text sx={{ color: 'primary', fontSize: 7, fontWeight: 'bold' }}>
-                {coverCost} ETH
+                {coverCost} {coverCurrency}
               </Text>
             </Flex>
             <Flex width="100%" justifyContent="center">

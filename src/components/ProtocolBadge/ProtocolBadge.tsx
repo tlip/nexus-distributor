@@ -26,8 +26,8 @@ export const ProtocolBadge: React.FC<{ name: string }> = ({ name }) => {
   return (
     <ProtocolBadgeContainer
       backgroundColor="#dbdbdb"
-      margin="10px"
-      padding="10px"
+      margin="6px"
+      padding="6px"
     >
       <Image
         height={24}
@@ -40,7 +40,7 @@ export const ProtocolBadge: React.FC<{ name: string }> = ({ name }) => {
         }}
         src={protocolImage}
       />
-      <Text fontSize="12px" px="5px">
+      <Text fontSize="12px" px="6px">
         {name}
       </Text>
     </ProtocolBadgeContainer>

@@ -40,6 +40,7 @@ export const useDistributor = (): {
         );
       } else {
         console.log('calling mainnet');
+        networkBasedAddress = contractAddress;
         signedQuote = await fetchSignedQuote(
           parseFloat(amount),
           currency === '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
@@ -52,6 +53,14 @@ export const useDistributor = (): {
       }
 
       console.log(signedQuote);
+      console.log({
+        contractAddress,
+        coverData,
+        currency,
+        amount,
+        networkBasedAddress,
+        period,
+      });
 
       if (signedQuote && networkBasedAddress) {
         const encodedSignedQuote = ethers.utils.defaultAbiCoder.encode(
@@ -67,11 +76,13 @@ export const useDistributor = (): {
           ]
         );
 
+        console.log('reached');
+
         const tx = distributorContract?.buyCover(
           networkBasedAddress,
           currency,
           ethers.utils.parseEther(amount),
-          111,
+          period,
           0, // cover type
           signedQuote.price,
           encodedSignedQuote.toString(),

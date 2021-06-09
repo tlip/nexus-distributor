@@ -37,7 +37,7 @@ export function useDistributorContract(
   if (chainId) {
     switch (chainId) {
       case ChainId.MAINNET:
-        address = '';
+        address = '0xe93EC208Ac7a547e0C191623029D719391029B86';
         break;
       case ChainId.KOVAN:
         address = '0x501cc38ae11ba264e04480c202e9c17f8947441a';
