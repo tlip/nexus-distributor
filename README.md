@@ -8,7 +8,7 @@ An open source interface for purchasing Nexus cover (DeFi insurance). Shows all 
 
 To access the Distributor Interface, use an IPFS gateway link from the
 latest release
-or visit [tlip.github.io/nexus-distributor](https://app.uniswap.org).
+or visit [tlip.github.io/nexus-distributor](https://tlip.github.io/nexus-distributor/#/).
 
 ## Forking and Contributing
 
