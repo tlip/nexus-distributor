@@ -34,7 +34,7 @@ export const OpportunityListView: React.FC = () => {
   }, []);
 
   const ratesWithCosts = useMemo(() => {
-    return rates
+    const test = rates
       .map((rate) => {
         // find capacity data for contract
         const associatedCoverageData = capacities.find(
@@ -64,6 +64,7 @@ export const OpportunityListView: React.FC = () => {
           ? filterCriteria?.token === rate.underlyingAssets?.[0]?.symbol
           : true
       );
+    return test;
   }, [rates, capacities, filterCriteria]);
 
   const availableTokens = useMemo(() => {

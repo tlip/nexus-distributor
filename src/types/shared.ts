@@ -44,6 +44,7 @@ export interface Opportunity {
     capacityETH: BigNumber;
     capacityDAI: BigNumber;
   };
+  coverType: 'token' | 'protocol';
   associatedCoverable: Coverable;
   nexusAddress: string;
   coverCost?: number;

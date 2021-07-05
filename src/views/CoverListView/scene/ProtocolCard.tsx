@@ -42,22 +42,30 @@ const ProtocolHeader: React.FC<{ protocol: string; type: string }> = ({
       </Box>
     )}
     {type === 'token' && (
-      <Box
-        bg="yellow"
-        px="0.6em"
-        py="0.4em"
-        ml="0.6em"
-        sx={{ borderRadius: 20 }}
-      >
+      <Box bg="yellow" px="1em" py="0.7em" ml="1.2em" sx={{ borderRadius: 20 }}>
         <Text
           variant="caption1"
           color="white"
-          fontSize="0.5em"
+          fontSize="0.7em"
           lineHeight="0.5em"
           fontWeight="bold"
           sx={{ display: 'block' }}
         >
-          Yield Token Cover
+          YIELD TOKEN COVER
+        </Text>
+      </Box>
+    )}
+    {type === 'custodian' && (
+      <Box bg="purple" px="1em" py="0.7em" ml="1.2em" sx={{ borderRadius: 20 }}>
+        <Text
+          variant="caption1"
+          color="white"
+          fontSize="0.7em"
+          lineHeight="0.5em"
+          fontWeight="bold"
+          sx={{ display: 'block' }}
+        >
+          CUSTODY COVER
         </Text>
       </Box>
     )}
