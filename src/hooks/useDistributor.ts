@@ -1,9 +1,9 @@
 import { ChainId } from '@uniswap/sdk';
+import { useWeb3React } from '@web3-react/core';
 import { fetchSignedQuote } from 'client';
 import { ethers } from 'ethers';
 import { useCallback } from 'react';
 import { useDistributorContract } from './useContract';
-import { useActiveWeb3React } from './web3';
 
 export const useDistributor = (): {
   buyCover: (
@@ -13,7 +13,7 @@ export const useDistributor = (): {
     amount: string
   ) => Promise<ethers.Transaction>;
 } => {
-  const { chainId } = useActiveWeb3React();
+  const { chainId } = useWeb3React();
   // const [allowance, setAllowance] = useState('0');
   const distributorContract = useDistributorContract(true); //withSigner
 
@@ -30,7 +30,7 @@ export const useDistributor = (): {
       if (chainId === ChainId.KOVAN) {
         // hardcode data on kovan for testing
         console.log('calling kovan');
-        networkBasedAddress = '0xc57d000000000000000000000000000000000002';
+        networkBasedAddress = '0xC57D000000000000000000000000000000000002';
         period = 111;
         signedQuote = await fetchSignedQuote(
           parseFloat(amount),

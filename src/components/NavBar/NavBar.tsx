@@ -5,7 +5,7 @@ import { Button } from 'rebass';
 import { Flex, FlexProps } from 'components/Flex/Flex';
 import { PageContentWrapper } from 'components/PageContentWrapper';
 import NexusLogo from 'assets/images/nexus-mutual-logo.svg';
-import { useActiveWeb3React } from 'hooks/web3';
+import { useWeb3React } from '@web3-react/core';
 
 export interface NavBarProps extends FlexProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -44,7 +44,7 @@ export const NavBar: React.FC<NavBarProps> = ({ setModalOpen, ...props }) => {
   const [lastScrollTop, setlastScrollTop] = React.useState<number>(
     document.documentElement.scrollTop
   );
-  const { active, account } = useActiveWeb3React();
+  const { active, account } = useWeb3React();
 
   const hideNavBar = () => {
     const documentScrolled = document.documentElement.scrollTop;

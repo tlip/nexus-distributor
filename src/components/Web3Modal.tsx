@@ -5,7 +5,6 @@ import { Image } from './Image';
 import { injected, walletconnect } from '../connectors';
 import metamask from '../assets/images/metamask.png';
 import walletConnect from '../assets/images/walletConnect.svg';
-import { useActiveWeb3React } from 'hooks/web3';
 import { useWeb3React } from '@web3-react/core';
 
 const baseClassNames = `flex items-center rounded shadow-sm border-transparent 
@@ -93,7 +92,6 @@ function useOutsideAlerter(
 export const Web3Modal: React.FC<{
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ setOpen }) => {
-  console.log(setOpen, 'testing set open');
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, () => setOpen(false));
   const { activate } = useWeb3React();

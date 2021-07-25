@@ -77,6 +77,7 @@ export const fetchCompoundRates = async (): Promise<OpportunityShell[]> => {
           },
         ],
         nexusAddress: '0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b',
+        coverType: 'protocol',
         // Approximation for how much the compound supply rate undershoots the actual # of blocks per year
         rawApr: +(market?.supplyRate * 1.15 * 100).toFixed(2),
       };
@@ -231,7 +232,7 @@ export const fetchSignedQuote = async (
 ): Promise<any> => {
   // URL to request a quote for.
   const quoteURL =
-    `https://api.staging.nexusmutual.io/legacy/v1/quote?` +
+    `https://api.staging.nexusmutual.io/v1/quote?` +
     `coverAmount=${coverAmount}&currency=${currency}&period=${period}&contractAddress=${contractAddress}`;
   const { data } = await axios.get(quoteURL);
   return data;
