@@ -19,6 +19,7 @@ import { BoxProps } from 'components/Box/Box';
 import { Input } from 'components/Input';
 import { LabeledToggle } from 'components/LabeledToggle';
 import { ProtocolBadge } from 'components/ProtocolBadge';
+import numeral from 'numeral';
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
@@ -28,24 +29,50 @@ const List = styled.ul`
   margin: 0;
 `;
 
-const ProtocolHeader: React.FC<{ protocol: string }> = ({ protocol }) => (
+const ProtocolHeader: React.FC<{
+  protocol: string;
+  type: Opportunity['coverType'];
+}> = ({ protocol, type }) => (
   <Flex alignItems="center">
     <ProtocolImage protocol={protocol} mr="0.6em" />
     <Text variant="caption1">
       {protocol[0].toUpperCase() + protocol.substr(1)}
     </Text>
-    <Box bg="blue" px="0.6em" py="0.4em" ml="0.6em" sx={{ borderRadius: 20 }}>
-      <Text
-        variant="caption1"
-        color="white"
-        fontSize="0.5em"
-        lineHeight="0.5em"
-        fontWeight="bold"
-        sx={{ display: 'block' }}
+    {type === 'protocol' && (
+      <Box bg="blue" px="0.6em" py="0.4em" ml="0.6em" sx={{ borderRadius: 20 }}>
+        <Text
+          variant="caption1"
+          color="white"
+          fontSize="0.5em"
+          lineHeight="0.5em"
+          fontWeight="bold"
+          sx={{ display: 'block' }}
+        >
+          PROTOCOL COVER
+        </Text>
+      </Box>
+    )}
+    {type === 'token' && (
+      <Box
+        bg="yellow"
+        px="0.6em"
+        py="0.4em"
+        ml="0.6em"
+        sx={{ borderRadius: 20 }}
       >
-        PROTOCOL COVER
-      </Text>
-    </Box>
+        <Text
+          variant="caption1"
+          color="white"
+          fontSize="0.5em"
+          lineHeight="0.5em"
+          fontWeight="bold"
+          sx={{ display: 'block' }}
+        >
+          YIELD TOKEN COVER
+        </Text>
+      </Box>
+    )}
+
     <Box bg="border" px="0.6em" py="0.4em" ml="0.6em" sx={{ borderRadius: 20 }}>
       <Text
         variant="caption1"
@@ -220,8 +247,8 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               borderRadius: 'large',
             }}
           >
-            <Text variant="h6" color="textGray" pb="1.25em">
-              Cost to Cover{' '}
+            <Text variant="h5" color="textGray" pb="1.25em">
+              Coverage Quote{' '}
             </Text>
             <Text
               variant="caption1"
@@ -230,7 +257,8 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             >
               Capacity{' '}
               <strong>
-                {capacityEthDisplay} ETH / {capacityDaiDisplay} DAI
+                {numeral(capacityEthDisplay).format('0,0.00')} ETH /{' '}
+                {numeral(capacityDaiDisplay).format('0,0.00')} DAI
               </strong>
             </Text>
             <Flex
@@ -392,7 +420,10 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             maxWidth={['100%', '100%', 'calc(100% - 300px)']}
             flexWrap="wrap"
           >
-            <ProtocolHeader protocol={opportunity.protocol.name} />
+            <ProtocolHeader
+              protocol={opportunity.protocol.name}
+              type={opportunity.coverType}
+            />
             <Flex flexWrap="wrap" justifyContent="space-between" width="100%">
               <OpportunityTitle {...{ opportunity }} />
               <Flex

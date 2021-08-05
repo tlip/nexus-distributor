@@ -1,14 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from '@emotion/styled/macro';
 import { Button } from 'rebass';
 import { Flex, FlexProps } from 'components/Flex/Flex';
 import { PageContentWrapper } from 'components/PageContentWrapper';
 import NexusLogo from 'assets/images/nexus-mutual-logo.svg';
-import { injected } from '../../connectors';
 import { useWeb3React } from '@web3-react/core';
+import { abbreviateAddress } from 'utils/abbreviateAddress';
 
-export interface NavBarProps extends FlexProps {}
+export interface NavBarProps extends FlexProps {
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const StyledNavBar = styled(Flex)((props: any) => ({
   position: 'fixed',
@@ -23,12 +25,27 @@ const StyledNavBar = styled(Flex)((props: any) => ({
   zIndex: 1000,
 }));
 
-export const NavBar: React.FC<NavBarProps> = (props) => {
+const TestLink = styled(NavLink)`
+  &&& {
+    color: white;
+    padding: 0 1em;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 600;
+
+    &:hover {
+      color: #dfdfdf;
+    }
+  }
+`;
+
+export const NavBar: React.FC<NavBarProps> = ({ setModalOpen, ...props }) => {
   const [y, setY] = React.useState<number>(0);
   const [lastScrollTop, setlastScrollTop] = React.useState<number>(
     document.documentElement.scrollTop
   );
-  const { activate, active, account } = useWeb3React();
+  const { active, account } = useWeb3React();
 
   const hideNavBar = () => {
     const documentScrolled = document.documentElement.scrollTop;
@@ -44,13 +61,21 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
 
   return (
     <StyledNavBar as="nav" sx={{ transform: `translateY(${y}%)` }} {...props}>
-      <PageContentWrapper>
+      <PageContentWrapper sx={{ display: 'flex', alignItems: 'center' }}>
         <img src={NexusLogo} alt="Nexus Mutual" />
-        <Link to="/">Protected Yields</Link>
-        <Link to="/cover">All Protocols</Link>
+        <TestLink to="/">
+          {/* <Text variant="caption" sx={{ color: 'white' }}> */}
+          Protected Yields
+          {/* </Text> */}
+        </TestLink>
+        <TestLink to="/cover">
+          {/* <Text variant="caption" sx={{ color: 'white' }}> */}
+          All Protocols
+          {/* </Text> */}
+        </TestLink>
       </PageContentWrapper>
-      <Button onClick={() => activate(injected)}>
-        {active && account ? 'Connected' : 'Connect'}
+      <Button onClick={() => setModalOpen(true)}>
+        {active && account ? abbreviateAddress(account) : 'Connect'}
       </Button>
     </StyledNavBar>
   );

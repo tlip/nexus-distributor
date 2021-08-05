@@ -49,6 +49,7 @@ export const Button: React.FC<ButtonProps> = ({
           ? { background: theme.colors?.textGray, cursor: 'not-allowed' }
           : {}),
       }}
+      className={props.className}
     >
       {typeof children !== 'string' ? (
         children

@@ -3,21 +3,24 @@
 exports[`NavBar component should render without crashing 1`] = `
 <div>
   <nav
-    class="css-jionz6-Flex-StyledNavBar e791bbv0"
+    class="css-804yoe-Flex-StyledNavBar e791bbv0"
   >
     <div
-      class="css-zzvsmz-Box-PageContentWrapper eq3nwli0"
+      class="css-juhj3d-Box-PageContentWrapper eq3nwli0"
     >
       <img
         alt="Nexus Mutual"
         src="nexus-mutual-logo.svg"
       />
       <a
+        aria-current="page"
+        class="css-10964vg-TestLink e791bbv1 active"
         href="/"
       >
         Protected Yields
       </a>
       <a
+        class="css-10964vg-TestLink e791bbv1"
         href="/cover"
       >
         All Protocols

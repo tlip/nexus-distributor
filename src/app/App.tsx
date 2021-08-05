@@ -1,11 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled/macro';
 import { HashRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'theme-ui';
-import { store } from '../state/store';
-import { Provider } from 'react-redux';
-import { Web3ReactProvider, createWeb3ReactRoot } from '@web3-react/core';
-import { ethers } from 'ethers';
 
 import { Flex } from 'components/Flex';
 import { NavBar } from 'components/NavBar';
@@ -16,17 +12,10 @@ import { CoverListView } from 'views/CoverListView';
 import { theme } from 'theme';
 import { env } from 'config/env';
 import { Contexts } from 'contexts';
-import { NetworkContextName } from '../constants';
-
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
-
-function getLibrary(
-  provider:
-    | ethers.providers.ExternalProvider
-    | ethers.providers.JsonRpcFetchFunc
-) {
-  return new ethers.providers.Web3Provider(provider);
-}
+import '../index.css';
+import { Web3Modal } from 'components/Web3Modal';
+import { useEagerConnect } from 'hooks/web3';
+import { useWeb3React } from '@web3-react/core';
 
 // React Router only works with a HashRouter on GitHub Pages...
 const Router = env.GITHUB_PAGES
@@ -42,26 +31,38 @@ const AppContainer = styled(Flex)((props: any) => ({
   padding: '2.75em 0',
 }));
 
-export const App: React.FC = () => (
-  <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <Web3ProviderNetwork getLibrary={getLibrary}>
-          <Contexts>
-            <Router>
-              <NavBar />
-              <AppContainer id="page-content">
-                <PageContentWrapper>
-                  <Switch>
-                    <Route path="/" exact component={OpportunityListView} />
-                    <Route path="/cover" exact component={CoverListView} />
-                  </Switch>
-                </PageContentWrapper>
-              </AppContainer>
-            </Router>
-          </Contexts>
-        </Web3ProviderNetwork>
-      </Web3ReactProvider>
-    </Provider>
-  </ThemeProvider>
-);
+export const App: React.FC = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const context = useWeb3React();
+  const { connector } = context;
+
+  // handle logic to recognize the connector currently being activated
+  const [activatingConnector, setActivatingConnector] = React.useState<any>();
+  React.useEffect(() => {
+    if (activatingConnector && activatingConnector === connector) {
+      setActivatingConnector(undefined);
+    }
+  }, [activatingConnector, connector]);
+
+  // handle logic to eagerly connect to the injected ethereum provider, if it exists and has granted access already
+  useEagerConnect();
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Contexts>
+        <Router>
+          {isModalOpen && <Web3Modal setOpen={setModalOpen} />}
+          <NavBar setModalOpen={setModalOpen} />
+          <AppContainer id="page-content">
+            <PageContentWrapper>
+              <Switch>
+                <Route path="/" exact component={OpportunityListView} />
+                <Route path="/cover" exact component={CoverListView} />
+              </Switch>
+            </PageContentWrapper>
+          </AppContainer>
+        </Router>
+      </Contexts>
+    </ThemeProvider>
+  );
+};

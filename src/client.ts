@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { request, gql } from 'graphql-request';
-import { OpportunityShell } from './types/shared';
+import { Opportunity, OpportunityShell } from './types/shared';
 import { protocols } from './constants/data';
 import { getYearlyCost } from './utils/calculateYearlyCost';
 
 const GRAPH_BASE_URL = 'https://api.thegraph.com/subgraphs/name';
-const BANCOR_BASE_URL = 'https://api-v2.bancor.network';
 const YEARN_BASE_URL = 'https://api.yearn.tools';
 // ASK IN CURVE DISCORD FOR REAL API ENDPOINT
 const CURVE_BASE_URL = 'https://curvemarketcap.com/datatable.json';
@@ -78,6 +77,7 @@ export const fetchCompoundRates = async (): Promise<OpportunityShell[]> => {
           },
         ],
         nexusAddress: '0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b',
+        coverType: 'protocol',
         // Approximation for how much the compound supply rate undershoots the actual # of blocks per year
         rawApr: +(market?.supplyRate * 1.15 * 100).toFixed(2),
       };
@@ -111,8 +111,10 @@ export const fetchCreamRates = async (): Promise<OpportunityShell[]> => {
             decimals: market?.underlyingDecimals,
           },
         ],
+        coverType: 'protocol',
         nexusAddress: '0x3d5bc3c8d13dcb8bf317092d84783c2697ae9258',
         // Approximation for how much the cream supply rate undershoots the actual # of blocks per year
+        // This is the same as Compound because Cream is a fork of Compound
         rawApr: +(market.supplyRate * 1.15 * 100).toFixed(2),
       };
     })
@@ -139,6 +141,7 @@ export const fetchAaveRates = async (): Promise<OpportunityShell[]> => {
           symbol: `a${market?.symbol}`,
           decimals: market?.decimals,
         },
+        coverType: 'protocol',
         nexusAddress: '0x7d2768de32b0b80b7a3454c06bdac94a69ddc7a9',
         underlyingAssets: [
           {
@@ -183,18 +186,15 @@ export const fetchYearnRates = async (): Promise<OpportunityShell[]> => {
             Symbol: market?.tokenSYmbol,
           },
         ],
+        coverType: 'token',
         nexusAddress: '0x9d25057e62939d3408406975ad75ffe834da4cdd',
         imageUrl: market?.vaultIcon,
         rawApr: +market?.apy?.apyOneMonthSample.toFixed(2),
       };
     })
-    .filter((m: any) => m.rawApr > 0);
+    .filter((m: Opportunity) => +m.rawApr > 0)
+    .filter((m: Opportunity) => ['yUSDC', 'yDAI'].includes(m.symbol));
   return opportunites;
-};
-
-export const fetchBancorRates = async (): Promise<OpportunityShell> => {
-  const { data } = await axios.get(`${BANCOR_BASE_URL}/pools`);
-  return data;
 };
 
 export const fetchCurveRates = async (): Promise<OpportunityShell> => {
@@ -232,7 +232,7 @@ export const fetchSignedQuote = async (
 ): Promise<any> => {
   // URL to request a quote for.
   const quoteURL =
-    `https://api.staging.nexusmutual.io/legacy/v1/quote?` +
+    `https://api.staging.nexusmutual.io/v1/quote?` +
     `coverAmount=${coverAmount}&currency=${currency}&period=${period}&contractAddress=${contractAddress}`;
   const { data } = await axios.get(quoteURL);
   return data;

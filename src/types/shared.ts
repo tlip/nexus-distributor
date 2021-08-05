@@ -9,6 +9,7 @@ interface Coverable {
   name: string;
   type: CoverageType;
   supportedChains: string[];
+  logo: string;
 }
 export interface Protocol {
   name: string;
@@ -44,6 +45,7 @@ export interface Opportunity {
     capacityETH: BigNumber;
     capacityDAI: BigNumber;
   };
+  coverType: 'token' | 'protocol';
   associatedCoverable: Coverable;
   nexusAddress: string;
   coverCost?: number;

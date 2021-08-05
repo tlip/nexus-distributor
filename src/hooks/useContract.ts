@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { ethers, Contract } from 'ethers';
 import { ChainId } from '@uniswap/sdk';
-import { useActiveWeb3React } from './web3';
 import { getContract } from '../utils/web3';
 import DISTRIBUTOR_ABI from '../constants/abi/Distributor.json';
+import { useWeb3React } from '@web3-react/core';
 
 // returns null on errors
 export function useContract(
@@ -11,7 +11,7 @@ export function useContract(
   ABI: ethers.ContractInterface,
   withSignerIfPossible = true
 ): Contract | null {
-  const { library, account } = useActiveWeb3React();
+  const { library, account } = useWeb3React();
 
   return useMemo(() => {
     if (!address || !ABI || !library) return null;
@@ -32,7 +32,7 @@ export function useContract(
 export function useDistributorContract(
   withSignerIfPossible?: boolean
 ): Contract | null {
-  const { chainId } = useActiveWeb3React();
+  const { chainId } = useWeb3React();
   let address: string | undefined;
   if (chainId) {
     switch (chainId) {
@@ -40,7 +40,7 @@ export function useDistributorContract(
         address = '0xe93EC208Ac7a547e0C191623029D719391029B86';
         break;
       case ChainId.KOVAN:
-        address = '0x501cc38ae11ba264e04480c202e9c17f8947441a';
+        address = '0x1a7434d797752bf58f80a89e32d0f5cb716a525d';
         break;
     }
   }
