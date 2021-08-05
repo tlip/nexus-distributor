@@ -1,17 +1,22 @@
 {
   "files": {
-    "main.css": "/nexus-distributor/static/css/main.ddcbfabd.chunk.css",
-    "main.js": "/nexus-distributor/static/js/main.687b2b4f.chunk.js",
-    "main.js.map": "/nexus-distributor/static/js/main.687b2b4f.chunk.js.map",
-    "runtime-main.js": "/nexus-distributor/static/js/runtime-main.dc902e24.js",
-    "runtime-main.js.map": "/nexus-distributor/static/js/runtime-main.dc902e24.js.map",
-    "static/js/2.5af579eb.chunk.js": "/nexus-distributor/static/js/2.5af579eb.chunk.js",
-    "static/js/2.5af579eb.chunk.js.map": "/nexus-distributor/static/js/2.5af579eb.chunk.js.map",
-    "static/js/3.e80712b1.chunk.js": "/nexus-distributor/static/js/3.e80712b1.chunk.js",
-    "static/js/3.e80712b1.chunk.js.map": "/nexus-distributor/static/js/3.e80712b1.chunk.js.map",
+    "main.css": "/nexus-distributor/static/css/main.84869c7b.chunk.css",
+    "main.js": "/nexus-distributor/static/js/main.ec67b60f.chunk.js",
+    "main.js.map": "/nexus-distributor/static/js/main.ec67b60f.chunk.js.map",
+    "runtime-main.js": "/nexus-distributor/static/js/runtime-main.14f5228a.js",
+    "runtime-main.js.map": "/nexus-distributor/static/js/runtime-main.14f5228a.js.map",
+    "static/js/2.2436cad5.chunk.js": "/nexus-distributor/static/js/2.2436cad5.chunk.js",
+    "static/js/2.2436cad5.chunk.js.map": "/nexus-distributor/static/js/2.2436cad5.chunk.js.map",
+    "static/js/3.6547126a.chunk.js": "/nexus-distributor/static/js/3.6547126a.chunk.js",
+    "static/js/3.6547126a.chunk.js.map": "/nexus-distributor/static/js/3.6547126a.chunk.js.map",
+    "static/js/4.dd5cc69f.chunk.js": "/nexus-distributor/static/js/4.dd5cc69f.chunk.js",
+    "static/js/4.dd5cc69f.chunk.js.map": "/nexus-distributor/static/js/4.dd5cc69f.chunk.js.map",
+    "static/js/5.c42470c2.chunk.js": "/nexus-distributor/static/js/5.c42470c2.chunk.js",
+    "static/js/5.c42470c2.chunk.js.map": "/nexus-distributor/static/js/5.c42470c2.chunk.js.map",
     "index.html": "/nexus-distributor/index.html",
-    "static/css/main.ddcbfabd.chunk.css.map": "/nexus-distributor/static/css/main.ddcbfabd.chunk.css.map",
-    "static/js/2.5af579eb.chunk.js.LICENSE.txt": "/nexus-distributor/static/js/2.5af579eb.chunk.js.LICENSE.txt",
+    "static/css/main.84869c7b.chunk.css.map": "/nexus-distributor/static/css/main.84869c7b.chunk.css.map",
+    "static/js/2.2436cad5.chunk.js.LICENSE.txt": "/nexus-distributor/static/js/2.2436cad5.chunk.js.LICENSE.txt",
+    "static/js/3.6547126a.chunk.js.LICENSE.txt": "/nexus-distributor/static/js/3.6547126a.chunk.js.LICENSE.txt",
     "static/media/aave-logo.svg": "/nexus-distributor/static/media/aave-logo.7f0cfd97.svg",
     "static/media/compound-logo.svg": "/nexus-distributor/static/media/compound-logo.19bd5751.svg",
     "static/media/cream-logo.svg": "/nexus-distributor/static/media/cream-logo.29138554.svg",
@@ -23,13 +28,16 @@
     "static/media/share-icon.07bc0a38.svg": "/nexus-distributor/static/media/share-icon.07bc0a38.svg",
     "static/media/spinner.180538fd.svg": "/nexus-distributor/static/media/spinner.180538fd.svg",
     "static/media/uniswap-logo.svg": "/nexus-distributor/static/media/uniswap-logo.6ae3efa2.svg",
+    "static/media/uniswap.png": "/nexus-distributor/static/media/uniswap.e38f528c.png",
+    "static/media/walletConnect.304e3277.svg": "/nexus-distributor/static/media/walletConnect.304e3277.svg",
     "static/media/xdai.png": "/nexus-distributor/static/media/xdai.6a9ed7e3.png",
-    "static/media/yearn-logo.svg": "/nexus-distributor/static/media/yearn-logo.84f90044.svg"
+    "static/media/yearn-logo.svg": "/nexus-distributor/static/media/yearn-logo.84f90044.svg",
+    "static/media/yearn.png": "/nexus-distributor/static/media/yearn.e2518f15.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.dc902e24.js",
-    "static/js/2.5af579eb.chunk.js",
-    "static/css/main.ddcbfabd.chunk.css",
-    "static/js/main.687b2b4f.chunk.js"
+    "static/js/runtime-main.14f5228a.js",
+    "static/js/3.6547126a.chunk.js",
+    "static/css/main.84869c7b.chunk.css",
+    "static/js/main.ec67b60f.chunk.js"
   ]
 }
