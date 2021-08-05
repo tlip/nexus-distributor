@@ -34,16 +34,7 @@ const AppContainer = styled(Flex)((props: any) => ({
 export const App: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const context = useWeb3React();
-  const {
-    connector,
-    library,
-    chainId,
-    account,
-    activate,
-    deactivate,
-    active,
-    error,
-  } = context;
+  const { connector } = context;
 
   // handle logic to recognize the connector currently being activated
   const [activatingConnector, setActivatingConnector] = React.useState<any>();
@@ -55,9 +46,6 @@ export const App: React.FC = () => {
 
   // handle logic to eagerly connect to the injected ethereum provider, if it exists and has granted access already
   const triedEager = useEagerConnect();
-
-  // handle logic to connect in reaction to certain events on the injected ethereum provider, if it exists
-  // useInactiveListener(!triedEager || !!activatingConnector);
 
   return (
     <ThemeProvider theme={theme}>
