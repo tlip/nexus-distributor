@@ -78,19 +78,23 @@ export const useDistributor = (): {
 
         console.log('reached');
 
-        const tx = distributorContract?.buyCover(
-          networkBasedAddress,
-          currency,
-          ethers.utils.parseEther(amount),
-          period,
-          0, // cover type
-          signedQuote.price,
-          encodedSignedQuote.toString(),
-          {
-            value: signedQuote.price,
-          }
-        );
-        return tx;
+        try {
+          const tx = await distributorContract?.buyCover(
+            networkBasedAddress,
+            currency,
+            ethers.utils.parseEther(amount),
+            period,
+            0, // cover type
+            signedQuote.price,
+            encodedSignedQuote.toString(),
+            {
+              value: signedQuote.price,
+            }
+          );
+          return tx;
+        } catch (err) {
+          console.log(err);
+        }
       }
     },
     [distributorContract]

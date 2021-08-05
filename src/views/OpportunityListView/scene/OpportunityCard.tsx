@@ -19,6 +19,7 @@ import { BoxProps } from 'components/Box/Box';
 import { Input } from 'components/Input';
 import { LabeledToggle } from 'components/LabeledToggle';
 import { ProtocolBadge } from 'components/ProtocolBadge';
+import numeral from 'numeral';
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
@@ -246,8 +247,8 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               borderRadius: 'large',
             }}
           >
-            <Text variant="h6" color="textGray" pb="1.25em">
-              Cost to Cover{' '}
+            <Text variant="h5" color="textGray" pb="1.25em">
+              Coverage Quote{' '}
             </Text>
             <Text
               variant="caption1"
@@ -256,7 +257,8 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             >
               Capacity{' '}
               <strong>
-                {capacityEthDisplay} ETH / {capacityDaiDisplay} DAI
+                {numeral(capacityEthDisplay).format('0,0.00')} ETH /{' '}
+                {numeral(capacityDaiDisplay).format('0,0.00')} DAI
               </strong>
             </Text>
             <Flex

@@ -9,6 +9,7 @@ interface Coverable {
   name: string;
   type: CoverageType;
   supportedChains: string[];
+  logo: string;
 }
 export interface Protocol {
   name: string;

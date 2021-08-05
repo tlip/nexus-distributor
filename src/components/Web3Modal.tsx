@@ -94,7 +94,7 @@ export const Web3Modal: React.FC<{
 }> = ({ setOpen }) => {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, () => setOpen(false));
-  const { activate } = useWeb3React();
+  const { activate, active } = useWeb3React();
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -138,13 +138,15 @@ export const Web3Modal: React.FC<{
                 className="text-lg leading-6 font-medium text-gray-900"
                 id="modal-headline"
               >
-                Connect a Wallet
+                {active ? 'Wallet Connected' : 'Connect a Wallet'}
               </h3>
               <div className="mt-2">
-                <p className="text-sm text-gray-500">
-                  You need a Web3 wallet to interact with this site. Please
-                  choose a wallet you have installed.
-                </p>
+                {!active && (
+                  <p className="text-sm text-gray-500">
+                    You need a Web3 wallet to interact with this site. Please
+                    choose a wallet you have installed.
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -156,10 +158,10 @@ export const Web3Modal: React.FC<{
                 activate(injected);
                 setOpen(false);
               }}
-              className="w-full text-left py-3"
+              className="w-full text-left py-3 px-3 flex justify-between"
             >
-              Metamask
-              <Image src={metamask} className="ml-auto mx-2 h-8 w-8" />
+              MetaMask
+              <Image src={metamask} className="ml-auto mx-2 h-10 w-10" />
             </Button>
           </div>
           <div className="mt-5 sm:mt-6">
@@ -170,10 +172,10 @@ export const Web3Modal: React.FC<{
                 activate(walletconnect);
                 setOpen(false);
               }}
-              className="w-full text-left py-5"
+              className="w-full text-left py-3 px-3 flex justify-between"
             >
               WalletConnect
-              <Image src={walletConnect} className="ml-auto mx-2 h-8 w-8" />
+              <Image src={walletConnect} className="ml-auto mx-2 h-10 w-10" />
             </Button>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { Flex, FlexProps } from 'components/Flex/Flex';
 import { PageContentWrapper } from 'components/PageContentWrapper';
 import NexusLogo from 'assets/images/nexus-mutual-logo.svg';
 import { useWeb3React } from '@web3-react/core';
+import { abbreviateAddress } from 'utils/abbreviateAddress';
 
 export interface NavBarProps extends FlexProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -74,7 +75,7 @@ export const NavBar: React.FC<NavBarProps> = ({ setModalOpen, ...props }) => {
         </TestLink>
       </PageContentWrapper>
       <Button onClick={() => setModalOpen(true)}>
-        {active && account ? 'Connected' : 'Connect'}
+        {active && account ? abbreviateAddress(account) : 'Connect'}
       </Button>
     </StyledNavBar>
   );
