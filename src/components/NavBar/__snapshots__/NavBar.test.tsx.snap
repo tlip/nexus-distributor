@@ -3,7 +3,7 @@
 exports[`NavBar component should render without crashing 1`] = `
 <div>
   <nav
-    class="css-f9yfyv-Flex-StyledNavBar e791bbv0"
+    class="css-804yoe-Flex-StyledNavBar e791bbv0"
   >
     <div
       class="css-juhj3d-Box-PageContentWrapper eq3nwli0"
