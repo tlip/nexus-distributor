@@ -5,8 +5,12 @@ import { XCircleIcon, CheckCircleIcon } from '@heroicons/react/outline';
 import { XIcon } from '@heroicons/react/solid';
 import { useEffect } from 'react';
 
-export const SuccessNotification = () => {
+export const SuccessNotification: React.FC<{ hash: string | undefined }> = ({
+  hash,
+}) => {
   const [show, setShow] = useState(true);
+
+  useEffect(() => setShow(true), [hash]);
 
   return (
     <>
@@ -31,23 +35,28 @@ export const SuccessNotification = () => {
               </div>
               <div className="ml-3 w-0 flex-1 pt-0.5">
                 <p className="text-sm font-medium text-gray-900">
-                  Successfully saved!
+                  Transaction submitted!
                 </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  Anyone with a link can now view this file.
-                </p>
+                <a
+                  className="mt-1 text-sm text-gray-500"
+                  href={`https://etherscan.io/tx/${hash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View on Etherscan
+                </a>
               </div>
-              {/* <div className="ml-4 flex-shrink-0 flex">
-                    <button
-                      className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      onClick={() => {
-                        setShow(false);
-                      }}
-                    >
-                      <span className="sr-only">Close</span>
-                      <XIcon className="h-5 w-5" aria-hidden="true" />
-                    </button>
-                  </div> */}
+              <div className="ml-4 flex-shrink-0 flex">
+                <button
+                  className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  onClick={() => {
+                    setShow(false);
+                  }}
+                >
+                  <span className="sr-only">Close</span>
+                  <XIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

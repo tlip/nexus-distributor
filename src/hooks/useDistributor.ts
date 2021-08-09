@@ -80,7 +80,7 @@ export const useDistributor = (): {
         );
 
         try {
-          const tx = distributorContract?.buyCover(
+          const tx = await distributorContract?.buyCover(
             networkBasedAddress,
             currency,
             ethers.utils.parseEther(amount),
