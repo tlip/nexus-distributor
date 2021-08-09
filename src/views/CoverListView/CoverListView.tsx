@@ -24,49 +24,9 @@ export const CoverListView: React.FC = () => {
 
   return (
     <CoverListViewContainer>
-      <Text as="h1" variant="subhead">
-        Protected Yields
+      <Text as="h1" variant="subhead" sx={{ marginBottom: '32px' }}>
+        All Cover Options
       </Text>
-      <Flex
-        width="100%"
-        mb="1.675em"
-        flexDirection={['column', 'column', 'column', 'row']}
-        justifyContent={[
-          'flex-start',
-          'flex-start',
-          'flex-start',
-          'space-between',
-        ]}
-      >
-        <Card
-          height={['unset', 'unset', 'unset', '4em']}
-          width={['100%', '100%', '100%', 'calc(50% - 0.75em)']}
-          mb={['1.675em', '1.675em', '1.675em', 0]}
-        >
-          <Box width="150px">
-            <Label>Cover Type</Label>
-            {/* <Select
-              defaultValue="All Tokens"
-              // onChange={(e) =>
-              //   setFilterCriteria(
-              //     e.target.value !== 'All Tokens'
-              //       ? { ...filterCriteria, token: e.target.value }
-              //       : {}
-              //   )
-              // }
-            >
-              <option>All Tokens</option>
-              {availableTokens.map((key) => (
-                <option key={key}>{key}</option>
-              ))}
-            </Select> */}
-          </Box>
-        </Card>
-        <Card
-          height={['unset', 'unset', 'unset', '4em']}
-          width={['100%', '100%', '100%', 'calc(50% - 0.75em)']}
-        ></Card>
-      </Flex>
       {capacities.length ? (
         capacities.map((protocol: ProtocolOption) => (
           <ProtocolCard protocol={protocol} key={protocol?.contractAddress} />

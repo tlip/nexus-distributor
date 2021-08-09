@@ -3,6 +3,7 @@ import { useWeb3React } from '@web3-react/core';
 import { fetchSignedQuote } from 'client';
 import { ethers } from 'ethers';
 import { useCallback } from 'react';
+import { useAllTransactions, useTransactionError } from 'state/hooks';
 import { useDistributorContract } from './useContract';
 
 export const useDistributor = (): {
@@ -16,6 +17,8 @@ export const useDistributor = (): {
   const { chainId } = useWeb3React();
   // const [allowance, setAllowance] = useState('0');
   const distributorContract = useDistributorContract(true); //withSigner
+  const [transactionError, setTransactionError] = useTransactionError();
+  const [, addTransaction] = useAllTransactions();
 
   const buyCover = useCallback(
     async (
@@ -76,10 +79,8 @@ export const useDistributor = (): {
           ]
         );
 
-        console.log('reached');
-
         try {
-          const tx = await distributorContract?.buyCover(
+          const tx = distributorContract?.buyCover(
             networkBasedAddress,
             currency,
             ethers.utils.parseEther(amount),
@@ -91,9 +92,11 @@ export const useDistributor = (): {
               value: signedQuote.price,
             }
           );
+          addTransaction(tx);
           return tx;
         } catch (err) {
-          console.log(err);
+          console.log(err, 'here is error');
+          setTransactionError(err?.error?.message || err?.message);
         }
       }
     },

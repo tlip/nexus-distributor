@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled/macro';
+import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { ethers } from 'ethers';
 import { Link, Image } from 'rebass';
 import { AccordionCard } from 'components/AccordionCard';
@@ -10,16 +11,21 @@ import { Text } from 'components/Text';
 import { ProtocolOption } from 'types/shared';
 import { Slider } from 'components/Slider';
 import { Button } from 'components/Button';
+import { BoxProps } from 'components/Box/Box';
 import { ProtocolBadge } from 'components/ProtocolBadge';
 import { ProtocolImage } from 'components/ProtocolImage';
 import spinner from '../../../assets/images/spinner.svg';
-import ShareSVG from 'assets/icons/share-icon.svg';
 import { useDistributor } from 'hooks/useDistributor';
 import { LabeledToggle } from 'components/LabeledToggle';
 import numeral from 'numeral';
 
 const List = styled.ul`
-  margin: 0;
+  &&& {
+    margin: 0;
+    list-style: disc;
+    margin-left: 1.25rem;
+    font-
+  }
 `;
 
 const ProtocolHeader: React.FC<{
@@ -75,6 +81,31 @@ const ProtocolHeader: React.FC<{
   </Flex>
 );
 
+const OpportunityStat: React.FC<
+  BoxProps & {
+    title: string;
+    bold?: boolean;
+  }
+> = ({ title, bold, color, children, ...props }) => (
+  <Flex
+    flexDirection="column"
+    justifyContent="space-around"
+    alignItems="flex-start"
+    {...props}
+  >
+    <Text variant="caption1" color="textLight" fontWeight="semibold">
+      {title}
+    </Text>
+    <Text
+      variant="h3"
+      fontWeight={bold ? 'bold' : 'semibold'}
+      color={color || 'text'}
+    >
+      {children}
+    </Text>
+  </Flex>
+);
+
 export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
   protocol,
 }) => {
@@ -96,6 +127,12 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
     ((protocol?.coverCost || 0) / 100) *
     (coverDuration / 365)
   ).toFixed(4);
+  const coverageDetailLink =
+    protocol.associatedCoverable.type === 'protocol'
+      ? 'https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf'
+      : protocol.associatedCoverable.type === 'custodian'
+      ? 'https://nexusmutual.io/pages/CustodyCoverWordingv1.0.pdf'
+      : 'https://nexusmutual.io/pages/YieldTokenCoverv1.0.pdf';
 
   return (
     <AccordionCard
@@ -112,19 +149,19 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
               <Text variant="h6" color="textGray">
                 What's covered:
               </Text>
-              <List>
+              <List className="list-disc">
                 <li>
-                  <Text variant="h6" fontSize="14px">
+                  <Text variant="caption" fontSize="14px">
                     Contract bugs
                   </Text>
                 </li>
                 <li>
-                  <Text variant="h6" fontSize="14px">
+                  <Text variant="caption" fontSize="14px">
                     Economic attacks, including oracle failures
                   </Text>
                 </li>
                 <li>
-                  <Text variant="h6" fontSize="14px">
+                  <Text variant="caption" fontSize="14px">
                     Governance attacks
                   </Text>
                 </li>
@@ -149,27 +186,27 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
               <Text fontSize="14px" variant="h6" color="textGray">
                 Claiming:
               </Text>
-              <List>
+              <List className="list-disc">
                 <li>
-                  <Text fontSize="14px" variant="h6">
+                  <Text fontSize="14px" variant="caption">
                     You must provide proof of the incurred loss at claim time.
                   </Text>
                 </li>
                 <li>
-                  <Text fontSize="14px" variant="h6">
+                  <Text fontSize="14px" variant="caption">
                     You should wait 72 hours after the event, so assessors have
                     all details to make a decision.
                   </Text>
                 </li>
                 <li>
-                  <Text fontSize="14px" variant="h6">
+                  <Text fontSize="14px" variant="caption">
                     You can claim up to 35 days after the cover period expires,
                     given your cover was active when the incident happened.
                   </Text>
                 </li>
               </List>
               <Link
-                href="https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf"
+                href={coverageDetailLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
@@ -177,9 +214,14 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
                   fontSize: '14px',
                   marginTop: '12px',
                   display: 'block',
+                  fontWeight: 'bold',
                 }}
               >
-                Read full details here
+                Read full details here{' '}
+                <ExternalLinkIcon
+                  className="h-4 w-4 inline"
+                  aria-hidden="true"
+                />
               </Link>
             </Box>
           </Box>
@@ -361,8 +403,8 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
           flexWrap="wrap"
         >
           <Flex
-            flexDirection="column"
-            justifyContent="space-around"
+            flexDirection="row"
+            justifyContent="space-between"
             alignItems="flex-start"
             width="100%"
             maxWidth={['100%', '100%', 'calc(100% - 300px)']}
@@ -373,6 +415,10 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
               logo={protocol.associatedCoverable.logo}
               type={protocol.associatedCoverable.type}
             />
+
+            <OpportunityStat title="Yearly cover cost" bold>
+              {(protocol?.coverCost || 0).toFixed(2)}%
+            </OpportunityStat>
           </Flex>
           <Flex
             flexDirection="column"
@@ -383,10 +429,6 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
             width={['100%', '100%', '200px']}
             sx={{ transform: 'translateY(0.5em)' }}
           >
-            <Button variant="outline" mb="0.4em" width="100%">
-              <Image src={ShareSVG} mr="0.4em" />
-              View Opportunity
-            </Button>
             <Button
               onClick={() => setExpanded?.(!expanded)}
               mb="0.4em"

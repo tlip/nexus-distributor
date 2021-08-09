@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Transaction } from 'ethers';
 import { OpportunityShell } from 'types/shared';
 import {
   fetchAllRates,
@@ -36,8 +37,17 @@ export const application = createSlice({
     signedQuote: undefined,
     loadingRates: false,
     loadingCapacities: false,
+    transactions: [] as Transaction[],
+    transactionError: '' as string,
   },
-  reducers: {},
+  reducers: {
+    addTransaction: (state, action: PayloadAction<Transaction>) => {
+      state.transactions.push(action.payload);
+    },
+    setTransactionError: (state, action: PayloadAction<any>) => {
+      state.transactionError = action.payload;
+    },
+  },
   extraReducers: {
     // @ts-ignore
     [fetchRates.fulfilled]: (state, action) => {
@@ -62,4 +72,5 @@ export const application = createSlice({
   },
 });
 
+export const { addTransaction, setTransactionError } = application.actions;
 export default application.reducer;
