@@ -97,6 +97,7 @@ const SliderTrack = styled(Box)`
 
 const SliderThumbContainer = styled.div`
   position: absolute;
+  cursor: pointer;
   display: inline-block;
   transition: 100ms linear;
   transform: translate(-50%, -0.4em);
@@ -160,7 +161,6 @@ const SliderThumb = styled(Box)`
 /**
  * Main component
  */
-
 export const Slider: React.FC<SliderProps> = ({
   min = 0,
   max = 100,

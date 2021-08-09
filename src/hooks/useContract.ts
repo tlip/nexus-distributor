@@ -40,7 +40,7 @@ export function useDistributorContract(
         address = '0xe93EC208Ac7a547e0C191623029D719391029B86';
         break;
       case ChainId.KOVAN:
-        address = '0x1a7434d797752bf58f80a89e32d0f5cb716a525d';
+        address = '0xeb693c2c61c32200a5dcda1fcb5ad5d8058d217e';
         break;
     }
   }

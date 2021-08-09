@@ -16,6 +16,7 @@ import '../index.css';
 import { Web3Modal } from 'components/Web3Modal';
 import { useEagerConnect } from 'hooks/web3';
 import { useWeb3React } from '@web3-react/core';
+import { NotificationWrapper } from 'components/Notifications';
 
 // React Router only works with a HashRouter on GitHub Pages...
 const Router = env.GITHUB_PAGES
@@ -61,6 +62,7 @@ export const App: React.FC = () => {
               </Switch>
             </PageContentWrapper>
           </AppContainer>
+          <NotificationWrapper />
         </Router>
       </Contexts>
     </ThemeProvider>

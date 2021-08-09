@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers';
 
 //  github.com/NexusMutual/static-data/blob/master/contracts-metadata/contracts.json
 
-type CoverageType = 'protocol' | 'token';
+type CoverageType = 'protocol' | 'token' | 'custodian';
 
 interface Coverable {
   dateAdded: Date;

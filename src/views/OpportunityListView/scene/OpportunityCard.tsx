@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
 import styled from '@emotion/styled/macro';
+import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { Link, Image } from 'rebass';
 import { AccordionCard } from 'components/AccordionCard';
 import { Flex } from 'components/Flex';
@@ -27,6 +28,7 @@ interface OpportunityCardProps {
 
 const List = styled.ul`
   margin: 0;
+  margin-left: 1.25rem;
 `;
 
 const ProtocolHeader: React.FC<{
@@ -148,6 +150,10 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
     ((opportunity?.coverCost || 0) / 100) *
     (coverDuration / 365)
   ).toFixed(4);
+  const coverageDetailLink =
+    opportunity.coverType === 'protocol'
+      ? 'https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf'
+      : 'https://nexusmutual.io/pages/YieldTokenCoverv1.0.pdf';
 
   return (
     <AccordionCard
@@ -164,23 +170,33 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               <Text variant="h6" color="textGray">
                 What's covered:
               </Text>
-              <List>
-                <li>
-                  <Text variant="caption" fontSize="14px">
-                    Contract bugs
-                  </Text>
-                </li>
-                <li>
-                  <Text variant="caption" fontSize="14px">
-                    Economic attacks, including oracle failures
-                  </Text>
-                </li>
-                <li>
-                  <Text variant="caption" fontSize="14px">
-                    Governance attacks
-                  </Text>
-                </li>
-              </List>
+              {opportunity.coverType === 'protocol' ? (
+                <List className="list-disc">
+                  <li>
+                    <Text variant="caption" fontSize="14px">
+                      Contract bugs
+                    </Text>
+                  </li>
+                  <li>
+                    <Text variant="caption" fontSize="14px">
+                      Economic attacks, including oracle failures
+                    </Text>
+                  </li>
+                  <li>
+                    <Text variant="caption" fontSize="14px">
+                      Governance attacks
+                    </Text>
+                  </li>
+                </List>
+              ) : (
+                <List className="list-disc">
+                  <li>
+                    <Text variant="caption" fontSize="14px">
+                      Token de-pegging of more than 10% for any reason
+                    </Text>
+                  </li>
+                </List>
+              )}
               <br />
               <Text
                 variant="h6"
@@ -201,7 +217,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               <Text fontSize="14px" variant="h6" color="textGray">
                 Claiming:
               </Text>
-              <List>
+              <List className="list-disc">
                 <li>
                   <Text fontSize="14px" variant="caption">
                     You must provide proof of the incurred loss at claim time.
@@ -221,7 +237,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                 </li>
               </List>
               <Link
-                href="https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf"
+                href={coverageDetailLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
@@ -229,9 +245,14 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                   fontSize: '14px',
                   marginTop: '12px',
                   display: 'block',
+                  fontWeight: 'bold',
                 }}
               >
-                Read full details here
+                Read full details here{' '}
+                <ExternalLinkIcon
+                  className="h-4 w-4 inline"
+                  aria-hidden="true"
+                />
               </Link>
             </Box>
           </Box>

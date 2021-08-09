@@ -23,6 +23,7 @@ protocols;
 export const OpportunityListView: React.FC = () => {
   const [rates, fetchRates] = useAsyncRates();
   const [capacities, fetchCapacities] = useAsyncCapacities();
+  const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
   const [filterCriteria, setFilterCriteria] = useState<{
     protocol?: string;
     token?: string;
@@ -34,7 +35,7 @@ export const OpportunityListView: React.FC = () => {
   }, []);
 
   const ratesWithCosts = useMemo(() => {
-    const test = rates
+    const filteredRates = rates
       .map((rate) => {
         // find capacity data for contract
         const associatedCoverageData = capacities.find(
@@ -63,9 +64,21 @@ export const OpportunityListView: React.FC = () => {
         filterCriteria?.token
           ? filterCriteria?.token === rate.underlyingAssets?.[0]?.symbol
           : true
+      )
+      .filter(
+        (rate) =>
+          rate.underlyingAssets?.[0]?.symbol
+            ?.toLowerCase()
+            .includes(searchValue?.toLowerCase() ?? '') ||
+          rate?.protocol?.name
+            ?.toLowerCase()
+            .includes(searchValue?.toLowerCase() ?? '') ||
+          rate?.displayName
+            ?.toLowerCase()
+            .includes(searchValue?.toLowerCase() ?? '')
       );
-    return test;
-  }, [rates, capacities, filterCriteria]);
+    return filteredRates;
+  }, [rates, capacities, filterCriteria, searchValue]);
 
   const availableTokens = useMemo(() => {
     return [
@@ -74,6 +87,10 @@ export const OpportunityListView: React.FC = () => {
       ),
     ];
   }, [rates]);
+
+  const handleChange = (value: string) => {
+    setSearchValue(value);
+  };
 
   return (
     <OpportunityListViewContainer>
@@ -168,15 +185,18 @@ export const OpportunityListView: React.FC = () => {
           width={['100%', '100%', '100%', 'calc(50% - 0.75em)']}
           alignItems="center"
         >
-          <Input placeholder="Search (E.g. 'Ethereum')" />
+          <Input
+            placeholder="Search (E.g. 'Aave' or 'USDC)"
+            onChange={(e: { target: { value: string } }) =>
+              handleChange(e.target.value)
+            }
+          />
         </Flex>
       </Flex>
+
       {ratesWithCosts.length ? (
         ratesWithCosts.map((opportunity: Opportunity, index) => (
-          <OpportunityCard
-            key={`${opportunity.displayName}-${opportunity.rawApr}-${opportunity.opportunityAsset.address}-${index}`}
-            opportunity={opportunity}
-          />
+          <OpportunityCard key={index} opportunity={opportunity} />
         ))
       ) : (
         <Skeleton

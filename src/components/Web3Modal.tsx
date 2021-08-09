@@ -6,6 +6,8 @@ import { injected, walletconnect } from '../connectors';
 import metamask from '../assets/images/metamask.png';
 import walletConnect from '../assets/images/walletConnect.svg';
 import { useWeb3React } from '@web3-react/core';
+import { InjectedConnector } from '@web3-react/injected-connector';
+import { abbreviateAddress } from 'utils/abbreviateAddress';
 
 const baseClassNames = `flex items-center rounded shadow-sm border-transparent 
    focus:outline-none focus:ring-2 focus:ring-offset-2 font-medium border`;
@@ -94,7 +96,7 @@ export const Web3Modal: React.FC<{
 }> = ({ setOpen }) => {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, () => setOpen(false));
-  const { activate, active } = useWeb3React();
+  const { activate, active, account, connector, deactivate } = useWeb3React();
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -109,7 +111,7 @@ export const Web3Modal: React.FC<{
           &#8203;
         </span>
         <div
-          className="inline-block bg-white align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6"
+          className="inline-block max-w bg-white align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"
@@ -150,34 +152,65 @@ export const Web3Modal: React.FC<{
               </div>
             </div>
           </div>
-          <div className="mt-5 sm:mt-6">
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={() => {
-                activate(injected);
-                setOpen(false);
-              }}
-              className="w-full text-left py-3 px-3 flex justify-between"
-            >
-              MetaMask
-              <Image src={metamask} className="ml-auto mx-2 h-10 w-10" />
-            </Button>
-          </div>
-          <div className="mt-5 sm:mt-6">
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={() => {
-                activate(walletconnect);
-                setOpen(false);
-              }}
-              className="w-full text-left py-3 px-3 flex justify-between"
-            >
-              WalletConnect
-              <Image src={walletConnect} className="ml-auto mx-2 h-10 w-10" />
-            </Button>
-          </div>
+          {active ? (
+            <div className="mt-5 sm:mt-6">
+              <div className="border-2 px-4 py-4 border-green-100 rounded-lg flex items-center justify-between flex-col">
+                <p className="inline-block text-sm text-gray-500">
+                  Connected with{' '}
+                  {connector instanceof InjectedConnector
+                    ? 'Metamask'
+                    : 'WalletConnect'}
+                </p>
+                <p className="inline-block text-lg font-bold text-white bg-gray-300 rounded-2xl py-2 px-6 w-min">
+                  {abbreviateAddress(account)}
+                </p>
+              </div>
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={() => {
+                  deactivate();
+                }}
+                className="w-min mt-5 text-left py-3 px-6 mx-auto flex justify-between"
+              >
+                Disconnect
+              </Button>
+            </div>
+          ) : (
+            <>
+              <div className="mt-5 sm:mt-6">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={() => {
+                    activate(injected);
+                    setOpen(false);
+                  }}
+                  className="w-full text-left py-3 px-3 flex justify-between"
+                >
+                  MetaMask
+                  <Image src={metamask} className="ml-auto mx-2 h-10 w-10" />
+                </Button>
+              </div>
+              <div className="mt-5 sm:mt-6">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={() => {
+                    activate(walletconnect);
+                    setOpen(false);
+                  }}
+                  className="w-full text-left py-3 px-3 flex justify-between"
+                >
+                  WalletConnect
+                  <Image
+                    src={walletConnect}
+                    className="ml-auto mx-2 h-10 w-10"
+                  />
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+
 import type { RootState, AppDispatch } from './store';
 import {
   fetchRates as fetchRatesAction,
   fetchCapacities as fetchCapacitiesAction,
   fetchSignedQuote as fetchSignedQuoteAction,
+  setTransactionError as setTransactionErrorAction,
+  addTransaction as addTransactionAction,
 } from './reducer';
 import { OpportunityShell } from 'types/shared';
+import { Transaction } from '@ethersproject/transactions';
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = () => useDispatch<AppDispatch>();
@@ -45,3 +49,26 @@ export const useAsyncSignedQuote = () => {
     dispatch(fetchSignedQuoteAction(contractAddress));
   return [signedQuote, fetchSignedQuote] as const;
 };
+
+// returns all the transactions
+export function useAllTransactions() {
+  const dispatch = useAppDispatch();
+  const transactions = useAppSelector(
+    (state) => state.application.transactions
+  );
+  const addTransaction = (tx: Transaction) =>
+    dispatch(addTransactionAction(tx));
+  return [transactions, addTransaction] as const;
+}
+
+// returns transaction error
+export function useTransactionError() {
+  const dispatch = useAppDispatch();
+  const transactionError = useAppSelector(
+    (state) => state.application.transactionError
+  );
+  const setTransactionError = (error: any) =>
+    dispatch(setTransactionErrorAction(error));
+
+  return [transactionError, setTransactionError] as const;
+}
