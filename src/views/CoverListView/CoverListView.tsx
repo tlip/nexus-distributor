@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled/macro';
-import { Label } from '@rebass/forms';
 import Skeleton from 'react-loading-skeleton';
 
 import { Box } from 'components/Box';
-import { Flex } from 'components/Flex';
-import { Card } from 'components/Card';
 import { Text } from 'components/Text';
 import { useAsyncCapacities } from 'state/hooks';
 import { ProtocolOption } from 'types/shared';
