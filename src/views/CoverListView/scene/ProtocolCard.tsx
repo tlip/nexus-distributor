@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled/macro';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { ethers } from 'ethers';
-import { Link, Image } from 'rebass';
+import { Link } from 'rebass';
 import { AccordionCard } from 'components/AccordionCard';
 import { Flex } from 'components/Flex';
 import { Box } from 'components/Box';

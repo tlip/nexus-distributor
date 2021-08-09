@@ -17,7 +17,7 @@ export const useDistributor = (): {
   const { chainId } = useWeb3React();
   // const [allowance, setAllowance] = useState('0');
   const distributorContract = useDistributorContract(true); //withSigner
-  const [transactionError, setTransactionError] = useTransactionError();
+  const [, setTransactionError] = useTransactionError();
   const [, addTransaction] = useAllTransactions();
 
   const buyCover = useCallback(

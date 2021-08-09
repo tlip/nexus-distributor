@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAllTransactions, useTransactionError } from 'state/hooks';
 import { SuccessNotification, ErrorNotification } from './Notification';
 
-export const NotificationWrapper = () => {
+export const NotificationWrapper: React.FC = () => {
   const [txs] = useAllTransactions();
   const [txError, setTxError] = useTransactionError();
 
