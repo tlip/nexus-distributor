@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/nexus-distributor/static/css/main.620c9866.chunk.css",
-    "main.js": "/nexus-distributor/static/js/main.3abc86ad.chunk.js",
-    "main.js.map": "/nexus-distributor/static/js/main.3abc86ad.chunk.js.map",
+    "main.js": "/nexus-distributor/static/js/main.887b4ef5.chunk.js",
+    "main.js.map": "/nexus-distributor/static/js/main.887b4ef5.chunk.js.map",
     "runtime-main.js": "/nexus-distributor/static/js/runtime-main.ef4d3392.js",
     "runtime-main.js.map": "/nexus-distributor/static/js/runtime-main.ef4d3392.js.map",
     "static/js/2.d5b699c1.chunk.js": "/nexus-distributor/static/js/2.d5b699c1.chunk.js",
@@ -38,6 +38,6 @@
     "static/js/runtime-main.ef4d3392.js",
     "static/js/2.d5b699c1.chunk.js",
     "static/css/main.620c9866.chunk.css",
-    "static/js/main.3abc86ad.chunk.js"
+    "static/js/main.887b4ef5.chunk.js"
   ]
 }
