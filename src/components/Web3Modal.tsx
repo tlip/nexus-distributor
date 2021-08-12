@@ -8,6 +8,7 @@ import walletConnect from '../assets/images/walletConnect.svg';
 import { useWeb3React } from '@web3-react/core';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { abbreviateAddress } from 'utils/abbreviateAddress';
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 
 const baseClassNames = `flex items-center rounded shadow-sm border-transparent 
    focus:outline-none focus:ring-2 focus:ring-offset-2 font-medium border`;
@@ -169,7 +170,18 @@ export const Web3Modal: React.FC<{
                 variant="primary"
                 size="lg"
                 onClick={() => {
-                  deactivate();
+                  // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
+                  if (
+                    connector instanceof WalletConnectConnector &&
+                    connector.walletConnectProvider?.wc?.uri
+                  ) {
+                    connector.walletConnectProvider = undefined;
+                  } else {
+                    deactivate();
+                    if (connector instanceof WalletConnectConnector) {
+                      connector.close();
+                    }
+                  }
                 }}
                 className="w-min mt-5 text-left py-3 px-6 mx-auto flex justify-between"
               >
