@@ -165,6 +165,7 @@ export const fetchYearnRates = async (): Promise<OpportunityShell[]> => {
       apy: true,
     },
   });
+
   const opportunites: OpportunityShell[] = data
     .filter((market: any) => market.apy)
     .map((market: any) => {
@@ -187,13 +188,17 @@ export const fetchYearnRates = async (): Promise<OpportunityShell[]> => {
           },
         ],
         coverType: 'token',
-        nexusAddress: '0x9d25057e62939d3408406975ad75ffe834da4cdd',
+        nexusAddress:
+          market.tokenAddress === '0x6b175474e89094c44da98b954eedeac495271d0f'
+            ? '0x0000000000000000000000000000000000000006'
+            : '0x0000000000000000000000000000000000000007',
         imageUrl: market?.vaultIcon,
         rawApr: +market?.apy?.apyOneMonthSample.toFixed(2),
       };
     })
     .filter((m: Opportunity) => +m.rawApr > 0)
     .filter((m: Opportunity) => ['yUSDC', 'yDAI'].includes(m.symbol));
+
   return opportunites;
 };
 
@@ -228,12 +233,16 @@ export const fetchSignedQuote = async (
   coverAmount: number,
   currency: string,
   period: number,
-  contractAddress: string
+  contractAddress: string,
+  chainId: number | undefined
 ): Promise<any> => {
   // URL to request a quote for.
   const quoteURL =
-    `https://api.staging.nexusmutual.io/v1/quote?` +
-    `coverAmount=${coverAmount}&currency=${currency}&period=${period}&contractAddress=${contractAddress}`;
+    chainId === 1
+      ? `https://api.nexusmutual.io/v1/quote?` +
+        `coverAmount=${coverAmount}&currency=${currency}&period=${period}&contractAddress=${contractAddress}`
+      : `https://api.staging.nexusmutual.io/v1/quote?` +
+        `coverAmount=${coverAmount}&currency=${currency}&period=${period}&contractAddress=${contractAddress}`;
   const { data } = await axios.get(quoteURL);
   return data;
 };

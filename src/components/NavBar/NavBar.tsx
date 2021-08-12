@@ -23,6 +23,7 @@ const StyledNavBar = styled(Flex)((props: any) => ({
   transform: props.sx.transform,
   transition: 'transform 200ms ease-in-out',
   zIndex: 1000,
+  padding: '0 1em',
 }));
 
 const TestLink = styled(NavLink)`
