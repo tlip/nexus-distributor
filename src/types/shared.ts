@@ -50,6 +50,7 @@ export interface Opportunity {
   nexusAddress: string;
   coverCost?: number;
   imageUrl?: string;
+  opportunityUrl: string;
   fixed: boolean;
 }
 

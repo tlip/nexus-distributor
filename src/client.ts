@@ -78,6 +78,7 @@ export const fetchCompoundRates = async (): Promise<OpportunityShell[]> => {
         ],
         nexusAddress: '0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b',
         coverType: 'protocol',
+        opportunityUrl: 'https://app.compound.finance/',
         // Approximation for how much the compound supply rate undershoots the actual # of blocks per year
         rawApr: +(market?.supplyRate * 1.15 * 100).toFixed(2),
       };
@@ -112,6 +113,7 @@ export const fetchCreamRates = async (): Promise<OpportunityShell[]> => {
           },
         ],
         coverType: 'protocol',
+        opportunityUrl: 'https://app.cream.finance/',
         nexusAddress: '0x3d5bc3c8d13dcb8bf317092d84783c2697ae9258',
         // Approximation for how much the cream supply rate undershoots the actual # of blocks per year
         // This is the same as Compound because Cream is a fork of Compound
@@ -151,6 +153,7 @@ export const fetchAaveRates = async (): Promise<OpportunityShell[]> => {
             decimals: market?.decimals,
           },
         ],
+        opportunityUrl: 'https://app.aave.com/',
         // liquidity rate is expressed in ray (10e27) instead of wei (10e18)
         rawApr: +(market.liquidityRate / 10 ** 25).toFixed(2),
       };
@@ -192,6 +195,10 @@ export const fetchYearnRates = async (): Promise<OpportunityShell[]> => {
           market.tokenAddress === '0x6b175474e89094c44da98b954eedeac495271d0f'
             ? '0x0000000000000000000000000000000000000006'
             : '0x0000000000000000000000000000000000000007',
+        opportunityUrl:
+          market.tokenAddress === '0x6b175474e89094c44da98b954eedeac495271d0f'
+            ? 'https://yearn.fi/invest/0x19D3364A399d251E894aC732651be8B0E4e85001'
+            : 'https://yearn.fi/invest/0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
         imageUrl: market?.vaultIcon,
         rawApr: +market?.apy?.apyOneMonthSample.toFixed(2),
       };

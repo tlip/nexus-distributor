@@ -508,7 +508,12 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             width={['100%', '100%', '200px']}
             sx={{ transform: 'translateY(0.5em)' }}
           >
-            <Button variant="outline" mb="0.4em" width="100%">
+            <Button
+              variant="outline"
+              mb="0.4em"
+              width="100%"
+              onClick={() => window.open(opportunity.opportunityUrl, '_blank')}
+            >
               <Image src={ShareSVG} mr="0.4em" />
               View Opportunity
             </Button>
