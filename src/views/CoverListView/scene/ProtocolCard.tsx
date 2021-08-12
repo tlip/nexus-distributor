@@ -128,7 +128,6 @@ export const ProtocolCard: React.FC<{ protocol: ProtocolOption }> = ({
       : 'ETH'
   );
   const { account } = useWeb3React();
-  const [, setPaymentCurrency] = React.useState(coverCurrency);
   const { buyCover } = useDistributor();
   const capacityEthDisplay = (+ethers.utils.formatEther(
     protocol?.capacityETH?.toString() || '0'
