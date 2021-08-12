@@ -37,7 +37,7 @@ export const useErc20Contract = (tokenAddress: string): Erc20Hook => {
     );
 
     return () => clearInterval(id);
-  });
+  }, []);
 
   const approve = useCallback(async () => {
     if (!account) return null;
