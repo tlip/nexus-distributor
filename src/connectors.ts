@@ -1,12 +1,11 @@
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 
-const POLLING_INTERVAL = 12000;
 // const REACT_APP_DEFAULT_CHAIN = 1;
 
 const RPC_URLS = {
-  1: 'https://eth-mainnet.alchemyapi.io/v2/q1gSNoSMEzJms47Qn93f9-9Xg5clkmEC',
-  42: 'https://eth-kovan.alchemyapi.io/v2/q1gSNoSMEzJms47Qn93f9-9Xg5clkmEC',
+  1: 'https://eth-mainnet.alchemyapi.io/v2/2k4V8mnXAjKoms8KyvhCxHNNtJvp6qM-',
+  42: 'https://eth-kovan.alchemyapi.io/v2/2k4V8mnXAjKoms8KyvhCxHNNtJvp6qM-',
 };
 
 export const injected = new InjectedConnector({
@@ -19,5 +18,4 @@ export const walletconnect = new WalletConnectConnector({
   rpc,
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
-  pollingInterval: POLLING_INTERVAL,
 });
