@@ -5,7 +5,6 @@ import type { RootState, AppDispatch } from './store';
 import {
   fetchRates as fetchRatesAction,
   fetchCapacities as fetchCapacitiesAction,
-  fetchSignedQuote as fetchSignedQuoteAction,
   setTransactionError as setTransactionErrorAction,
   addTransaction as addTransactionAction,
 } from './reducer';
@@ -38,16 +37,6 @@ export const useAsyncCapacities = () => {
     (state) => state.application.loadingCapacities
   );
   return [capacities, fetchCapacities, loadingCapacities] as const;
-};
-
-export const useAsyncSignedQuote = () => {
-  const dispatch = useAppDispatch();
-  const signedQuote: any = useAppSelector(
-    (state) => state.application.signedQuote
-  );
-  const fetchSignedQuote = (contractAddress: string) =>
-    dispatch(fetchSignedQuoteAction(contractAddress));
-  return [signedQuote, fetchSignedQuote] as const;
 };
 
 // returns all the transactions

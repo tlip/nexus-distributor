@@ -18,9 +18,12 @@ import { ethers } from 'ethers';
 import { ProtocolImage } from 'components/ProtocolImage';
 import { BoxProps } from 'components/Box/Box';
 import { Input } from 'components/Input';
-import { LabeledToggle } from 'components/LabeledToggle';
+// import { LabeledToggle } from 'components/LabeledToggle';
 import { ProtocolBadge } from 'components/ProtocolBadge';
 import numeral from 'numeral';
+import { useWeb3React } from '@web3-react/core';
+import { useErc20Contract } from 'hooks/useErc20';
+import { daiAddress } from '../../../constants';
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
@@ -134,9 +137,14 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
 }) => {
   const [coverDuration, setCoverDuration] = React.useState<number>(365);
   const [coverAmount, setCoverAmount] = React.useState('1');
-  const [coverCurrency, setCoverCurrency] = React.useState('ETH');
-  const [, setPaymentCurrency] = React.useState(coverCurrency);
+  const [coverCurrency, setCoverCurrency] = React.useState(
+    opportunity.nexusAddress === '0x0000000000000000000000000000000000000006' ||
+      opportunity.nexusAddress === '0x0000000000000000000000000000000000000007'
+      ? 'DAI'
+      : 'ETH'
+  );
   const [loadingTx, setLoadingTx] = React.useState(false);
+  const { account } = useWeb3React();
   const { buyCover } = useDistributor();
   const capacityEthDisplay = (+ethers.utils.formatEther(
     opportunity?.capacity?.capacityETH?.toString() || '0'
@@ -154,6 +162,44 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
     opportunity.coverType === 'protocol'
       ? 'https://nexusmutual.io/pages/ProtocolCoverv1.0.pdf'
       : 'https://nexusmutual.io/pages/YieldTokenCoverv1.0.pdf';
+  const { allowance, approve } = useErc20Contract(daiAddress);
+
+  const onSubmit = async () => {
+    if (coverCurrency === 'DAI') {
+      setLoadingTx(true);
+      if (+allowance === 0) {
+        try {
+          const tx = await approve();
+          await tx?.wait(1);
+        } finally {
+          setLoadingTx(false);
+        }
+      } else {
+        try {
+          await buyCover(
+            opportunity?.nexusAddress,
+            { period: coverDuration },
+            '0x6b175474e89094c44da98b954eedeac495271d0f',
+            coverAmount
+          );
+        } finally {
+          setLoadingTx(false);
+        }
+      }
+    } else {
+      setLoadingTx(true);
+      try {
+        await buyCover(
+          opportunity?.nexusAddress,
+          { period: coverDuration },
+          '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+          coverAmount
+        );
+      } finally {
+        setLoadingTx(false);
+      }
+    }
+  };
 
   return (
     <AccordionCard
@@ -318,7 +364,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                   />
                   <Input
                     type="select"
-                    defaultValue="ETH"
+                    defaultValue={coverCurrency}
                     width="60px"
                     style={{
                       borderRadius: '0 0.5em 0.5em 0',
@@ -333,28 +379,6 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                     </option>
                   </Input>
                 </Flex>
-              </Flex>
-              <Flex mb={['0.5em', '0.5em', 0]}>
-                <Box>
-                  <Text
-                    variant="caption1"
-                    fontWeight="semibold"
-                    mr="1em"
-                    sx={{ letterSpacing: '0%', whiteSpace: 'nowrap' }}
-                  >
-                    Buy with
-                  </Text>
-                </Box>
-                <LabeledToggle
-                  name={`buy-cover-${opportunity?.displayName}`}
-                  options={[
-                    { value: coverCurrency, label: coverCurrency },
-                    { value: 'NXM', label: 'NXM' },
-                  ]}
-                  defaultValue={coverCurrency}
-                  value={coverCurrency}
-                  onChange={(e: any) => setPaymentCurrency(e.target?.value)}
-                />
               </Flex>
             </Flex>
             <Slider
@@ -390,29 +414,33 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             </Flex>
             <Flex width="100%" justifyContent="center">
               <Button
-                disabled={!coverAvailable}
+                disabled={!coverAvailable || loadingTx || !account}
                 width="180px"
                 mt="1.25em"
-                onClick={async () => {
-                  setLoadingTx(true);
-                  try {
-                    await buyCover(
-                      opportunity.nexusAddress,
-                      { period: coverDuration },
-                      '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-                      coverAmount
-                    );
-                  } finally {
-                    setLoadingTx(false);
-                  }
-                }}
+                onClick={onSubmit}
               >
-                {coverAvailable && !loadingTx ? (
-                  'Buy Cover'
-                ) : loadingTx ? (
-                  <img src={spinner} width="20" height="20" />
+                {coverCurrency === 'ETH' ? (
+                  <>
+                    {coverAvailable && !loadingTx ? (
+                      'Buy Cover'
+                    ) : loadingTx ? (
+                      <img src={spinner} width="20" height="20" />
+                    ) : (
+                      'Cover Unavailable'
+                    )}
+                  </>
                 ) : (
-                  'Cover Unavailable'
+                  <>
+                    {+allowance === 0 && !loadingTx ? (
+                      'Approve'
+                    ) : coverAvailable && !loadingTx ? (
+                      'Buy Cover'
+                    ) : loadingTx ? (
+                      <img src={spinner} width="20" height="20" />
+                    ) : (
+                      'Cover unavailable'
+                    )}
+                  </>
                 )}
               </Button>
             </Flex>

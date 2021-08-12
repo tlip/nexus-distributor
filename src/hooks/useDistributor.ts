@@ -12,9 +12,9 @@ export const useDistributor = (): {
     coverData: any,
     currency: string,
     amount: string
-  ) => Promise<ethers.Transaction>;
+  ) => Promise<ethers.Transaction | null>;
 } => {
-  const { chainId } = useWeb3React();
+  const { chainId, account } = useWeb3React();
   // const [allowance, setAllowance] = useState('0');
   const distributorContract = useDistributorContract(true); //withSigner
   const [, setTransactionError] = useTransactionError();
@@ -27,43 +27,48 @@ export const useDistributor = (): {
       currency: string,
       amount: string
     ) => {
+      if (!account) {
+        return null;
+      }
+
       let networkBasedAddress;
       let signedQuote;
       let period;
+
       if (chainId === ChainId.KOVAN) {
         // hardcode data on kovan for testing
-        console.log('calling kovan');
         networkBasedAddress = '0xC57D000000000000000000000000000000000002';
         period = 111;
-        signedQuote = await fetchSignedQuote(
-          parseFloat(amount),
-          'ETH',
-          period,
-          networkBasedAddress
-        );
+        try {
+          signedQuote = await fetchSignedQuote(
+            parseFloat(amount),
+            'ETH',
+            period,
+            networkBasedAddress,
+            chainId
+          );
+        } catch (err) {
+          console.log({ err });
+          setTransactionError(err?.response?.data?.message);
+        }
       } else {
-        console.log('calling mainnet');
         networkBasedAddress = contractAddress;
-        signedQuote = await fetchSignedQuote(
-          parseFloat(amount),
-          currency === '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-            ? 'ETH'
-            : 'DAI',
-          coverData.period,
-          contractAddress
-        );
+        try {
+          signedQuote = await fetchSignedQuote(
+            parseFloat(amount),
+            currency === '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+              ? 'ETH'
+              : 'DAI',
+            coverData.period,
+            contractAddress,
+            chainId
+          );
+        } catch (err) {
+          console.log({ err });
+          setTransactionError(err?.response?.data?.message);
+        }
         period = coverData.period;
       }
-
-      console.log(signedQuote);
-      console.log({
-        contractAddress,
-        coverData,
-        currency,
-        amount,
-        networkBasedAddress,
-        period,
-      });
 
       if (signedQuote && networkBasedAddress) {
         const encodedSignedQuote = ethers.utils.defaultAbiCoder.encode(
@@ -89,13 +94,17 @@ export const useDistributor = (): {
             signedQuote.price,
             encodedSignedQuote.toString(),
             {
-              value: signedQuote.price,
+              ...(currency === '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+                ? {
+                    value: signedQuote.price,
+                  }
+                : {}),
             }
           );
           addTransaction(tx);
           return tx;
         } catch (err) {
-          console.log(err, 'here is error');
+          console.log(err);
           setTransactionError(err?.error?.message || err?.message);
         }
       }

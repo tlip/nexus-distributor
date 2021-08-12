@@ -22,8 +22,14 @@ export const fetchCapacities = createAsyncThunk(
 
 export const fetchSignedQuote = createAsyncThunk(
   'app/fetchSignedQuote',
-  async (contractAddress: string) => {
-    const quote = await fetchQuote(1, 'ETH', 100, contractAddress);
+  async ({
+    contractAddress,
+    chainId,
+  }: {
+    contractAddress: string;
+    chainId: number | undefined;
+  }) => {
+    const quote = await fetchQuote(1, 'ETH', 100, contractAddress, chainId);
     return quote;
   }
 );

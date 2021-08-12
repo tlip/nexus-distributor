@@ -50,6 +50,7 @@ export const Button: React.FC<ButtonProps> = ({
           : {}),
       }}
       className={props.className}
+      disabled={disabled}
     >
       {typeof children !== 'string' ? (
         children

@@ -15,8 +15,6 @@ export const NotificationWrapper: React.FC = () => {
     return () => clearTimeout(id);
   }, [txError]);
 
-  console.log({ txs });
-
   return (
     <>
       {/* Global notification live region, render this permanently at the end of the document */}
